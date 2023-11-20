@@ -6,7 +6,10 @@ package ifttt;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -14,6 +17,17 @@ import javafx.fxml.Initializable;
  * @author Simone
  */
 public class FXMLController implements Initializable {
+
+    @FXML
+    private AnchorPane Menu_principale;
+    @FXML
+    private Pane cond1;
+    @FXML
+    private Pane cond2;
+    @FXML
+    private Pane cond3;
+    @FXML
+    private Pane cond4;
 
     /**
      * Initializes the controller class.
