@@ -37,13 +37,13 @@ public class DialogBoxAction implements Action {
     
     @Override
     public boolean executeAction() {
-                     Alert alert = new Alert(AlertType.INFORMATION);
-                     alert.setTitle("Messaggio");
-                     alert.setHeaderText(null); // Senza intestazione
-                     alert.setContentText(this.message);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Messaggio");
+        alert.setHeaderText(null); // Senza intestazione
+        alert.setContentText(this.message);
 
-                    // Mostra il popup e attendi la chiusura
-                     alert.showAndWait();
+       // Mostra il popup e attendi la chiusura
+        alert.showAndWait();
            
         return true;
     } 

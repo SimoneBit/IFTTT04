@@ -10,4 +10,8 @@ package Condition;
  */
 public class Trigger {
     
+    
+    public boolean checkTrigger(){
+        return true;
+    }
 }
