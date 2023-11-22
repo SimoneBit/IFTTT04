@@ -6,6 +6,7 @@ package ifttt;
 
 
 import Action.*;
+import Rule.Rule;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -46,6 +47,10 @@ public class FXMLController implements Initializable {
     private Button closeButton;
     @FXML
     private AnchorPane dialogBox;
+    @FXML
+    private ListView<Rule> listView;
+    @FXML
+    private Button aggiungiRegolaId;
 
     /**
      * Initializes the controller class.
@@ -85,4 +90,9 @@ public class FXMLController implements Initializable {
             }
         
         }
+
+    @FXML
+    private void aggiungiRegola(Rule rule) {
+        listView.getItems().add(rule);
+    }
 }
