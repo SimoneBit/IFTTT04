@@ -4,12 +4,22 @@
  */
 package ifttt;
 
+
+import Action.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -28,6 +38,14 @@ public class FXMLController implements Initializable {
     private Pane cond3;
     @FXML
     private Pane cond4;
+    @FXML
+    private Label inserisciMessaggio;
+    @FXML
+    private TextField messaggioUtente;
+    @FXML
+    private Button closeButton;
+    @FXML
+    private AnchorPane dialogBox;
 
     /**
      * Initializes the controller class.
@@ -35,6 +53,36 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        cond1.setVisible(false);
+        cond2.setVisible(false);
+        cond3.setVisible(false);
+        cond4.setVisible(false);
     }    
+
+    @FXML
+    private void buttonPressed(ActionEvent event) {
+        
+        String message= messaggioUtente.getText();
+        
+          if(message.equals("")){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Messaggio di Avviso");
+            alert.setHeaderText(null);
+            alert.setContentText("Inserisci il messaggio che vuoi ti venga mostrato");
+            alert.showAndWait();
+            message= messaggioUtente.getText();
+        
+           }else{
     
+        System.out.println(message);
+        DialogBoxAction d= new DialogBoxAction(message);
+        //d.executeAction(message, primaryStage);
+        // Pulisci il TextField dopo l'aggiunta
+            messaggioUtente.clear();
+            // Nascondi DialogBox
+            dialogBox.setVisible(false);
+            Menu_principale.setVisible(true);
+            }
+        
+        }
 }
