@@ -12,7 +12,5 @@ import javafx.stage.Stage;
  * @author Simone
  */
 public interface Action {
-    public boolean executeAction(File file);
-    public boolean executeAction(String message, Stage primaryStage);
-    
+    public boolean executeAction();
 }

@@ -36,7 +36,7 @@ public class DialogBoxAction implements Action {
     }
     
     @Override
-    public boolean executeAction(String message, Stage primaryStage) {
+    public boolean executeAction() {
                      Alert alert = new Alert(AlertType.INFORMATION);
                      alert.setTitle("Messaggio");
                      alert.setHeaderText(null); // Senza intestazione
@@ -48,10 +48,6 @@ public class DialogBoxAction implements Action {
         return true;
     }
 
-    @Override
-    public boolean executeAction(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
    
 
 }

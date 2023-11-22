@@ -21,9 +21,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Simone
  */
 public class PlayFileAction implements Action {
-
-    private File file;
-    private Clip clip;
+    public final int LOOP_TIMES = 100;          //Costante che indica il numero di volte che l'audio verrà riprodotto
+    private File file;                          //Riferimento al file audio da riprodurre
+    private Clip clip;                          //Riferimento alla clip in esecuzione
     
     public PlayFileAction(File file) {
         this.file = file;
@@ -31,7 +31,7 @@ public class PlayFileAction implements Action {
             
             
     @Override
-    public boolean executeAction(File file) {
+    public boolean executeAction() {
         boolean exit = false;
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.file);
@@ -40,37 +40,28 @@ public class PlayFileAction implements Action {
             this.clip = clip;
             // Apri il clip con il flusso audio
             clip.open(audioStream);
-            
-            long startTime = System.currentTimeMillis();
-            while (System.currentTimeMillis() - startTime < 180000){
-                // Avvia la riproduzione
-                clip.start();
-                exit = true;
-                while (!clip.isRunning()) {
-                    Thread.sleep(10);
-                }
-                while (clip.isRunning() && System.currentTimeMillis() - startTime < 180000) {
-                    Thread.sleep(10);
-                }
-                
-                clip.flush();
-            }
+            exit = true;
+            //Riproduci l'audio per il numero di volte indicato
+            clip.loop(LOOP_TIMES);            
         } catch (UnsupportedAudioFileException ex) {
             Logger.getLogger(PlayFileAction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(PlayFileAction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (LineUnavailableException ex) {
             Logger.getLogger(PlayFileAction.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(PlayFileAction.class.getName()).log(Level.SEVERE, null, ex);
         }
         return exit;
     }
 
-    public boolean stopAudio(){
+ public boolean stopAudio(){
         boolean exit = false;
+        //Se la clip non è mai stata istanziata esci e ritorna false
+        if(this.clip == null){
+            return exit;
+        }
+        //Se la clip è stata istanziata ed è in esecuzione
         if(this.clip.isRunning()){
-            this.clip.stop();
+            this.clip.stop();           //fermala
             exit = true;
         }
         return exit;
@@ -78,11 +69,4 @@ public class PlayFileAction implements Action {
     public File getFile() {
         return file;
     }
-
-    @Override
-    public boolean executeAction(String message, Stage primaryStage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
 }
