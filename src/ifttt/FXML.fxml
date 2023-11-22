@@ -20,7 +20,7 @@
             <Button layoutX="234.0" layoutY="162.0" mnemonicParsing="false" text="Aggiungi Regola" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="14.0" layoutY="25.0" prefHeight="300.0" prefWidth="351.0">
+      <AnchorPane layoutX="8.0" prefHeight="294.0" prefWidth="351.0">
          <children>
             <Pane fx:id="cond1" layoutX="19.0" layoutY="27.0" prefHeight="31.0" prefWidth="332.0">
                <children>
@@ -52,7 +52,7 @@
             </Pane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dialogBox" layoutX="137.0" layoutY="427.0" prefHeight="220.0" prefWidth="391.0">
+      <AnchorPane fx:id="dialogBox" layoutX="80.0" layoutY="200.0" prefHeight="220.0" prefWidth="391.0">
          <children>
             <Label fx:id="inserisciMessaggio" layoutX="24.0" layoutY="29.0" prefHeight="21.0" prefWidth="171.0" text="Inserisci Messaggio" />
             <TextField fx:id="messaggioUtente" layoutX="24.0" layoutY="62.0" />

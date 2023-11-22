@@ -46,9 +46,7 @@ public class DialogBoxAction implements Action {
                      alert.showAndWait();
            
         return true;
-    }
-
-   
+    } 
 
 }
     

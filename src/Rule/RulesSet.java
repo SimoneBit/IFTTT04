@@ -4,10 +4,12 @@
  */
 package Rule;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Simone
  */
-public class RulesSet {
+public class RulesSet extends ArrayList<Rule>{
     
 }
