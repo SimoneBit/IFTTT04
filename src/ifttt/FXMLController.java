@@ -6,8 +6,11 @@ package ifttt;
 
 
 import Action.*;
+import Condition.TimeOfDayCondition;
 import Rule.Rule;
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,6 +54,10 @@ public class FXMLController implements Initializable {
     private ListView<Rule> listView;
     @FXML
     private Button aggiungiRegolaId;
+    @FXML
+    private TextField orarioTextField;
+    @FXML
+    private Label errorMessageLabel;
 
     /**
      * Initializes the controller class.
@@ -94,5 +101,31 @@ public class FXMLController implements Initializable {
     @FXML
     private void aggiungiRegola(Rule rule) {
         listView.getItems().add(rule);
+    }
+    
+    @FXML
+    public void timeInsertCheck() {
+        String timeInsert = orarioTextField.getText();
+        
+        // Validazione formato HH:mm
+        try {
+        LocalTime localTime = LocalTime.parse(timeInsert, DateTimeFormatter.ofPattern("HH:mm"));
+
+        // Se l'orario è nel formato corretto, procedere con la logica desiderata
+        TimeOfDayCondition timeCondition = new TimeOfDayCondition(timeInsert);
+
+        // Restauro il testo del messaggio di errore in caso di un precedente errore
+        errorMessageLabel.setText("");
+
+        if (timeCondition.checkTrigger()) {
+            System.out.println("L'orario inserito è uguale all'orario del sistema.");
+        } else {
+            System.out.println("L'orario inserito non è uguale all'orario del sistema.");
+        }
+    } catch (Exception e) {
+        // Se l'orario non è nel formato corretto, mostra un messaggio di errore
+        errorMessageLabel.setText("Formato non valido. \nInserire l'orario nel formato HH:mm.");
+    }
+           
     }
 }

@@ -67,3 +67,15 @@
       </AnchorPane>
    </children>
 </Pane>
+<AnchorPane id="timeInsert" prefHeight="401.0" prefWidth="308.0">
+   <children>
+      <Label fx:id="MessageInsertTimeLabel" layoutX="34.0" layoutY="62.0" text="Inserire l'orario nel formato indicato:" />
+      <TextField fx:id="orarioTextField" layoutX="61.0" layoutY="104.0" promptText="HH:mm" text="HH:mm" />
+      <Button layoutX="112.0" layoutY="185.0" mnemonicParsing="false" onAction="#timeInsertCheck" text="Conferma" />
+      <Label fx:id="errorMessageLabel" layoutX="61.0" layoutY="145.0" prefHeight="31.0" prefWidth="211.0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
