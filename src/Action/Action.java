@@ -5,6 +5,7 @@
 package Action;
 
 import java.io.File;
+import javafx.stage.Stage;
 
 /**
  *
@@ -12,4 +13,6 @@ import java.io.File;
  */
 public interface Action {
     public boolean executeAction(File file);
+    public boolean executeAction(String message, Stage primaryStage);
+    
 }
