@@ -11,5 +11,5 @@ import java.io.File;
  * @author Simone
  */
 public interface Action {
-    public boolean executeAction(File file);
+    public boolean executeAction();
 }
