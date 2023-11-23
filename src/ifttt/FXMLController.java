@@ -10,6 +10,8 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,9 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -34,7 +38,7 @@ import javafx.stage.Stage;
 public class FXMLController implements Initializable {
 
     @FXML
-    private TableView<Rule> ruleList;
+    private TableView<Rule> tableView;
     @FXML
     private Button AddRule;
     @FXML
@@ -84,6 +88,15 @@ public class FXMLController implements Initializable {
     private TableColumn<Rule, String> ruleColumn;
     @FXML
     private TableColumn<Rule, String> StateColumn;
+    
+    @FXML
+    private MenuItem deleteRuleId;
+    @FXML
+    private MenuItem activeRuleId;
+    @FXML
+    private MenuItem inactiveRuleId;
+    
+    private ObservableList<Rule> ruleList;
     /**
      * Initializes the controller class.
      */
@@ -95,6 +108,15 @@ public class FXMLController implements Initializable {
         chooseMessagePage.setVisible(false);
         chooseHourPage.setVisible(false);
         
+        //Setting iniziale TableView
+        ruleList = FXCollections.observableArrayList();
+        tableView.setItems(ruleList);
+        
+        ruleColumn.setCellValueFactory(new PropertyValueFactory<>("rule"));
+        StateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
+        
+        
+        
         
         //Popolamento choiche boxes
         actionChoiceBox.getItems().addAll(possibleActions);
@@ -104,6 +126,8 @@ public class FXMLController implements Initializable {
         
         hourChoiceBox.getItems().addAll(possibleHours);
         minutesChoiceBox.getItems().addAll(possibleMinutes);
+        
+        
     }    
 
     @FXML
@@ -128,9 +152,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void addRule(ActionEvent event) {
-        name= ruleName.getText();
-        condition= conditionChoiceBox.getValue();
-        action =actionChoiceBox.getValue();
+       // ruleList.add(new Rule(ruleName.getText(),conditionChoiceBox.getValue(),actionChoiceBox.getValue()));
         
         
     }
@@ -218,6 +240,18 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         conditionLabel.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
+    }
+
+    @FXML
+    private void deleteRule(ActionEvent event) {
+    }
+
+    @FXML
+    private void activeRule(ActionEvent event) {
+    }
+
+    @FXML
+    private void inactiveRule(ActionEvent event) {
     }
     
    
