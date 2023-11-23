@@ -48,6 +48,11 @@ public class DialogBoxAction implements Action {
         return true;
     } 
 
+    @Override
+    public String toString() {
+        return "DialogBoxAction{" + "message=" + message + '}';
+    }
+
 }
     
     

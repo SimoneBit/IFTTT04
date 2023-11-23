@@ -20,5 +20,11 @@ public class TimeOfDayCondition implements Condition {
     public boolean checkCondition() {
         return LocalTime.now().truncatedTo(ChronoUnit.MINUTES).equals(specifiedTime);
     }
+
+    @Override
+    public String toString() {
+        return "TimeOfDayCondition{" + "specifiedTime=" + specifiedTime + '}';
+    }
+    
     
 }

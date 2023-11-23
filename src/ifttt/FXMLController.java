@@ -6,7 +6,8 @@ package ifttt;
 
 import Action.*;
 import ActionHandlers.*;
-import Condition.TimeOfDayCondition;
+import Condition.*;
+import ConditionHandlers.*;
 import Rule.Rule;
 import java.io.File;
 import java.net.URL;
@@ -103,7 +104,8 @@ public class FXMLController implements Initializable {
     
     private ObservableList<Rule> ruleList;
     
-    BaseActionHandler baseHandler = new BaseActionHandler();
+    BaseActionHandler baseActionHandler = new BaseActionHandler();
+    BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
     /**
      * Initializes the controller class.
      */
@@ -139,8 +141,11 @@ public class FXMLController implements Initializable {
         
         AudioActionHandler audioHandler = new AudioActionHandler();
         DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
-        baseHandler.setNext(audioHandler);
+        baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
+        
+        TimeConditionHandler timeHandler = new TimeConditionHandler();
+        baseConditionHandler.setNext(timeHandler);
     }    
 
     @FXML
@@ -166,11 +171,36 @@ public class FXMLController implements Initializable {
     @FXML
     private void addRule(ActionEvent event) {
        String actionString = actionLabel.getText();
-       String []param;
-       param = actionString.split(":");
-       Action action = baseHandler.handle(param[0], param[1]);
-        
-        
+       String []actionParam;
+       actionParam = actionString.split(":");
+       System.out.print(actionParam[0]);
+       Action action = baseActionHandler.handle(actionParam[0], actionParam[1]);
+       if(action == null){
+            System.out.print("aaaa");
+
+       }
+       
+       
+       String conditionString = conditionLabel.getText();
+       String []conditionParam;
+       conditionParam = conditionString.split(":");
+       Condition condition = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+       Trigger trigger = new Trigger(condition);
+       
+       System.out.println(trigger.toString());
+       
+       String name = ruleName.getText();
+       
+       Rule rule = new Rule(name, trigger, action);
+       ruleList.add(rule);
+       
+       ruleName.clear();
+       actionLabel.setText("");
+       conditionLabel.setText("");
+       actionChoiceBox.setValue("");
+       conditionChoiceBox.setValue("");
+       newRulePage.setVisible(false);
+       mainMenuPage.setVisible(true);
     }
 
     @FXML
@@ -244,9 +274,8 @@ public class FXMLController implements Initializable {
     private void confirmHour(ActionEvent event) {
         String hour = hourChoiceBox.getValue();
         String minutes = minutesChoiceBox.getValue();
-        String time = hour + ":" + minutes;
-        TimeOfDayCondition timeCondition = new TimeOfDayCondition(time);
-        conditionLabel.setText("Alle " + time);
+        String time = hour + "." + minutes;
+        conditionLabel.setText("Alle :" + time);
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
     }
