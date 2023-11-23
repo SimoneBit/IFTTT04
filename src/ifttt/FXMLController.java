@@ -248,6 +248,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void deleteRule(ActionEvent event) {
+        ruleList.remove(tableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
