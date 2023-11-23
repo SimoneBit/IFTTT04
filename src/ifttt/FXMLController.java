@@ -6,6 +6,8 @@ package ifttt;
 
 import java.io.File;
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -201,4 +203,8 @@ public class FXMLController implements Initializable {
         conditionLabel.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
+    
+   
+           
+    
 }
