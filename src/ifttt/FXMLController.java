@@ -4,6 +4,8 @@
  */
 package ifttt;
 
+import Action.*;
+import ActionHandlers.*;
 import Condition.TimeOfDayCondition;
 import Rule.Rule;
 import java.io.File;
@@ -100,6 +102,8 @@ public class FXMLController implements Initializable {
     private MenuItem inactiveRuleId;
     
     private ObservableList<Rule> ruleList;
+    
+    BaseActionHandler baseHandler = new BaseActionHandler();
     /**
      * Initializes the controller class.
      */
@@ -131,6 +135,12 @@ public class FXMLController implements Initializable {
         minutesChoiceBox.getItems().addAll(possibleMinutes);
         
         
+        //Creazione della catena delle responsabilità per le azioni
+        
+        AudioActionHandler audioHandler = new AudioActionHandler();
+        DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
+        baseHandler.setNext(audioHandler);
+        audioHandler.setNext(dialogBoxHandler);
     }    
 
     @FXML
@@ -155,7 +165,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void addRule(ActionEvent event) {
-       // ruleList.add(new Rule(ruleName.getText(),conditionChoiceBox.getValue(),actionChoiceBox.getValue()));
+       String actionString = actionLabel.getText();
+       String []param;
+       param = actionString.split(":");
+       Action action = baseHandler.handle(param[0], param[1]);
         
         
     }

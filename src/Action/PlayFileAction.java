@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -33,6 +34,19 @@ public class PlayFileAction implements Action {
     @Override
     public boolean executeAction() {
         boolean exit = false;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sveglia");
+        this.startAudio();
+        
+        
+        alert.showAndWait();
+        return exit;
+    }
+
+    
+    public boolean startAudio(){
+        boolean exit = false;
+        
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.file);
             // Ottieni il clip audio
@@ -50,10 +64,11 @@ public class PlayFileAction implements Action {
         } catch (LineUnavailableException ex) {
             Logger.getLogger(PlayFileAction.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return exit;
     }
-
- public boolean stopAudio(){
+    
+    public boolean stopAudio(){
         boolean exit = false;
         //Se la clip non è mai stata istanziata esci e ritorna false
         if(this.clip == null){
