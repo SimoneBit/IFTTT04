@@ -4,6 +4,7 @@
  */
 package ifttt;
 
+import Condition.TimeOfDayCondition;
 import Rule.Rule;
 import java.io.File;
 import java.net.URL;
@@ -70,12 +71,14 @@ public class FXMLController implements Initializable {
     private AnchorPane chooseHourPage;
     @FXML
     private ChoiceBox<String> hourChoiceBox;
-    private final String[] possibleHours = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+    private final String[] possibleHours = {" ","00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
                                             "15","16","17","18","19","20","21","22","23"};
     @FXML
     private ChoiceBox<String> minutesChoiceBox;
-    private final String[] possibleMinutes = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
-                                            "15","16","17","18","19","20","21","22","23"};
+    private final String[] possibleMinutes = {" ","00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+                                            "15","16","17","18","19","20","21","22","23", "24","25","26","27","28","29","30","31","32","33",
+                                            "34","35","36","37","38", "39","40","41","42","43","44","45","46","47","48","49","50","51","52", 
+                                            "53","54","55","56","57","58","59" };
     @FXML
     private TextField ruleName;
     
@@ -207,6 +210,7 @@ public class FXMLController implements Initializable {
         String hour = hourChoiceBox.getValue();
         String minutes = minutesChoiceBox.getValue();
         String time = hour + ":" + minutes;
+        TimeOfDayCondition timeCondition = new TimeOfDayCondition(time);
         conditionLabel.setText("Alle " + time);
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
