@@ -24,7 +24,7 @@ public class checkRules extends Thread {
         // Ciclo infinito, il thread continua ad eseguirsi indefinitamente
         while (true) { 
             for (Rule rules: r){
-            if (rules.checkTrigger(rules.getListTrigger())) {
+            if (rules.checkTrigger(rules.getTrigger())) {
                 Action a= rules.getAction();
                 a.exectuteAction();
                 
