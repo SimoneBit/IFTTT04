@@ -4,6 +4,7 @@
  */
 package Rule;
 
+import Action.Action;
 import java.util.List;
 import javafx.collections.ObservableList;
 
@@ -24,12 +25,12 @@ public class checkRules extends Thread {
         // Ciclo infinito, il thread continua ad eseguirsi indefinitamente
         while (true) { 
             for (Rule rules: r){
-            if (rules.checkTrigger(rules.getTrigger())) {
-                Action a= rules.getAction();
-                a.exectuteAction();
-                
-         }
-     }
+                if (rules.checkTrigger(rules.getTrigger())){
+                    Action a= rules.getAction();
+                    a.executeAction();
+                } else {
+                }
+           }
           try {
                 // Dormi per 5 secondi
                 Thread.sleep(5000);

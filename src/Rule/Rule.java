@@ -41,6 +41,8 @@ public class Rule {
     public void setActive(boolean Active) {
         this.Active = Active;
     }
+
+   
     
     
 }
