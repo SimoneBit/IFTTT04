@@ -4,6 +4,7 @@
  */
 package ifttt;
 
+import Action.DialogBoxAction;
 import Condition.TimeOfDayCondition;
 import Rule.Rule;
 import java.io.File;
@@ -152,7 +153,7 @@ public class FXMLController implements Initializable {
         
         }else{
             System.out.println(message);
-            //DialogBoxAction d = new DialogBoxAction(message);
+            DialogBoxAction d = new DialogBoxAction(message);
             //d.executeAction(message, primaryStage);
             // Pulisci il TextField dopo l'aggiunta
             userMessage.clear();

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -10,9 +14,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
-      <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0">
+      <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
             <Label layoutX="29.0" layoutY="33.0" text="SET DELLE REGOLE" />
             <Button fx:id="AddRule" layoutX="451.0" layoutY="164.0" mnemonicParsing="false" onAction="#showAddPage" text="Aggiungi Regola" />
@@ -46,12 +50,12 @@
             <TextField fx:id="ruleName" layoutX="72.0" layoutY="44.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="chooseMessagePage" layoutX="6.0" layoutY="7.0" prefHeight="547.0" prefWidth="368.0" visible="false">
+      <AnchorPane fx:id="chooseMessagePage" layoutX="35.0" layoutY="7.0" prefHeight="547.0" prefWidth="588.0">
          <children>
-            <Label fx:id="insertMessage" layoutX="123.0" layoutY="176.0" prefHeight="21.0" prefWidth="105.0" text="Inserisci Messaggio" textAlignment="CENTER" />
-            <TextField fx:id="userMessage" layoutX="101.0" layoutY="210.0" />
-            <Button fx:id="confirmMessageButton" layoutX="212.0" layoutY="261.0" mnemonicParsing="false" onAction="#confirmMessage" text="OK" />
-            <Button fx:id="backButton2" layoutX="101.0" layoutY="261.0" mnemonicParsing="false" onAction="#showAddPageBack" text="Annulla" />
+            <Label fx:id="insertMessage" layoutX="215.0" layoutY="179.0" prefHeight="21.0" prefWidth="159.0" text="Inserisci Messaggio" textAlignment="CENTER" />
+            <TextField fx:id="userMessage" layoutX="183.0" layoutY="216.0" />
+            <Button fx:id="confirmMessageButton" layoutX="336.0" layoutY="267.0" mnemonicParsing="false" onAction="#confirmMessage" text="OK" />
+            <Button fx:id="backButton2" layoutX="183.0" layoutY="267.0" mnemonicParsing="false" onAction="#showAddPageBack" text="Annulla" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chooseHourPage" layoutX="14.0" layoutY="18.0" prefHeight="533.0" prefWidth="351.0" visible="false">
