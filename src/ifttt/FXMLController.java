@@ -4,6 +4,7 @@
  */
 package ifttt;
 
+import Rule.Rule;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalTime;
@@ -17,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -31,7 +34,7 @@ import javafx.stage.Stage;
 public class FXMLController implements Initializable {
 
     @FXML
-    private ListView<?> ruleList;
+    private TableView<Rule> ruleList;
     @FXML
     private Button AddRule;
     @FXML
@@ -73,6 +76,14 @@ public class FXMLController implements Initializable {
     private ChoiceBox<String> minutesChoiceBox;
     private final String[] possibleMinutes = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
                                             "15","16","17","18","19","20","21","22","23"};
+    @FXML
+    private TextField ruleName;
+    
+    private String name,condition,action;
+    @FXML
+    private TableColumn<Rule, String> ruleColumn;
+    @FXML
+    private TableColumn<Rule, String> StateColumn;
     /**
      * Initializes the controller class.
      */
@@ -117,6 +128,11 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void addRule(ActionEvent event) {
+        name= ruleName.getText();
+        condition= conditionChoiceBox.getValue();
+        action =actionChoiceBox.getValue();
+        
+        
     }
 
     @FXML
