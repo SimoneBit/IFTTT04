@@ -1,5 +1,7 @@
 package Condition;
 
+import java.util.List;
+
 /**
  *
  * @author Simone
@@ -7,7 +9,39 @@ package Condition;
 public class Trigger {
     
     
+    private String name;
+    private Condition condition;
+ 
+    //
+    
     public boolean checkTrigger(){
-        return true;
+        return condition.checkCondition();
     }
+
+    public Condition getCondition() {
+        return condition;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

@@ -13,4 +13,6 @@ import javafx.stage.Stage;
  */
 public interface Action {
     public boolean executeAction();
+
+    
 }

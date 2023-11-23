@@ -7,5 +7,5 @@ import java.time.LocalTime;
  * @author Simone
  */
 public interface Condition {
-    public boolean checkTrigger();
+    public boolean checkCondition();
 }
