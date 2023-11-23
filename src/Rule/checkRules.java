@@ -24,12 +24,13 @@ public class checkRules extends Thread {
     public void run() {
         // Ciclo infinito, il thread continua ad eseguirsi indefinitamente
         while (true) { 
-            for (Rule rules: r){
-                if (rules.checkTrigger(rules.getTrigger())){
-                    Action a= rules.getAction();
-                    a.executeAction();
-                } else {
+            for (Rule rule: r.getRuleList()){
+                if(rule.isActive()){
+                    if (rule.getTrigger().checkTrigger() ){
+                        rule.getAction().executeAction();
+                    } 
                 }
+               
            }
           try {
                 // Dormi per 5 secondi

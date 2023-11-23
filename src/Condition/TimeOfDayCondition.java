@@ -17,7 +17,7 @@ public class TimeOfDayCondition implements Condition {
     }
 
     @Override
-    public boolean checkTrigger() {
+    public boolean checkCondition() {
         return LocalTime.now().truncatedTo(ChronoUnit.MINUTES).equals(specifiedTime);
     }
     

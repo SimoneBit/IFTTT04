@@ -9,8 +9,8 @@ import java.util.List;
 public class Trigger {
     
     private String name;
-    private List conditions;
-    private List operations;
+    private Condition condition;
+
     
     
     
