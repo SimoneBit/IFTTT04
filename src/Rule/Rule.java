@@ -25,14 +25,14 @@ public class Rule {
     }
 
     
-    public boolean checkRule(){
+    /*public boolean checkRule(){
         boolean exit = false;
         if(trigger.checkTrigger() == true){
             action.executeAction();
             exit = true;
         }        
         return exit;
-    }
+    }*/
     
     public boolean isActive() {
         return Active;
@@ -40,6 +40,14 @@ public class Rule {
 
     public void setActive(boolean Active) {
         this.Active = Active;
+    }
+
+    public Trigger getTrigger() {
+        return trigger;
+    }
+
+    public Action getAction() {
+        return action;
     }
 
    
