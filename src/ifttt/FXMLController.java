@@ -162,8 +162,8 @@ public class FXMLController implements Initializable {
         
         //TO CHECK
         //Creazione e avvio del thread che controlla le regole
-        //Thread checkingRules = new Thread(checkRules);
-        //checkingRules.start();
+        Thread checkingRules = new Thread(checkRules);
+        checkingRules.start();
     }    
 
     @FXML
