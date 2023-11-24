@@ -310,11 +310,13 @@ public class FXMLController implements Initializable {
     @FXML
     private void activeRule(ActionEvent event) {
         tableView.getSelectionModel().getSelectedItem().setActive(true);
+        tableView.refresh();
     }
 
     @FXML
     private void inactiveRule(ActionEvent event) {
         tableView.getSelectionModel().getSelectedItem().setActive(false);
+        tableView.refresh();
     }
     
    
