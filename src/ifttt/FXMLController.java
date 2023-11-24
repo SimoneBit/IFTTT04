@@ -208,7 +208,7 @@ public class FXMLController implements Initializable {
        
        //Aggiungi la regola la set delle regole
        rulesSet.add(rule);
-       ruleList.add(rule);
+       ruleList.add(rule); 
        //ruleList.setAll(rulesSet.getRuleList())
        System.out.println("Regola aggiunta: " + rule);
        System.out.println("Regola aggiunta a RulesSet. Dimensione: " + rulesSet.size());
