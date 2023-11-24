@@ -210,10 +210,6 @@ public class FXMLController implements Initializable {
        rulesSet.add(rule);
        ruleList.add(rule); 
        //ruleList.setAll(rulesSet.getRuleList())
-       System.out.println("Regola aggiunta: " + rule);
-       System.out.println("Regola aggiunta a RulesSet. Dimensione: " + rulesSet.size());
-       System.out.println("Istanza di rulesSet: " + rulesSet);
-       System.out.println("Lista delle regole aggiornata: " + rulesSet.getRuleList());
        //Ripulisci l'interfaccia
        ruleName.clear();
        actionLabel.setText("");
