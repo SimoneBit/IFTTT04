@@ -20,7 +20,7 @@
             <Button fx:id="AddRule" layoutX="451.0" layoutY="164.0" mnemonicParsing="false" onAction="#showAddPage" text="Aggiungi Regola" />
             <TableView fx:id="tableView" layoutX="14.0" layoutY="106.0" prefHeight="438.0" prefWidth="406.0">
               <columns>
-                  <TableColumn fx:id="ruleColumn" prefWidth="306.0" text="Regola" />
+                  <TableColumn fx:id="ruleColumn" prefWidth="306.0" text="Nome" />
                 <TableColumn fx:id="StateColumn" prefWidth="99.0" text="Stato" />
               </columns>
                <contextMenu>

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Simone
+ * @author Nicola
  */
 public class RulesSet extends ArrayList<Rule>{
     private List<Rule> ruleList;
@@ -23,12 +23,15 @@ public class RulesSet extends ArrayList<Rule>{
         this.ruleList.add(newRule);
     }
 
-    
     public List<Rule> getRuleList() {
-        return this.ruleList;
+        return ruleList;
     }
-    
+
     public void setRuleList(List<Rule> ruleList) {
         this.ruleList = ruleList;
     }
+
+  
+
+    
 }
