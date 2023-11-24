@@ -15,7 +15,7 @@ public class AudioActionHandler extends BaseActionHandler {
 
     @Override
     public Action handle(String request, String param) {
-        if(request.equals("Fai partire un audio ")){
+        if(request.equals("Riproduci il file")){
             File f = new File(param);
             PlayFileAction pfa = new PlayFileAction(f);
             return pfa;

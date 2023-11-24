@@ -172,18 +172,19 @@ public class FXMLController implements Initializable {
     private void addRule(ActionEvent event) {
        String actionString = actionLabel.getText();
        String []actionParam;
-       actionParam = actionString.split(":");
-       System.out.print(actionParam[0]);
+       actionParam = actionString.split(" : ");
+       System.out.println("\n" + actionParam[0] + "\n"+ actionParam[1]);
        Action action = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       if(action == null){
-            System.out.print("aaaa");
+       if(action != null){
+            System.out.print(action.toString());
 
        }
        
        
        String conditionString = conditionLabel.getText();
        String []conditionParam;
-       conditionParam = conditionString.split(":");
+       conditionParam = conditionString.split(" : ");
+       System.out.println("\n" + conditionParam[0] + "\n"+ conditionParam[1]);
        Condition condition = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(condition);
        
@@ -239,7 +240,7 @@ public class FXMLController implements Initializable {
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Audio Files","*.wav"));
+            new FileChooser.ExtensionFilter("Audio Files","*.wav"));
             File selectedFile = fileChooser.showOpenDialog(new Stage());
             actionLabel.setText("Riproduci il file : " + selectedFile.toString());
             
@@ -274,8 +275,8 @@ public class FXMLController implements Initializable {
     private void confirmHour(ActionEvent event) {
         String hour = hourChoiceBox.getValue();
         String minutes = minutesChoiceBox.getValue();
-        String time = hour + "." + minutes;
-        conditionLabel.setText("Alle :" + time);
+        String time = hour + ":" + minutes;
+        conditionLabel.setText("Alle : " + time);
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
     }

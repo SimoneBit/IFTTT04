@@ -22,4 +22,10 @@ public class BaseActionHandler implements ActionHandler{
     public Action handle(String request, String param) {
         return next.handle(request, param);
     }
+
+    public ActionHandler getNext() {
+        return next;
+    }
+    
+    
 }
