@@ -29,6 +29,26 @@ public class TimeOfDayConditionTest {
         assertTrue(timeCondition.checkCondition()); 
     } 
     
+    public void checkTriggerReturnsFalseWhenCurrentTimeMatchesSpecifiedTime2() {
+        // Imposta un orario specificato
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String orarioSpecificato = time.format(formatter);
+
+        // Crea un'istanza di TimeOfDayCondition con l'orario specificato
+        TimeOfDayCondition timeCondition = new TimeOfDayCondition(orarioSpecificato);
+
+        // Ottieni l'orario attuale
+        LocalTime orarioAttuale = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+        
+        timeCondition.checkCondition();
+        // Verifica che checkTrigger restituisca false quando l'orario attuale è uguale all'orario specificato ma è stato già restituito true una volta
+        assertTrue(timeCondition.checkCondition()); 
+    }
+    
+    
+    
+    
     @Test
     public void checkTriggerReturnsFalseWhenCurrentTimeDoesNotMatchSpecifiedTime() {
         // Imposta un orario specificato

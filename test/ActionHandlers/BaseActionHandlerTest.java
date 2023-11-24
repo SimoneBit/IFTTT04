@@ -44,10 +44,7 @@ public class BaseActionHandlerTest {
      * Test of handle method, of class BaseActionHandler.
      */
     @Test
-    public void testHandle() {
-        System.out.println("handle");
-        
-        
+    public void testHandleNull() {
         //Test caso fail
         String request = "";
         String param = "";
@@ -55,21 +52,28 @@ public class BaseActionHandlerTest {
         Action result = base.handle(request, param);
         assertEquals(expResult0, result);
         
-        //Test caso audio
-        request = "Riproduci il file";
-        param = "audio.wav";
-        File f = new File(param);
-        PlayFileAction expResult1 = new PlayFileAction(f);
-        result = base.handle(request, param);
-        assertEquals(expResult1.getClass(), result.getClass());
-        
-        
-        request = "Mostra un messaggio";
-        param = "ciao";
-        DialogBoxAction expResult2 = new DialogBoxAction(param); 
-        result = base.handle(request, param);
-        assertEquals(expResult2.getClass(), result.getClass());
-        
     }
     
+    @Test
+    public void testHandleAudio() {
+    //Test caso audio
+        String request = "Riproduci il file";
+        String param = "audio.wav";
+        File f = new File(param);
+        PlayFileAction expResult1 = new PlayFileAction(f);
+        Action result = base.handle(request, param);
+        assertEquals(expResult1.getClass(), result.getClass());
+    
+    }
+    
+    
+     @Test
+    public void testHandleMessage() {
+    //Test caso audio
+        String request = "Mostra un messaggio";
+        String param = "ciao";
+        DialogBoxAction expResult2 = new DialogBoxAction(param); 
+        Action result = base.handle(request, param);
+        assertEquals(expResult2.getClass(), result.getClass());
+    }
 }

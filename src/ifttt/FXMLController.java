@@ -8,7 +8,9 @@ import Action.*;
 import ActionHandlers.*;
 import Condition.*;
 import ConditionHandlers.*;
+import Rule.CheckRules;
 import Rule.Rule;
+import Rule.RulesSet;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalTime;
@@ -103,6 +105,8 @@ public class FXMLController implements Initializable {
     private MenuItem inactiveRuleId;
     
     private ObservableList<Rule> ruleList;
+    private RulesSet rulesSet = new RulesSet();
+    private CheckRules checkRules = new CheckRules(rulesSet);
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
@@ -118,7 +122,7 @@ public class FXMLController implements Initializable {
         chooseHourPage.setVisible(false);
         
         //Setting iniziale TableView
-        ruleList = FXCollections.observableArrayList();
+        ruleList = FXCollections.observableArrayList(rulesSet.getRuleList());
         tableView.setItems(ruleList);
         
         ruleColumn.setCellValueFactory(new PropertyValueFactory<>("rule"));
@@ -138,14 +142,19 @@ public class FXMLController implements Initializable {
         
         
         //Creazione della catena delle responsabilità per le azioni
-        
         AudioActionHandler audioHandler = new AudioActionHandler();
         DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
         baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
         
+        //Creazione della catena delle responsabilità per le azioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
         baseConditionHandler.setNext(timeHandler);
+        
+        //TO CHECK
+        //Creazione e avvio del thread che controlla le regole
+        //Thread checkingRules = new Thread(checkRules);
+        //checkingRules.start();
     }    
 
     @FXML
@@ -162,6 +171,7 @@ public class FXMLController implements Initializable {
         mainMenuPage.setVisible(true);
         newRulePage.setVisible(false);
         chooseMessagePage.setVisible(false);
+        ruleName.clear();
         actionLabel.setText("");
         conditionLabel.setText("");
         actionChoiceBox.setValue("Seleziona un'azione");
@@ -170,31 +180,27 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void addRule(ActionEvent event) {
+       //Prendi i parametri e crea l'azione scelta
        String actionString = actionLabel.getText();
        String []actionParam;
        actionParam = actionString.split(" : ");
-       System.out.println("\n" + actionParam[0] + "\n"+ actionParam[1]);
        Action action = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       if(action != null){
-            System.out.print(action.toString());
 
-       }
-       
-       
+       //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;
        conditionParam = conditionString.split(" : ");
-       System.out.println("\n" + conditionParam[0] + "\n"+ conditionParam[1]);
        Condition condition = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(condition);
        
-       System.out.println(trigger.toString());
-       
-       String name = ruleName.getText();
-       
+       //Prendi il nome per la nuova regola e creala
+       String name = ruleName.getText();       
        Rule rule = new Rule(name, trigger, action);
-       ruleList.add(rule);
        
+       //Aggiungi la regola la set delle regole
+       rulesSet.add(rule);
+       
+       //Ripulisci l'interfaccia
        ruleName.clear();
        actionLabel.setText("");
        conditionLabel.setText("");
@@ -217,9 +223,6 @@ public class FXMLController implements Initializable {
             message= userMessage.getText();
         
         }else{
-            System.out.println(message);
-            //DialogBoxAction d = new DialogBoxAction(message);
-            //d.executeAction(message, primaryStage);
             // Pulisci il TextField dopo l'aggiunta
             userMessage.clear();
             // Nascondi DialogBox
