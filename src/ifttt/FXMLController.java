@@ -16,6 +16,7 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -108,9 +109,12 @@ public class FXMLController implements Initializable {
     private ObservableList<Rule> ruleList;
     private RulesSet rulesSet = new RulesSet();
     private checkRules checkRules = new checkRules(rulesSet);
+    Thread checkingRules = new Thread(checkRules);
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -162,7 +166,7 @@ public class FXMLController implements Initializable {
         
         //TO CHECK
         //Creazione e avvio del thread che controlla le regole
-        Thread checkingRules = new Thread(checkRules);
+        
         checkingRules.start();
     }    
 
@@ -194,7 +198,7 @@ public class FXMLController implements Initializable {
        String []actionParam;
        actionParam = actionString.split(" : ");
        Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       
+       act.executeAction();
        //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;
@@ -319,7 +323,6 @@ public class FXMLController implements Initializable {
         tableView.refresh();
     }
     
-   
            
     
 }

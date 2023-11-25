@@ -20,6 +20,8 @@ public class checkRules extends Thread {
     public checkRules(RulesSet rs){
         this.r= rs;
     }
+    
+    
     @Override
     public void run() {
         // Ciclo infinito, il thread continua ad eseguirsi indefinitamente
@@ -41,4 +43,3 @@ public class checkRules extends Thread {
         }
     }
 }
-
