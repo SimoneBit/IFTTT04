@@ -166,7 +166,7 @@ public class FXMLController implements Initializable {
         
         //TO CHECK
         //Creazione e avvio del thread che controlla le regole
-        
+        checkingRules.setDaemon(true);
         checkingRules.start();
     }    
 
@@ -198,7 +198,7 @@ public class FXMLController implements Initializable {
        String []actionParam;
        actionParam = actionString.split(" : ");
        Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       act.executeAction();
+       
        //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;
