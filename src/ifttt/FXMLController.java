@@ -4,6 +4,9 @@
  */
 package ifttt;
 
+
+import Action.DialogBoxAction;
+import Condition.TimeOfDayCondition;
 import Action.*;
 import ActionHandlers.*;
 import Condition.*;
@@ -203,7 +206,7 @@ public class FXMLController implements Initializable {
        String conditionString = conditionLabel.getText();
        String []conditionParam;
        conditionParam = conditionString.split(" : ");
-       Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+       ConditionHandler cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(cond);
        
        //Prendi il nome per la nuova regola e creala
@@ -241,6 +244,11 @@ public class FXMLController implements Initializable {
             message= userMessage.getText();
         
         }else{
+
+            System.out.println(message);
+            DialogBoxAction d = new DialogBoxAction(message);
+            //d.executeAction(message, primaryStage);
+
             // Pulisci il TextField dopo l'aggiunta
             userMessage.clear();
             // Nascondi DialogBox

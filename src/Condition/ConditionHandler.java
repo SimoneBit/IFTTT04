@@ -6,6 +6,6 @@ import java.time.LocalTime;
  *
  * @author Simone
  */
-public interface Condition {
+public interface ConditionHandler {
     public boolean checkCondition();
 }

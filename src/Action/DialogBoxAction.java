@@ -29,15 +29,17 @@ import javafx.stage.Stage;
 public class DialogBoxAction implements Action {
 
     private String message;
+    private Alert alert;
     
     
     public DialogBoxAction(String message) {
         this.message = message;
+        this.alert = new Alert(AlertType.INFORMATION);
     }
     
     @Override
     public boolean executeAction() {
-        Alert alert = new Alert(AlertType.INFORMATION);
+       
         alert.setTitle("Messaggio");
         alert.setHeaderText(null); // Senza intestazione
         alert.setContentText(this.message);
@@ -52,7 +54,10 @@ public class DialogBoxAction implements Action {
     public String toString() {
         return "DialogBoxAction{" + "message=" + message + '}';
     }
-
+    
+    public Alert getAlert() {
+        return this.alert;
+    }
 }
     
     
