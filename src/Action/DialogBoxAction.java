@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Action;
 
 import javafx.scene.control.Alert;
@@ -9,20 +5,29 @@ import javafx.scene.control.Alert.AlertType;
 
 
 /**
- *
- * @author miria
+ *La classe DialogBoxAction implementa l'interfaccia @see Action e rappresenta
+ * un'azione che mostra un messaggio in una finestra di dialogo.
+ * @author Miriam Vitolo
  */
 public class DialogBoxAction implements Action {
 
-    private String message;
+   private String message;
     
     
-    
+    /**
+     * Costruisce un'istanza di DialogBoxAction con il messaggio specificato.
+     * @param message Il messaggio da visualizzare nella finestra di dialogo.
+     */
     public DialogBoxAction(String message) {
         this.message = message;
         
     }
     
+    
+    /**
+     * Esegue l'azione, mostrando un messaggio in una finestra di dialogo di tipo informazione.
+     * @return true se l'azione è stata eseguita con successo, altrimenti false.
+     */
     @Override
     public boolean executeAction() {
        
@@ -37,12 +42,16 @@ public class DialogBoxAction implements Action {
         return true;
     } 
 
+    
+    /**
+     * Restituisce una rappresentazione stringa dell'oggetto DialogBoxAction, mostrando il messaggio associato.
+     * @return una stringa che rappresenta l'oggetto.
+     */
     @Override
     public String toString() {
         return "DialogBoxAction{" + "message=" + message + '}';
     }
-    
-    
+        
 }
     
     

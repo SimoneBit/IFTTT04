@@ -1,19 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Action;
 
-import ifttt.IFTTT;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.*;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -25,19 +16,30 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 /**
- *
- * @author Simone
+ *La classe PlayFileAction implementa l'interfaccia @see Action e rappresenta un'azione che avvia la 
+ * riproduzione di un file audio. La riproduzione può essere interrotta mediante un pulsante "STOP" in una finestra separata.
+ * La costante @see LOOP_TIMES indica il numero di volte che l'audio verrà riprodotto.
+ * @author Simone Pacifico
  */
 public class PlayFileAction implements Action {
-    public final int LOOP_TIMES = 2;          //Costante che indica il numero di volte che l'audio verrà riprodotto
+    public final int LOOP_TIMES = 2;          
     private File file;                          //Riferimento al file audio da riprodurre
     private Clip clip;                          //Riferimento alla clip in esecuzione
     
+    
+    /**
+     * Costruisce un'istanza di PlayFileAction con il file audio specificato.
+     * @param file il file audio da riprodurre.
+     */
     public PlayFileAction(File file) {
         this.file = file;
     }
-            
-            
+           
+    
+   /**
+    * Esegue l'azione avviando la riproduzione del file audio e mostrando una finestra con un pulsante "STOP".
+    * @return true se l'azione è stata eseguita con successo, altrimenti false
+    */
     @Override
     public boolean executeAction() {
         
@@ -60,6 +62,11 @@ public class PlayFileAction implements Action {
         return true;
     }
 
+    
+    /**
+     * Avvia la riproduzione dell'audio dal file specificato.
+     * @return true se la riproduzione è stata avviata con successo, altrimenti false.
+     */
     
     public boolean startAudio(){
         boolean exit = false;
@@ -85,6 +92,11 @@ public class PlayFileAction implements Action {
         return exit;
     }
     
+    
+    /**
+     * Interrompe la riproduzione dell'audio, se in corso.
+     * @return true se la riproduzione è stata interrotta, altrimenti false.
+     */
     public boolean stopAudio(){
         boolean exit = false;
         //Se la clip non è mai stata istanziata esci e ritorna false
@@ -98,10 +110,22 @@ public class PlayFileAction implements Action {
         }
         return exit;
     }
+    
+    
+ /**
+  * Restituisce il file audio associato a questa azione.
+  * @return il file audio.
+  */   
     public File getFile() {
         return file;
     }
 
+    
+    /**
+     * Restituisce una rappresentazione stringa dell'oggetto PlayFileAction, mostrando il percorso completo 
+     * del file audio.
+     * @return una stringa che rappresenta l'oggetto.
+     */
     @Override
     public String toString() {
         return "PlayFileAction{" + "file=" + file.toString() + '}';

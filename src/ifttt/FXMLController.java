@@ -1,23 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package ifttt;
 
 
 import Action.DialogBoxAction;
-import Condition.TimeOfDayCondition;
 import Action.*;
 import ActionHandlers.*;
 import Condition.*;
 import ConditionHandlers.*;
-import Rule.checkRules;
 import Rule.Rule;
 import Rule.RulesSet;
 import java.io.File;
 import java.net.URL;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
@@ -38,14 +30,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * La classe FXMLController è un controller per la gestione dell'interfaccia utente definita in un file FXML. 
+ * Questo controller gestisce la configurazione delle regole di automazione, l'interazione con gli elementi dell'interfaccia 
+ * utente e il controllo delle regole attive.
  *
- * @author Simone
+ * @author Nicola Lanzara
+ * @author Palma Orlando 
+ * @author Simone Pacifico
+ * @author Miriam Vitolo
  */
 public class FXMLController implements Initializable {
 
@@ -149,7 +145,12 @@ public class FXMLController implements Initializable {
     
     
     /**
-     * Initializes the controller class.
+     * Metodo chiamato quando viene inizializzata l'interfaccia utente.
+     * Inizializza i componenti grafici, popola le choice boxes, crea le catene di responsabilità e avvia il thread per il controllo
+     * periodico delle regole.
+     * 
+     * @param url l'URL della radice dell'oggetto dell'archivio FXML.
+     * @param rb risorse specifiche regionalmente.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -165,18 +166,13 @@ public class FXMLController implements Initializable {
         //ruleList = FXCollections.observableArrayList(rulesSet.getRuleList())
         tableView.setItems(ruleList);
        
-        
         ruleColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         StateColumn.setCellValueFactory(cellData -> {
         Rule rule = cellData.getValue();
         String stato = rule.isActive() ? "Attivo" : "Inattivo";
         return new SimpleStringProperty(stato);
         });
-        
-        
-        
-        
-        
+             
         //Popolamento choiche boxes
         actionChoiceBox.getItems().addAll(possibleActions);
         actionChoiceBox.setOnAction(this::getAction);
@@ -185,7 +181,6 @@ public class FXMLController implements Initializable {
         
         hourChoiceBox.getItems().addAll(possibleHours);
         minutesChoiceBox.getItems().addAll(possibleMinutes);
-        
         
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
@@ -203,6 +198,11 @@ public class FXMLController implements Initializable {
         checkingRulesThread.start();
     }    
 
+    /**
+     *  Mostra la pagina di aggiunta regola nascondendo le altre pagine e reimpostando le scelte predefinite.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void showAddPage(ActionEvent event) {
         mainMenuPage.setVisible(false);
@@ -212,6 +212,11 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
+    /**
+     * Torna alla pagina principale nascondendo le altre pagine e ripristinando i valori predefiniti.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void showMainMenuPage(ActionEvent event) {
         mainMenuPage.setVisible(true);
@@ -224,6 +229,12 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
+    /**
+     * Aggiunge una nuova regola con i parametri forniti, crea l'azione e la condizione corrispondenti. Aggiunge la 
+     * regola alla lista delle regole e disabilita la possibilità di rendere attiva la regola selezionata nel menu.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void addRule(ActionEvent event) {
        //Prendi i parametri e crea l'azione scelta
@@ -243,7 +254,7 @@ public class FXMLController implements Initializable {
        String name1 = ruleName.getText();       
        Rule rule = new Rule(name1, trigger, act);
        
-       //Aggiungi la regola la set delle regole
+       //Aggiungi la regola al set delle regole
        rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
        
@@ -261,6 +272,12 @@ public class FXMLController implements Initializable {
        mainMenuPage.setVisible(true);
     }
 
+    /**
+     * Gestisce l'azione di conferma del messaggio inserito. Se il messaggio è vuoto, visualizza un avviso, altrimenti crea 
+     * un oggetto @see DialogBoxActioncon il messaggio e aggiorna l'etichetta dell'azione nella pagina delle nuove regole.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void confirmMessage(ActionEvent event) {
         String message= userMessage.getText();
@@ -288,7 +305,13 @@ public class FXMLController implements Initializable {
             
         }
     }
-    
+ 
+    /**
+     * Gestisce l'evento di selezione di un'azione dalla ChoiceBox.
+     * Mostra la pagina corrispondente all'azione selezionata o imposta l'etichetta dell'azione nella pagina delle nuove regole.
+     * 
+     * @param event l'evento scatenato dalla selezione di un'azione dalla ChoiceBox.
+     */
     public void getAction(ActionEvent event){
         String action = actionChoiceBox.getValue();
         if(action.compareTo("Mostra un messaggio") == 0){
@@ -309,7 +332,14 @@ public class FXMLController implements Initializable {
         }
     }
     
-    
+  
+    /**
+     * Gestisce l'evento di selezione di una condizione dalla ChoiceBox.
+     * Mostra la pagina corrispondente alla condizione selezionata o imposta l'etichetta della condizione nella pagina 
+     * delle nuove regole.
+     * 
+     * @param event l'evento scatenato dalla selezione di una condizione dalla ChoiceBox.
+     */
     public void getCondition(ActionEvent event){
         String condition = conditionChoiceBox.getValue();
         if(condition.compareTo("Seleziona una condizione") == 0){
@@ -321,6 +351,13 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * Gestisce l'evento di ritorno alla pagina delle nuove regole dalla pagina principale.
+     * Nasconde la pagina principale, visualizza la pagina delle nuove regole e reimposta l'etichetta dell'azione e 
+     * la ChoiceBox delle azioni.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void showAddPageBack(ActionEvent event) {
         mainMenuPage.setVisible(false);
@@ -330,6 +367,13 @@ public class FXMLController implements Initializable {
         actionChoiceBox.setValue("Seleziona un'azione");
     }
 
+    /**
+     * Gestisce l'evento di conferma dell'orario selezionato. 
+     * Ottiene l'orario e i minuti scelti dalle rispettive ChoiceBox, compone una stringa nel formato "HH:mm" e la visualizza
+     * nell'etichetta delle condizioni. Nasconde la pagina della scelta dell'orario e visualizza la pagina delle nuove regole.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void confirmHour(ActionEvent event) {
         String hour = hourChoiceBox.getValue();
@@ -340,6 +384,13 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
     }
 
+    /**
+     * Gestisce l'evento di ritorno alla pagina delle nuove regole dalla pagina della scelta dell'orario.
+     * Nasconde la pagina dell'orario, visualizza la pagina delle nuove regole e reimposta l'etichetta della condizione 
+     * e la ChoiceBox delle condizioni.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void showAddPageBack1(ActionEvent event) {
         chooseHourPage.setVisible(false);
@@ -348,6 +399,12 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
+    /**
+     * Gestisce l'evento di eliminazione di una regola. 
+     * Rimuove la regola selezionata dalla lista delle regole e dall'elenco visualizzato nella TableView.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void deleteRule(ActionEvent event) {
         Rule rule = tableView.getSelectionModel().getSelectedItem();
@@ -355,6 +412,13 @@ public class FXMLController implements Initializable {
         ruleList.remove(rule);
     }
 
+    /**
+     * Gestisce l'evento di attivazione di una regola. 
+     * Imposta lo stato della regola selezionata come attivo, abilita l'opzione per disattivare la regola e disabilita l'opzione 
+     * per attivarla. Aggiorna la TableView per riflettere lo stato aggiornato della regola.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void activeRule(ActionEvent event) {
         // si setta lo stato della regola selezionata come attiva
@@ -366,6 +430,13 @@ public class FXMLController implements Initializable {
         tableView.refresh();
     }
 
+    /**
+     * Gestisce l'evento di disattivazione di una regola. 
+     * Imposta lo stato della regola selezionata come inattivo, abilita l'opzione per attivare la regola e disabilita l'opzione 
+     * per disattivarla. Aggiorna la TableView per riflettere lo stato aggiornato della regola.
+     * 
+     * @param event l'evento scatenato da un'azione utente.
+     */
     @FXML
     private void inactiveRule(ActionEvent event) {
         // si setta lo stato della regola selezionata come inattiva
