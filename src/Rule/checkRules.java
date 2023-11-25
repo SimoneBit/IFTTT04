@@ -26,6 +26,7 @@ public class checkRules extends Thread {
     public void run() {
         // Ciclo infinito, il thread continua ad eseguirsi indefinitamente
         while (true) { 
+            System.out.println("Thread vivo");
             for (Rule rule: r.getRuleList()){
                 if(rule.isActive()){
                     if (rule.getTrigger().checkTrigger() ){

@@ -11,7 +11,8 @@ import java.util.List;
  *
  * @author Nicola
  */
-public class RulesSet extends ArrayList<Rule>{
+
+public class RulesSet{
     private List<Rule> ruleList;
 
     public RulesSet() {
@@ -20,9 +21,15 @@ public class RulesSet extends ArrayList<Rule>{
 
     public void addRule(Rule newRule) {
         
-        this.ruleList.add(newRule);
+        ruleList.add(newRule);
     }
 
+    
+    public void removeRule(Rule rule) {
+        
+        ruleList.remove(rule);
+    }
+    
     public List<Rule> getRuleList() {
         return ruleList;
     }

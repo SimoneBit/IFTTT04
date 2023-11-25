@@ -211,8 +211,10 @@ public class FXMLController implements Initializable {
        Rule rule = new Rule(name1, trigger, act);
        
        //Aggiungi la regola la set delle regole
-       rulesSet.add(rule);
+       rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
+       
+       System.out.println(rulesSet.getRuleList().toString());
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
        //ruleList.setAll(rulesSet.getRuleList())
@@ -310,7 +312,9 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void deleteRule(ActionEvent event) {
-        ruleList.remove(tableView.getSelectionModel().getSelectedItem());
+        Rule rule = tableView.getSelectionModel().getSelectedItem();
+        rulesSet.getRuleList().remove(rule);
+        ruleList.remove(rule);
     }
 
     @FXML
