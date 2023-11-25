@@ -9,10 +9,13 @@ import java.util.List;
 public class Trigger {
     
     
-    private String name;
     private Condition condition;
+
+    public Trigger(Condition condition) {
+        this.condition = condition;
+    }
  
-    //
+    
     
     public boolean checkTrigger(){
         return condition.checkCondition();
@@ -21,6 +24,12 @@ public class Trigger {
     public Condition getCondition() {
         return condition;
     }
+
+    @Override
+    public String toString() {
+        return "Trigger{" + "condition=" + condition.toString() + '}';
+    }
+    
     
     
     

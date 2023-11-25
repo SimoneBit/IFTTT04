@@ -4,14 +4,23 @@
  */
 package ifttt;
 
+
 import Action.DialogBoxAction;
 import Condition.TimeOfDayCondition;
+import Action.*;
+import ActionHandlers.*;
+import Condition.*;
+import ConditionHandlers.*;
+import Rule.checkRules;
 import Rule.Rule;
+import Rule.RulesSet;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +30,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -101,6 +109,11 @@ public class FXMLController implements Initializable {
     private MenuItem inactiveRuleId;
     
     private ObservableList<Rule> ruleList;
+    private RulesSet rulesSet = new RulesSet();
+    private checkRules checkRules = new checkRules(rulesSet);
+    
+    BaseActionHandler baseActionHandler = new BaseActionHandler();
+    BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
     /**
      * Initializes the controller class.
      */
@@ -113,11 +126,19 @@ public class FXMLController implements Initializable {
         chooseHourPage.setVisible(false);
         
         //Setting iniziale TableView
-        ruleList = FXCollections.observableArrayList();
+        ruleList = new SimpleListProperty<>(FXCollections.observableArrayList(rulesSet.getRuleList()));
+
+        //ruleList = FXCollections.observableArrayList(rulesSet.getRuleList())
         tableView.setItems(ruleList);
+       
         
-        ruleColumn.setCellValueFactory(new PropertyValueFactory<>("rule"));
-        StateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
+        ruleColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        StateColumn.setCellValueFactory(cellData -> {
+        Rule rule = cellData.getValue();
+        String stato = rule.isActive() ? "Attivo" : "Inattivo";
+        return new SimpleStringProperty(stato);
+        });
+        
         
         
         
@@ -132,6 +153,20 @@ public class FXMLController implements Initializable {
         minutesChoiceBox.getItems().addAll(possibleMinutes);
         
         
+        //Creazione della catena delle responsabilità per le azioni
+        AudioActionHandler audioHandler = new AudioActionHandler();
+        DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
+        baseActionHandler.setNext(audioHandler);
+        audioHandler.setNext(dialogBoxHandler);
+        
+        //Creazione della catena delle responsabilità per le azioni
+        TimeConditionHandler timeHandler = new TimeConditionHandler();
+        baseConditionHandler.setNext(timeHandler);
+        
+        //TO CHECK
+        //Creazione e avvio del thread che controlla le regole
+        Thread checkingRules = new Thread(checkRules);
+        checkingRules.start();
     }    
 
     @FXML
@@ -148,6 +183,7 @@ public class FXMLController implements Initializable {
         mainMenuPage.setVisible(true);
         newRulePage.setVisible(false);
         chooseMessagePage.setVisible(false);
+        ruleName.clear();
         actionLabel.setText("");
         conditionLabel.setText("");
         actionChoiceBox.setValue("Seleziona un'azione");
@@ -156,9 +192,35 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void addRule(ActionEvent event) {
-       // ruleList.add(new Rule(ruleName.getText(),conditionChoiceBox.getValue(),actionChoiceBox.getValue()));
-        
-        
+       //Prendi i parametri e crea l'azione scelta
+       String actionString = actionLabel.getText();
+       String []actionParam;
+       actionParam = actionString.split(" : ");
+       Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
+       
+       //Prendi i parametri e crea la condizione scelta con il relativo trigger
+       String conditionString = conditionLabel.getText();
+       String []conditionParam;
+       conditionParam = conditionString.split(" : ");
+       Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+       Trigger trigger = new Trigger(cond);
+       
+       //Prendi il nome per la nuova regola e creala
+       String name1 = ruleName.getText();       
+       Rule rule = new Rule(name1, trigger, act);
+       
+       //Aggiungi la regola la set delle regole
+       rulesSet.add(rule);
+       ruleList.add(rule); 
+       //ruleList.setAll(rulesSet.getRuleList())
+       //Ripulisci l'interfaccia
+       ruleName.clear();
+       actionLabel.setText("");
+       conditionLabel.setText("");
+       actionChoiceBox.setValue("");
+       conditionChoiceBox.setValue("");
+       newRulePage.setVisible(false);
+       mainMenuPage.setVisible(true);
     }
 
     @FXML
@@ -174,9 +236,11 @@ public class FXMLController implements Initializable {
             message= userMessage.getText();
         
         }else{
+
             System.out.println(message);
             DialogBoxAction d = new DialogBoxAction(message);
             //d.executeAction(message, primaryStage);
+
             // Pulisci il TextField dopo l'aggiunta
             userMessage.clear();
             // Nascondi DialogBox
@@ -197,7 +261,7 @@ public class FXMLController implements Initializable {
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Audio Files","*.wav"));
+            new FileChooser.ExtensionFilter("Audio Files","*.wav"));
             File selectedFile = fileChooser.showOpenDialog(new Stage());
             actionLabel.setText("Riproduci il file : " + selectedFile.toString());
             
@@ -233,8 +297,7 @@ public class FXMLController implements Initializable {
         String hour = hourChoiceBox.getValue();
         String minutes = minutesChoiceBox.getValue();
         String time = hour + ":" + minutes;
-        TimeOfDayCondition timeCondition = new TimeOfDayCondition(time);
-        conditionLabel.setText("Alle " + time);
+        conditionLabel.setText("Alle : " + time);
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
     }
@@ -254,10 +317,14 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void activeRule(ActionEvent event) {
+        tableView.getSelectionModel().getSelectedItem().setActive(true);
+        tableView.refresh();
     }
 
     @FXML
     private void inactiveRule(ActionEvent event) {
+        tableView.getSelectionModel().getSelectedItem().setActive(false);
+        tableView.refresh();
     }
     
    

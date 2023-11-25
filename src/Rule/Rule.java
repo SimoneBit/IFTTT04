@@ -34,6 +34,11 @@ public class Rule {
         return exit;
     }*/
     
+    
+    public String getName() {
+        return name;
+    }
+
     public boolean isActive() {
         return Active;
     }
@@ -48,6 +53,11 @@ public class Rule {
 
     public Action getAction() {
         return action;
+    }
+
+    @Override
+    public String toString() {
+        return "Rule{" + "name=" + name + ", Active=" + Active + '}';
     }
 
    

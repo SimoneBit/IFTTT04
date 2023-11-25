@@ -24,7 +24,7 @@
             <Button fx:id="AddRule" layoutX="451.0" layoutY="164.0" mnemonicParsing="false" onAction="#showAddPage" text="Aggiungi Regola" />
             <TableView fx:id="tableView" layoutX="14.0" layoutY="106.0" prefHeight="438.0" prefWidth="406.0">
               <columns>
-                  <TableColumn fx:id="ruleColumn" prefWidth="306.0" text="Regola" />
+                  <TableColumn fx:id="ruleColumn" prefWidth="306.0" text="Nome" />
                 <TableColumn fx:id="StateColumn" prefWidth="99.0" text="Stato" />
               </columns>
                <contextMenu>
@@ -39,7 +39,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="newRulePage" layoutX="14.0" layoutY="18.0" prefHeight="525.0" prefWidth="351.0" visible="false">
+      <AnchorPane fx:id="newRulePage" layoutX="14.0" layoutY="18.0" prefHeight="525.0" prefWidth="524.0">
          <children>
             <ChoiceBox fx:id="actionChoiceBox" layoutX="114.0" layoutY="206.0" prefHeight="25.0" prefWidth="186.0" />
             <ChoiceBox fx:id="conditionChoiceBox" layoutX="114.0" layoutY="115.0" prefHeight="25.0" prefWidth="186.0" />
@@ -55,7 +55,7 @@
             </Label>
             <Button fx:id="addRuleButton" layoutX="185.0" layoutY="326.0" mnemonicParsing="false" onAction="#addRule" text="Aggiungi" />
             <Button fx:id="backButton1" layoutX="88.0" layoutY="326.0" mnemonicParsing="false" onAction="#showMainMenuPage" text="Annulla" />
-            <Label fx:id="actionLabel" layoutX="47.0" layoutY="254.0" prefHeight="17.0" prefWidth="240.0" />
+            <Label fx:id="actionLabel" layoutX="47.0" layoutY="254.0" prefHeight="17.0" prefWidth="478.0" />
             <Label fx:id="conditionLabel" layoutX="36.0" layoutY="153.0" prefHeight="17.0" prefWidth="259.0" />
             <Label layoutX="89.0" layoutY="14.0" text="Inserisci nome regola" />
             <TextField fx:id="ruleName" layoutX="72.0" layoutY="44.0" />
