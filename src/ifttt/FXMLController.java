@@ -213,6 +213,8 @@ public class FXMLController implements Initializable {
        //Aggiungi la regola la set delle regole
        rulesSet.add(rule);
        ruleList.add(rule); 
+       // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
+       activeRuleId.setDisable(true);
        //ruleList.setAll(rulesSet.getRuleList())
        //Ripulisci l'interfaccia
        ruleName.clear();
@@ -313,14 +315,25 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void activeRule(ActionEvent event) {
+        // si setta lo stato della regola selezionata come attiva
         tableView.getSelectionModel().getSelectedItem().setActive(true);
+        // si abilita nel menù la possibilità di rendere inattiva la regola selezionata
+        inactiveRuleId.setDisable(false);
+        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
+        activeRuleId.setDisable(true);
         tableView.refresh();
     }
 
     @FXML
     private void inactiveRule(ActionEvent event) {
+        // si setta lo stato della regola selezionata come inattiva
         tableView.getSelectionModel().getSelectedItem().setActive(false);
+        // si disabilita nel menù la possibilità di rendere inattiva la regola selezionata
+        inactiveRuleId.setDisable(true);
+        // si abilita nel menù la possibilità di rendere attiva la regola selezionata
+        activeRuleId.setDisable(false);
         tableView.refresh();
+
     }
     
            
