@@ -4,11 +4,14 @@
  */
 package Action;
 
+import ifttt.IFTTT;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,33 +40,22 @@ public class PlayFileAction implements Action {
             
     @Override
     public boolean executeAction() {
-        boolean exit = false;
-        /*Stage newStage = new Stage();
-        newStage.setTitle("Sveglia");
-
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stopAudio();
-                newStage.close();
-            }
-        });
+        this.startAudio();
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("Sveglia");
         
-        StackPane newLayout = new StackPane();
-        newLayout.getChildren().add(closeButton);
+        Button btn = new Button();
+        btn.setText("STOP");
+        btn.setOnAction(e -> {
+            this.stopAudio();
+            primaryStage.close();
+        });
 
-        Scene newScene = new Scene(newLayout, 200, 150);
-        newStage.setScene(newScene);
-            */
-        startAudio();
-        try {
-            Thread.sleep(11000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(PlayFileAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        stopAudio();
-        //newStage.show();
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        primaryStage.setScene(new Scene(root, 300, 250));
+
+        primaryStage.show();
         return true;
     }
 

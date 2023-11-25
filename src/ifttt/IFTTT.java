@@ -36,6 +36,12 @@ public class IFTTT extends Application {
         }
         
     }
+    
+    @Override
+    public void stop(){
+        //System.out.println("Stage is closing");
+        // Save file
+    }
 
     /**
      * @param args the command line arguments

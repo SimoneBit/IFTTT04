@@ -19,6 +19,7 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -111,9 +112,12 @@ public class FXMLController implements Initializable {
     private ObservableList<Rule> ruleList;
     private RulesSet rulesSet = new RulesSet();
     private checkRules checkRules = new checkRules(rulesSet);
+    Thread checkingRules = new Thread(checkRules);
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -165,7 +169,7 @@ public class FXMLController implements Initializable {
         
         //TO CHECK
         //Creazione e avvio del thread che controlla le regole
-        Thread checkingRules = new Thread(checkRules);
+        
         checkingRules.start();
     }    
 
@@ -197,7 +201,7 @@ public class FXMLController implements Initializable {
        String []actionParam;
        actionParam = actionString.split(" : ");
        Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       
+       act.executeAction();
        //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;
@@ -212,6 +216,8 @@ public class FXMLController implements Initializable {
        //Aggiungi la regola la set delle regole
        rulesSet.add(rule);
        ruleList.add(rule); 
+       // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
+       activeRuleId.setDisable(true);
        //ruleList.setAll(rulesSet.getRuleList())
        //Ripulisci l'interfaccia
        ruleName.clear();
@@ -317,17 +323,27 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void activeRule(ActionEvent event) {
+        // si setta lo stato della regola selezionata come attiva
         tableView.getSelectionModel().getSelectedItem().setActive(true);
+        // si abilita nel menù la possibilità di rendere inattiva la regola selezionata
+        inactiveRuleId.setDisable(false);
+        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
+        activeRuleId.setDisable(true);
         tableView.refresh();
     }
 
     @FXML
     private void inactiveRule(ActionEvent event) {
+        // si setta lo stato della regola selezionata come inattiva
         tableView.getSelectionModel().getSelectedItem().setActive(false);
+        // si disabilita nel menù la possibilità di rendere inattiva la regola selezionata
+        inactiveRuleId.setDisable(true);
+        // si abilita nel menù la possibilità di rendere attiva la regola selezionata
+        activeRuleId.setDisable(false);
         tableView.refresh();
+
     }
     
-   
            
     
 }
