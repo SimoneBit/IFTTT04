@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 public class DialogBoxAction implements Action {
 
     private String message;
-    //private Alert alert;
+    
     
     
     public DialogBoxAction(String message) {
@@ -42,9 +42,7 @@ public class DialogBoxAction implements Action {
         return "DialogBoxAction{" + "message=" + message + '}';
     }
     
-    /*public Alert getAlert() {
-        return this.alert;
-    }*/
+    
 }
     
     
