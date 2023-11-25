@@ -22,6 +22,11 @@ public class BaseConditionHandler implements ConditionHandler{
         return next.handle(request, param);
     }
 
+    Object getNext() {
+        return next;
+    }
+
+
     
     
 }

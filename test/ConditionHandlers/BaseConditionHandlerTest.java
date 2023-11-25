@@ -50,7 +50,7 @@ public class BaseConditionHandlerTest {
     @Test
     public void testHandleTime() {
         //Test ora del giorno
-        String request = "Ora del giorno";
+        String request = "Alle";
         String param = "18:30";
         TimeOfDayCondition expResult1 = new TimeOfDayCondition(param);
         Condition result = base.handle(request, param);
