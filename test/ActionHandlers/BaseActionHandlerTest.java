@@ -67,10 +67,10 @@ public class BaseActionHandlerTest {
     }
     
     
-     @Test
+    @Test
     public void testHandleMessage() {
-    //Test caso audio
-        String request = "Mostra un messaggio";
+    //Test caso messaggio
+        String request = "Mostra il messaggio";
         String param = "ciao";
         DialogBoxAction expResult2 = new DialogBoxAction(param); 
         Action result = base.handle(request, param);

@@ -14,7 +14,7 @@ public class DialogBoxActionHandler extends BaseActionHandler {
 
     @Override
     public Action handle(String request, String param) {
-        if(request.compareTo("Mostra un messaggio") == 0 ){
+        if(request.compareTo("Mostra il messaggio") == 0 ){
            DialogBoxAction dba = new DialogBoxAction(param); 
            return dba;
         }

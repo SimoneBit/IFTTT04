@@ -4,23 +4,9 @@
  */
 package Action;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 /**
  *
@@ -29,23 +15,24 @@ import javafx.stage.Stage;
 public class DialogBoxAction implements Action {
 
     private String message;
-    private Alert alert;
+    //private Alert alert;
     
     
     public DialogBoxAction(String message) {
         this.message = message;
-        this.alert = new Alert(AlertType.INFORMATION);
+        
     }
     
     @Override
     public boolean executeAction() {
        
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Messaggio");
         alert.setHeaderText(null); // Senza intestazione
         alert.setContentText(this.message);
 
        // Mostra il popup e attendi la chiusura
-        alert.showAndWait();
+       alert.showAndWait();
            
         return true;
     } 
@@ -55,9 +42,9 @@ public class DialogBoxAction implements Action {
         return "DialogBoxAction{" + "message=" + message + '}';
     }
     
-    public Alert getAlert() {
+    /*public Alert getAlert() {
         return this.alert;
-    }
+    }*/
 }
     
     

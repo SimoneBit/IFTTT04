@@ -24,6 +24,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -111,8 +112,37 @@ public class FXMLController implements Initializable {
     
     private ObservableList<Rule> ruleList;
     private RulesSet rulesSet = new RulesSet();
-    private checkRules checkRules = new checkRules(rulesSet);
-    Thread checkingRules = new Thread(checkRules);
+    
+    Task<Void> checkingRulesTask = new Task<Void>() {
+            @Override
+            protected Void call(){
+                while (true) { 
+                    System.out.println("Thread vivo");
+                    for (Rule rule: rulesSet.getRuleList()){
+                        if(rule.isActive()){
+                            if (rule.getTrigger().checkTrigger() ){
+                                
+                                Platform.runLater(new Runnable(){
+                                    @Override public void run(){
+                                    rule.getAction().executeAction();
+                                    }
+                                });
+                            } 
+                        }
+
+                   }
+                  try {
+                        // Dormi per 5 secondi
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
+            }
+    };
+    //private checkRules checkRules = new checkRules(rulesSet);
+    Thread checkingRulesThread = new Thread(checkingRulesTask);
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
@@ -169,8 +199,8 @@ public class FXMLController implements Initializable {
         
         //TO CHECK
         //Creazione e avvio del thread che controlla le regole
-        checkingRules.setDaemon(true);
-        checkingRules.start();
+        checkingRulesThread.setDaemon(true);
+        checkingRulesThread.start();
     }    
 
     @FXML
@@ -201,7 +231,7 @@ public class FXMLController implements Initializable {
        String []actionParam;
        actionParam = actionString.split(" : ");
        Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       
+       System.out.println( act== null);
        //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;

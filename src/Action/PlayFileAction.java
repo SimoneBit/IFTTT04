@@ -40,7 +40,7 @@ public class PlayFileAction implements Action {
             
     @Override
     public boolean executeAction() {
-        this.startAudio();
+        
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Sveglia");
         
@@ -56,6 +56,7 @@ public class PlayFileAction implements Action {
         primaryStage.setScene(new Scene(root, 300, 250));
 
         primaryStage.show();
+        this.startAudio();
         return true;
     }
 
