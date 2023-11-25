@@ -9,9 +9,9 @@ import java.util.List;
 public class Trigger {
     
     
-    private ConditionHandler condition;
+    private Condition condition;
 
-    public Trigger(ConditionHandler condition) {
+    public Trigger(Condition condition) {
         this.condition = condition;
     }
  
@@ -21,7 +21,7 @@ public class Trigger {
         return condition.checkCondition();
     }
 
-    public ConditionHandler getCondition() {
+    public Condition getCondition() {
         return condition;
     }
 

@@ -206,7 +206,7 @@ public class FXMLController implements Initializable {
        String conditionString = conditionLabel.getText();
        String []conditionParam;
        conditionParam = conditionString.split(" : ");
-       ConditionHandler cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+       Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(cond);
        
        //Prendi il nome per la nuova regola e creala

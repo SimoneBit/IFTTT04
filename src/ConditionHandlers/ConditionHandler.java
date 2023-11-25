@@ -4,7 +4,7 @@
  */
 package ConditionHandlers;
 
-import Condition.ConditionHandler;
+import Condition.Condition;
 
 /**
  *
@@ -12,6 +12,6 @@ import Condition.ConditionHandler;
  */
 public interface ConditionHandler {
     public void setNext(ConditionHandler h);
-    public abstract ConditionHandler handle(String request, String param);
+    public abstract Condition handle(String request, String param);
     
 }

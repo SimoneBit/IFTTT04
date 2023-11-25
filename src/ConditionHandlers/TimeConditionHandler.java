@@ -13,9 +13,9 @@ import Condition.*;
 public class TimeConditionHandler extends BaseConditionHandler{
     
     @Override
-    public ConditionHandler handle(String request, String param) {
+    public Condition handle(String request, String param) {
         if(request.compareTo("Alle") == 0){
-            ConditionHandler c = new TimeOfDayCondition(param);
+            Condition c = new TimeOfDayCondition(param);
             return c;
         }else{
             if(next != null){

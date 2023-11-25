@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
  *
  * @author Palma
  */
-public class TimeOfDayCondition implements ConditionHandler {
+public class TimeOfDayCondition implements Condition {
     private LocalTime specifiedTime;  
     private boolean checkedToday;
     

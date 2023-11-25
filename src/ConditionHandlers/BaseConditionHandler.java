@@ -4,7 +4,7 @@
  */
 package ConditionHandlers;
 
-import Condition.ConditionHandler;
+import Condition.Condition;
 
 /**
  *
@@ -16,10 +16,12 @@ public class BaseConditionHandler implements ConditionHandler{
     public void setNext(ConditionHandler h) {
         this.next = h;  
     }
-
+ 
     @Override
-    public ConditionHandler handle(String request, String param) {
+    public Condition handle(String request, String param) {
         return next.handle(request, param);
     }
+
+    
     
 }
