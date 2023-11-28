@@ -91,7 +91,6 @@ public class DeleteFileActionTest {
         
         file.delete();
         
-        // Chiama la funzione execute e controlla che restituisca true
         
 
     }   
