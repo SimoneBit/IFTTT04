@@ -57,7 +57,8 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
-    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio"};
+    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio",
+                                                "Elimina un file"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico"};
@@ -113,7 +114,6 @@ public class FXMLController implements Initializable {
             @Override
             protected Void call(){
                 while (true) { 
-                    System.out.println("Thread vivo");
                     for (Rule rule: rulesSet.getRuleList()){
                         if(rule.isActive()){
                             if (rule.getTrigger().checkTrigger() ){
@@ -142,6 +142,7 @@ public class FXMLController implements Initializable {
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
+    
     
     
     /**
@@ -185,14 +186,15 @@ public class FXMLController implements Initializable {
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
         DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
+        DeleteFileActionHandler deleteFileHandler = new DeleteFileActionHandler();
         baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
+        dialogBoxHandler.setNext(deleteFileHandler);
         
         //Creazione della catena delle responsabilità per le azioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
         baseConditionHandler.setNext(timeHandler);
         
-        //TO CHECK
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
         checkingRulesThread.start();
@@ -242,7 +244,6 @@ public class FXMLController implements Initializable {
        String []actionParam;
        actionParam = actionString.split(" : ");
        Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
-       System.out.println( act== null);
        //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;
@@ -258,7 +259,6 @@ public class FXMLController implements Initializable {
        rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
        
-       System.out.println(rulesSet.getRuleList().toString());
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
        //ruleList.setAll(rulesSet.getRuleList())
@@ -292,7 +292,6 @@ public class FXMLController implements Initializable {
         
         }else{
 
-            System.out.println(message);
             DialogBoxAction d = new DialogBoxAction(message);
             //d.executeAction(message, primaryStage);
 
@@ -329,6 +328,13 @@ public class FXMLController implements Initializable {
         }
         if(action.compareTo("Seleziona un'azione") == 0){
             actionLabel.setText("");         
+        }
+        if(action.compareTo("Elimina un file") == 0){
+
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            actionLabel.setText("Elimina il file : " + selectedFile.toString());
+            
         }
     }
     
