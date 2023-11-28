@@ -23,6 +23,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -61,7 +63,10 @@ public class FXMLController implements Initializable {
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico"};
-
+    @FXML
+    private ChoiceBox<String> controlChoiceBox;
+    private final String[] possibleControls = { "Sempre", "Una volta", "Periodicamente"};
+     
     @FXML
     private AnchorPane chooseMessagePage;
     @FXML
@@ -74,6 +79,8 @@ public class FXMLController implements Initializable {
     private Button backButton1;
     @FXML
     private Button backButton2;
+    @FXML
+    private Button sleepOK;
     @FXML
     private Label actionLabel;
     @FXML
@@ -90,6 +97,22 @@ public class FXMLController implements Initializable {
                                             "15","16","17","18","19","20","21","22","23", "24","25","26","27","28","29","30","31","32","33",
                                             "34","35","36","37","38", "39","40","41","42","43","44","45","46","47","48","49","50","51","52", 
                                             "53","54","55","56","57","58","59" };
+    
+    @FXML
+    private AnchorPane sleepingPeriod;
+    @FXML
+    private DatePicker sleepDate;
+    @FXML
+    private ComboBox<String> sleepHours;
+    private final String[] sh = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+                                            "15","16","17","18","19","20","21","22","23"};
+    @FXML
+    private ComboBox<String> sleepMinute;
+    private final String[] sm = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+                                            "15","16","17","18","19","20","21","22","23", "24","25","26","27","28","29","30","31","32","33",
+                                            "34","35","36","37","38", "39","40","41","42","43","44","45","46","47","48","49","50","51","52", 
+                                            "53","54","55","56","57","58","59" };
+    
     @FXML
     private TextField ruleName;
     
@@ -142,7 +165,7 @@ public class FXMLController implements Initializable {
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
-    
+   
     
     /**
      * Metodo chiamato quando viene inizializzata l'interfaccia utente.
@@ -159,6 +182,7 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(false);
         chooseMessagePage.setVisible(false);
         chooseHourPage.setVisible(false);
+        sleepingPeriod.setVisible(false);
         
         //Setting iniziale TableView
         ruleList = new SimpleListProperty<>(FXCollections.observableArrayList(rulesSet.getRuleList()));
@@ -178,9 +202,15 @@ public class FXMLController implements Initializable {
         actionChoiceBox.setOnAction(this::getAction);
         conditionChoiceBox.getItems().addAll(possibleConditions);
         conditionChoiceBox.setOnAction(this::getCondition);
+        controlChoiceBox.getItems().addAll(possibleControls);
+        controlChoiceBox.setOnAction(this::getControl);
         
         hourChoiceBox.getItems().addAll(possibleHours);
         minutesChoiceBox.getItems().addAll(possibleMinutes);
+        
+        //Popolamento ComboBox ore e minuti per lo spleeping time 
+        sleepHours.getItems().addAll(sh);
+        sleepMinute.getItems().addAll(sm);
         
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
@@ -210,6 +240,7 @@ public class FXMLController implements Initializable {
         chooseMessagePage.setVisible(false);
         actionChoiceBox.setValue("Seleziona un'azione");
         conditionChoiceBox.setValue("Seleziona una condizione");
+        controlChoiceBox.setValue("Seleziona un controllo");
     }
 
     /**
@@ -227,6 +258,7 @@ public class FXMLController implements Initializable {
         conditionLabel.setText("");
         actionChoiceBox.setValue("Seleziona un'azione");
         conditionChoiceBox.setValue("Seleziona una condizione");
+        controlChoiceBox.setValue("Seleziona un controllo");
     }
 
     /**
@@ -350,6 +382,31 @@ public class FXMLController implements Initializable {
             newRulePage.setVisible(false);
         }
     }
+    
+    /**
+     * Gestisce l'evento di selezione di un controllo dalla ChoiceBox.
+     * Mostra la pagina corrispondente al controllo selezionata o imposta l'etichetta del controllo
+     * nella pagina delle nuove regole.
+     * 
+     * @param event l'evento scatenato dalla selezione di un controllo dalla ChoiceBox.
+     */
+     public void getControl(ActionEvent event) {
+        String control = controlChoiceBox.getValue();
+        if(control.compareTo("Sempre") == 0){
+                   
+        }
+        if(control.compareTo("Una volta") == 0){
+
+            
+        }
+        if(control.compareTo("Periodicamente") == 0){
+            sleepingPeriod.setVisible(true);
+            newRulePage.setVisible(false);
+        }
+        if(control.compareTo("Seleziona un controllo") == 0){
+                
+        }
+    }
 
     /**
      * Gestisce l'evento di ritorno alla pagina delle nuove regole dalla pagina principale.
@@ -447,8 +504,11 @@ public class FXMLController implements Initializable {
         activeRuleId.setDisable(false);
         tableView.refresh();
 
+    }      
+
+    @FXML
+    private void confirmSleepingPeriod(ActionEvent event) {
+        
     }
-    
-           
     
 }
