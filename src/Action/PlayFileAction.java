@@ -22,7 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Simone Pacifico
  */
 public class PlayFileAction implements Action {
-    public final int LOOP_TIMES = 2;          
+    public final int LOOP_TIMES = 10;          
     private File file;                          //Riferimento al file audio da riprodurre
     private Clip clip;                          //Riferimento alla clip in esecuzione
     
