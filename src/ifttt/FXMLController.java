@@ -64,7 +64,7 @@ public class FXMLController implements Initializable {
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
-    private final String[] possibleControls = { "Sempre", "Una volta", "Periodicamente"};
+    private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
     
     @FXML
     private AnchorPane chooseMessagePage;
@@ -78,8 +78,6 @@ public class FXMLController implements Initializable {
     private Button backButton1;
     @FXML
     private Button backButton2;
-    /*@FXML
-    private Button sleepOK;*/
     @FXML
     private Label actionLabel;
     @FXML
@@ -100,8 +98,6 @@ public class FXMLController implements Initializable {
      @FXML
     private AnchorPane sleepingPeriodPage;
     @FXML
-    private Button sleepOK;
-    @FXML
     private TextField daysSleeping;
     @FXML
     private TextField hoursSleeping;
@@ -109,6 +105,8 @@ public class FXMLController implements Initializable {
     private TextField minutesSleeping;
     @FXML
     private Button buttonCancel;
+    @FXML
+    private Button sleepOK;
     
     @FXML
     private TextField ruleName;
@@ -134,7 +132,7 @@ public class FXMLController implements Initializable {
             protected Void call(){
                 while (true) { 
                     for (Rule rule: rulesSet.getRuleList()){
-                        if(rule.isActive()){
+                        if(rule.isActive() && !rule.isSleeping()){
                             if (rule.getTrigger().checkTrigger() ){
                                 
                                 Platform.runLater(new Runnable(){
@@ -161,6 +159,8 @@ public class FXMLController implements Initializable {
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
+    @FXML
+    private Label controlLabel;
   
     
  
@@ -281,6 +281,7 @@ public class FXMLController implements Initializable {
        conditionParam = conditionString.split(" : ");
        Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(cond);
+       //Prendi i parametri e imposta la periodicità
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
@@ -513,8 +514,16 @@ public class FXMLController implements Initializable {
     }      
     @FXML
     private void addSleepingPeriod(ActionEvent event) {
-        sleepingPeriodPage.setVisible(false);
-        newRulePage.setVisible(true);
+        String gg =daysSleeping.getText(); 
+        String h = hoursSleeping.getText();
+        String m = minutesSleeping.getText();
+        controlLabel.setText("Ogni : " + gg +"gg "+h +"h "+m+"m" );
+        int days = Integer.parseInt(daysSleeping.getText());
+        int hours = Integer.parseInt(hoursSleeping.getText());
+        int minutes = Integer.parseInt(minutesSleeping.getText());
+        int s = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
+        
+        
     }
 
     @FXML
