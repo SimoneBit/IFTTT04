@@ -65,7 +65,8 @@ public class FXMLController implements Initializable {
                                              "Elimina un file"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
-    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico", "Giorno dell'anno"};
+    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno del mese",
+                                                    "Giorno dell'anno"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
     private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
@@ -171,6 +172,10 @@ public class FXMLController implements Initializable {
     private AnchorPane dayAndMonthPage;
     @FXML
     private TextField dayAndMonthText;
+    @FXML
+    private TextField dayField;
+    @FXML
+    private AnchorPane dayPage;
   
     
  
@@ -194,7 +199,7 @@ public class FXMLController implements Initializable {
         chooseHourPage.setVisible(false);
         sleepingPeriodPage.setVisible(false);
         dayAndMonthPage.setVisible(false);
-        
+        dayPage.setVisible(false);
         
         // Carica le regole dal file al momento dell'avvio
         loadRules();
@@ -234,12 +239,14 @@ public class FXMLController implements Initializable {
         audioHandler.setNext(dialogBoxHandler);
         dialogBoxHandler.setNext(deleteFileHandler);
         
-        //Creazione della catena delle responsabilità per le azioni
+        //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
+        DayOfMonthConditionHandler dayOfMonthHandler = new DayOfMonthConditionHandler();
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
         
         baseConditionHandler.setNext(timeHandler);
-        timeHandler.setNext(dayOfYearHandler);
+        timeHandler.setNext(dayOfMonthHandler);
+        dayOfMonthHandler.setNext(dayOfYearHandler);
         
         
         
@@ -433,6 +440,10 @@ public class FXMLController implements Initializable {
             dayAndMonthPage.setVisible(true);
             newRulePage.setVisible(false);
         }
+        if(condition.compareTo("Giorno del mese") == 0){
+            dayPage.setVisible(true);
+            newRulePage.setVisible(false);
+        }
     }
     
     /**
@@ -615,6 +626,23 @@ public class FXMLController implements Initializable {
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
         dayAndMonthText.setText("");
+    }
+
+    @FXML
+    private void confirmDay(ActionEvent event) {
+        String day = dayField.getText();
+        conditionLabel.setText("Il giorno : " + day);
+        dayPage.setVisible(false);
+        newRulePage.setVisible(true);
+        dayField.setText("");
+        
+    }
+
+    @FXML
+    private void showAddPageBack3(ActionEvent event) {
+        dayPage.setVisible(false);
+        newRulePage.setVisible(true);
+        dayField.setText("");
     }
 }
 

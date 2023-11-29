@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
@@ -16,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
       <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
@@ -103,7 +99,7 @@
             <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
+      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
          <children>
             <Button layoutX="212.0" layoutY="306.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
             <Button layoutX="328.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
@@ -113,6 +109,18 @@
                </font>
             </Label>
             <TextField fx:id="dayAndMonthText" layoutX="212.0" layoutY="255.0" promptText="dd/mm" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="dayPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
+         <children>
+            <Label layoutX="213.0" layoutY="170.0" text="Seleziona il giorno">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="dayField" layoutX="212.0" layoutY="221.0" />
+            <Button layoutX="308.0" layoutY="285.0" mnemonicParsing="false" onAction="#confirmDay" text="OK" />
+            <Button layoutX="212.0" layoutY="285.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
          </children>
       </AnchorPane>
    </children>

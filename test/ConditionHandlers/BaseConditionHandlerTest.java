@@ -5,6 +5,7 @@
 package ConditionHandlers;
 
 import Condition.Condition;
+import Condition.DayOfMonthCondition;
 import Condition.DayOfYearCondition;
 import Condition.TimeOfDayCondition;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import org.junit.Before;
 public class BaseConditionHandlerTest {
     BaseConditionHandler base;
     TimeConditionHandler time;
+    DayOfMonthConditionHandler dayOfMonth;
     DayOfYearConditionHandler dayOfYear;
     
     
@@ -25,10 +27,12 @@ public class BaseConditionHandlerTest {
     public void setUp() {
         base = new BaseConditionHandler();
         time = new TimeConditionHandler();
+        dayOfMonth = new DayOfMonthConditionHandler();
         dayOfYear = new DayOfYearConditionHandler();
         
         base.setNext(time);
-        time.setNext(dayOfYear);
+        time.setNext(dayOfMonth);
+        dayOfMonth.setNext(dayOfYear);
     }
     /**
      * Test of setNext method, of class BaseConditionHandler.
@@ -36,7 +40,8 @@ public class BaseConditionHandlerTest {
     @Test
     public void testSetNext() {
         assertEquals(base.getNext(), time);
-        assertEquals(time.getNext(), dayOfYear);
+        assertEquals(time.getNext(), dayOfMonth);
+        assertEquals(dayOfMonth.getNext(), dayOfYear);
     }
 
     /**
@@ -70,5 +75,14 @@ public class BaseConditionHandlerTest {
         Condition result = base.handle(request, param);
         assertEquals(expResult1.getClass(), result.getClass());
         
+    }
+    
+    @Test
+    public void testHandleDayOfMonth(){
+        String request = "Il giorno";
+        String param = "2";
+        DayOfMonthCondition expResult1 = new DayOfMonthCondition(2);
+        Condition result = base.handle(request, param);
+        assertEquals(expResult1.getClass(), result.getClass());
     }
 }
