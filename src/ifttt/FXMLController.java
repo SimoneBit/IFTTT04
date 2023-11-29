@@ -311,11 +311,12 @@ public class FXMLController implements Initializable {
        String controlString = controlLabel.getText();
        String []controlParam;
        controlParam = controlString.split(" : ");
-       int sleepingTime=0;
+       Integer sleepingTime=0;
        if(controlParam[0].compareTo("Ogni")==0){
-            int days = Integer.parseInt(daysSleeping.getText());
-            int hours = Integer.parseInt(hoursSleeping.getText());
-            int minutes = Integer.parseInt(minutesSleeping.getText());
+           String []num = controlParam[1].split("[a-zA-Z] ");
+            Integer days = Integer.parseInt(num[0]);
+            Integer hours = Integer.parseInt(num[1]);
+            Integer minutes = Integer.parseInt(num[2]);
             sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
        }
        else if(controlParam[0]=="una volta"){
@@ -330,12 +331,12 @@ public class FXMLController implements Initializable {
        Rule rule = new Rule(name1, trigger, act,sleepingTime);
        
        //Aggiungi la regola al set delle regole
-      // rulesSet.getRuleList().add(rule);
-       //ruleList.add(rule); 
+      rulesSet.getRuleList().add(rule);
+       ruleList.add(rule); 
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
-       //ruleList.setAll(rulesSet.getRuleList())
+       //ruleList.setAll(rulesSet.getRuleList());
        //Ripulisci l'interfaccia
        ruleName.clear();
        actionLabel.setText("");
@@ -560,10 +561,16 @@ public class FXMLController implements Initializable {
     }      
     @FXML
     private void addSleepingPeriod(ActionEvent event) {
+        sleepingPeriodPage.setVisible(false);
+        newRulePage.setVisible(true);
         String gg =daysSleeping.getText(); 
         String h = hoursSleeping.getText();
         String m = minutesSleeping.getText();
-        controlLabel.setText("Ogni : " + gg +"gg "+h +"h "+m+"m" );
+        controlLabel.setText("Ogni : " + gg +"g "+h +"h "+m+"m " );
+        daysSleeping.setText("");
+        hoursSleeping.setText("");
+        minutesSleeping.setText("");
+        
     }
 
     @FXML
