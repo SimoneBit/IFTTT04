@@ -10,6 +10,8 @@ import Rule.Rule;
 import Rule.RulesSet;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
@@ -32,6 +34,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * La classe FXMLController è un controller per la gestione dell'interfaccia utente definita in un file FXML. 
@@ -126,6 +129,7 @@ public class FXMLController implements Initializable {
     
     private ObservableList<Rule> ruleList;
     private RulesSet rulesSet = new RulesSet();
+    private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
     
     Task<Void> checkingRulesTask = new Task<Void>() {
             @Override
@@ -154,6 +158,7 @@ public class FXMLController implements Initializable {
                 
             }
     };
+    
     //private checkRules checkRules = new checkRules(rulesSet);
     Thread checkingRulesThread = new Thread(checkingRulesTask);
     
@@ -183,6 +188,11 @@ public class FXMLController implements Initializable {
         chooseMessagePage.setVisible(false);
         chooseHourPage.setVisible(false);
         sleepingPeriodPage.setVisible(false);
+        
+        
+        // Carica le regole dal file al momento dell'avvio
+        loadRules();
+        
         
         //Setting iniziale TableView
         ruleList = new SimpleListProperty<>(FXCollections.observableArrayList(rulesSet.getRuleList()));
@@ -224,9 +234,18 @@ public class FXMLController implements Initializable {
         TimeConditionHandler timeHandler = new TimeConditionHandler();
         baseConditionHandler.setNext(timeHandler);
         
+        
+        
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
         checkingRulesThread.start();
+        
+        
+        // Aggiunta di un'azione per salvare le regole quando l'applicazione viene chiusa
+        Platform.runLater(() -> {
+        Stage stage = (Stage) tableView.getScene().getWindow();
+        stage.setOnCloseRequest(event -> saveRulesAndExit());
+    });
     }    
 
     /**
@@ -285,11 +304,11 @@ public class FXMLController implements Initializable {
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-       Rule rule = new Rule(name1, trigger, act);
+      // Rule rule = new Rule(name1, trigger, act);
        
        //Aggiungi la regola al set delle regole
-       rulesSet.getRuleList().add(rule);
-       ruleList.add(rule); 
+      // rulesSet.getRuleList().add(rule);
+       //ruleList.add(rule); 
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
@@ -532,6 +551,25 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         }
 
+   
+
+    private void loadRules() {
+        List<Rule> loadedRules = ruleFileHandler.loadRules();
+        if (!loadedRules.isEmpty()) {
+            rulesSet.getRuleList().addAll(loadedRules);
+            ruleList.setAll(rulesSet.getRuleList());
+        }
+    }
+
+    
+    private void saveRules() {
+        ruleFileHandler.saveRules(new ArrayList<>(rulesSet.getRuleList()));
+    }
     
     
+    private void saveRulesAndExit() {
+        ruleFileHandler.saveRules(rulesSet.getRuleList());
+        Platform.exit(); }
 }
+
+

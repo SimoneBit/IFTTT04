@@ -2,6 +2,9 @@ package Rule;
 
 import Action.Action;
 import Condition.Trigger;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * La classe Rule rappresenta una regola che associa un trigger a un'azione all'interno di un sistema di 
@@ -15,6 +18,9 @@ public class Rule {
     private Trigger trigger;
     private Action action;
     private boolean Active;
+    private int sleepingPeriod;
+    private LocalTime lastChecked;
+    private boolean sleeping;
 
     
     /**
@@ -25,22 +31,43 @@ public class Rule {
      * @param trigger il trigger associato alla regola.
      * @param action l'azione associata alla regola.
      */
-    public Rule(String name, Trigger trigger, Action action) {
+    public Rule(String name, Trigger trigger, Action action, int sleepingPeriod) {
         this.name = name;
         this.trigger = trigger;
         this.action = action;
         this.Active = true;
+        this.sleepingPeriod= sleepingPeriod;
+        this.sleeping=false;
     }
 
     
-    /*public boolean checkRule(){
+    public boolean checkSleepingState(){
         boolean exit = false;
-        if(trigger.checkTrigger() == true){
-            action.executeAction();
-            exit = true;
-        }        
+        LocalTime currentDate= LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+        if(sleepingPeriod == 0){
+            return exit;
+        }
+        if(lastChecked == null) {
+            lastChecked = currentDate;
+            return exit;     
+        }
+        else {
+           long difference=  Duration.between(currentDate, lastChecked).getSeconds();
+           if(sleepingPeriod<= difference){
+             return exit;
+             
+         }
+           else{
+               exit = true;
+          }
+      }
         return exit;
-    }*/
+    }
+
+    public boolean isSleeping() {
+       this.sleeping = checkSleepingState();
+       return sleeping;
+    }
     
     /**
      *Restituisce il nome della regola.
