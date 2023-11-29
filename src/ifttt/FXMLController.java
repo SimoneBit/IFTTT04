@@ -306,10 +306,26 @@ public class FXMLController implements Initializable {
        Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(cond);
        //Prendi i parametri e imposta la periodicità
+       String controlString = controlLabel.getText();
+       String []controlParam;
+       controlParam = controlString.split(" : ");
+       int sleepingTime=0;
+       if(controlParam[0].compareTo("Ogni")==0){
+            int days = Integer.parseInt(daysSleeping.getText());
+            int hours = Integer.parseInt(hoursSleeping.getText());
+            int minutes = Integer.parseInt(minutesSleeping.getText());
+            sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
+       }
+       else if(controlParam[0]=="una volta"){
+           
+       }
+       else{
+           
+       }
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-      // Rule rule = new Rule(name1, trigger, act);
+       Rule rule = new Rule(name1, trigger, act,sleepingTime);
        
        //Aggiungi la regola al set delle regole
       // rulesSet.getRuleList().add(rule);
@@ -546,12 +562,6 @@ public class FXMLController implements Initializable {
         String h = hoursSleeping.getText();
         String m = minutesSleeping.getText();
         controlLabel.setText("Ogni : " + gg +"gg "+h +"h "+m+"m" );
-        int days = Integer.parseInt(daysSleeping.getText());
-        int hours = Integer.parseInt(hoursSleeping.getText());
-        int minutes = Integer.parseInt(minutesSleeping.getText());
-        int s = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
-        
-        
     }
 
     @FXML
