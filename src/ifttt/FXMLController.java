@@ -193,6 +193,7 @@ public class FXMLController implements Initializable {
         chooseMessagePage.setVisible(false);
         chooseHourPage.setVisible(false);
         sleepingPeriodPage.setVisible(false);
+        dayAndMonthPage.setVisible(false);
         
         
         // Carica le regole dal file al momento dell'avvio
@@ -223,9 +224,7 @@ public class FXMLController implements Initializable {
         hourChoiceBox.getItems().addAll(possibleHours);
         minutesChoiceBox.getItems().addAll(possibleMinutes);
         
-        //Popolamento ComboBox ore e minuti per lo spleeping time 
-        //sleepHours.getItems().addAll(sh);
-        //sleepMinute.getItems().addAll(sm);
+        
         
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
@@ -237,7 +236,10 @@ public class FXMLController implements Initializable {
         
         //Creazione della catena delle responsabilità per le azioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
+        DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
+        
         baseConditionHandler.setNext(timeHandler);
+        timeHandler.setNext(dayOfYearHandler);
         
         
         
@@ -594,13 +596,18 @@ public class FXMLController implements Initializable {
     private void showAddPageBack2(ActionEvent event) {
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
+        dayAndMonthText.setText("");
         conditionLabel.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
     @FXML
     private void confirmDayAndMonth(ActionEvent event) {
-        
+        String day = dayAndMonthText.getText();
+        conditionLabel.setText("Il : " + day);
+        dayAndMonthPage.setVisible(false);
+        newRulePage.setVisible(true);
+        dayAndMonthText.setText("");
     }
 }
 
