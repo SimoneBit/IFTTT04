@@ -100,7 +100,7 @@
             <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" visible="false" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
+      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
          <children>
             <Spinner fx:id="daySpinner" layoutX="132.0" layoutY="214.0" prefHeight="25.0" prefWidth="113.0" />
             <Spinner fx:id="monthSpinner" layoutX="254.0" layoutY="214.0" prefHeight="25.0" prefWidth="113.0" />

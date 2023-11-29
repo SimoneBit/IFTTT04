@@ -588,6 +588,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void confirmDayAndMonth(ActionEvent event) {
+        
     }
 }
 
