@@ -234,13 +234,18 @@ public class FXMLController implements Initializable {
         audioHandler.setNext(dialogBoxHandler);
         dialogBoxHandler.setNext(deleteFileHandler);
         
-        //Creazione della catena delle responsabilità per le azioni
+        //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
+        FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
+        FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
+        
+
         
         baseConditionHandler.setNext(timeHandler);
         timeHandler.setNext(dayOfYearHandler);
-        
+        dayOfYearHandler.setNext(fileExistenceHandler);
+        fileExistenceHandler.setNext(fileSizeHandler);
         
         
         //Creazione e avvio del thread che controlla le regole

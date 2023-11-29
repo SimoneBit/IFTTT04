@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author 39349
+ * @author Nicola Lanzara
  */
 public class RuleFileHandler extends BaseActionHandler{
     private final String filePath;
