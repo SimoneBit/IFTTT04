@@ -142,7 +142,7 @@ public class FXMLController implements Initializable {
                                 
                                 Platform.runLater(new Runnable(){
                                     @Override public void run(){
-                                    rule.getAction().executeAction();
+                                    rule.executeRule();
                                     }
                                 });
                             } 
@@ -312,6 +312,7 @@ public class FXMLController implements Initializable {
        String []controlParam;
        controlParam = controlString.split(" : ");
        Integer sleepingTime=0;
+       boolean executeOnce=false;
        if(controlParam[0].compareTo("Ogni")==0){
            String []num = controlParam[1].split("[a-zA-Z] ");
             Integer days = Integer.parseInt(num[0]);
@@ -319,16 +320,14 @@ public class FXMLController implements Initializable {
             Integer minutes = Integer.parseInt(num[2]);
             sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
        }
-       else if(controlParam[0]=="una volta"){
-           
-       }
-       else{
-           
-       }
+       if(controlParam[0].compareTo("Una volta ")==0){
+           executeOnce=true;
+   }
+       
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-       Rule rule = new Rule(name1, trigger, act,sleepingTime);
+       Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce);
        
        //Aggiungi la regola al set delle regole
       rulesSet.getRuleList().add(rule);
@@ -447,10 +446,11 @@ public class FXMLController implements Initializable {
      public void getControl(ActionEvent event) {
         String control = controlChoiceBox.getValue();
         if(control.compareTo("Sempre") == 0){
+            controlLabel.setText("Sempre  ");
                    
         }
         if(control.compareTo("Una volta") == 0){
-
+            controlLabel.setText("Una volta ");
             
         }
         if(control.compareTo("Periodicamente") == 0){
