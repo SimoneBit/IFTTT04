@@ -86,7 +86,7 @@
             <Button layoutX="107.0" layoutY="267.0" mnemonicParsing="false" onAction="#showAddPageBack1" text="Annulla" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sleepingPeriodPage" layoutX="137.0" layoutY="125.0" prefHeight="319.0" prefWidth="334.0" visible="false">
+      <AnchorPane fx:id="sleepingPeriodPage" layoutX="137.0" layoutY="125.0" prefHeight="319.0" prefWidth="334.0">
          <children>
             <Label layoutX="21.0" layoutY="36.0" text="Sleeping Period:" />
             <Button fx:id="sleepOK" layoutX="224.0" layoutY="238.0" mnemonicParsing="false" onAction="#addSleepingPeriod" text="Ok" />
@@ -96,10 +96,10 @@
             <Label layoutX="50.0" layoutY="99.0" text="Giorni:" />
             <Label layoutX="50.0" layoutY="149.0" text="Ore:" />
             <Label layoutX="52.0" layoutY="197.0" text="Minuti:" />
-            <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" visible="false" />
+            <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
+      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
          <children>
             <Button layoutX="212.0" layoutY="306.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
             <Button layoutX="328.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
