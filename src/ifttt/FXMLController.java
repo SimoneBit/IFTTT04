@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -166,6 +167,12 @@ public class FXMLController implements Initializable {
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
     @FXML
     private Label controlLabel;
+    @FXML
+    private AnchorPane dayAndMonthPage;
+    @FXML
+    private Spinner<?> daySpinner;
+    @FXML
+    private Spinner<?> monthSpinner;
   
     
  
@@ -570,6 +577,18 @@ public class FXMLController implements Initializable {
     private void saveRulesAndExit() {
         ruleFileHandler.saveRules(rulesSet.getRuleList());
         Platform.exit(); }
+
+    @FXML
+    private void showAddPageBack2(ActionEvent event) {
+        dayAndMonthPage.setVisible(false);
+        newRulePage.setVisible(true);
+        conditionLabel.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
+    }
+
+    @FXML
+    private void confirmDayAndMonth(ActionEvent event) {
+    }
 }
 
 

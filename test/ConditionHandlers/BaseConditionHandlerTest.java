@@ -5,6 +5,7 @@
 package ConditionHandlers;
 
 import Condition.Condition;
+import Condition.DayOfYearCondition;
 import Condition.TimeOfDayCondition;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,14 +18,17 @@ import org.junit.Before;
 public class BaseConditionHandlerTest {
     BaseConditionHandler base;
     TimeConditionHandler time;
+    DayOfYearConditionHandler dayOfYear;
     
     
     @Before
     public void setUp() {
         base = new BaseConditionHandler();
         time = new TimeConditionHandler();
+        dayOfYear = new DayOfYearConditionHandler();
         
         base.setNext(time);
+        time.setNext(dayOfYear);
     }
     /**
      * Test of setNext method, of class BaseConditionHandler.
@@ -32,6 +36,7 @@ public class BaseConditionHandlerTest {
     @Test
     public void testSetNext() {
         assertEquals(base.getNext(), time);
+        assertEquals(time.getNext(), dayOfYear);
     }
 
     /**
@@ -57,4 +62,13 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    @Test
+    public void testHandleDayOfYear(){
+        String request = "Il";
+        String param = "11/5";
+        DayOfYearCondition expResult1 = new DayOfYearCondition(11, 5);
+        Condition result = base.handle(request, param);
+        assertEquals(expResult1.getClass(), result.getClass());
+        
+    }
 }

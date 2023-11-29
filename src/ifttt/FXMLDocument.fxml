@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -16,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
       <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
@@ -39,7 +36,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="newRulePage" layoutY="24.0" prefHeight="521.0" prefWidth="519.0">
+      <AnchorPane fx:id="newRulePage" layoutY="24.0" prefHeight="521.0" prefWidth="519.0" visible="false">
          <children>
             <ChoiceBox fx:id="actionChoiceBox" layoutX="114.0" layoutY="206.0" prefHeight="25.0" prefWidth="186.0" />
             <ChoiceBox fx:id="conditionChoiceBox" layoutX="114.0" layoutY="115.0" prefHeight="25.0" prefWidth="186.0" />
@@ -101,6 +98,24 @@
             <Label layoutX="50.0" layoutY="149.0" text="Ore:" />
             <Label layoutX="52.0" layoutY="197.0" text="Minuti:" />
             <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" visible="false" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
+         <children>
+            <Spinner fx:id="daySpinner" layoutX="132.0" layoutY="214.0" prefHeight="25.0" prefWidth="113.0" />
+            <Spinner fx:id="monthSpinner" layoutX="254.0" layoutY="214.0" prefHeight="25.0" prefWidth="113.0" />
+            <Button layoutX="160.0" layoutY="283.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
+            <Button layoutX="285.0" layoutY="283.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
+            <Label layoutX="164.0" layoutY="173.0" text="Giorno">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="286.0" layoutY="173.0" text="Mese">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
