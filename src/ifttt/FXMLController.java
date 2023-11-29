@@ -327,7 +327,7 @@ public class FXMLController implements Initializable {
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-       Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce);
+       Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce); 
        
        //Aggiungi la regola al set delle regole
       rulesSet.getRuleList().add(rule);
