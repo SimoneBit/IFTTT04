@@ -1,4 +1,4 @@
-package Rule;
+    package Rule;
 
 import Action.Action;
 import Condition.Trigger;
@@ -21,6 +21,7 @@ public class Rule {
     private int sleepingPeriod;
     private LocalTime lastChecked;
     private boolean sleeping;
+    private boolean executeOnce;
 
     
     /**
@@ -31,13 +32,14 @@ public class Rule {
      * @param trigger il trigger associato alla regola.
      * @param action l'azione associata alla regola.
      */
-    public Rule(String name, Trigger trigger, Action action, int sleepingPeriod) {
+    public Rule(String name, Trigger trigger, Action action, int sleepingPeriod, boolean executeOnce) {
         this.name = name;
         this.trigger = trigger;
         this.action = action;
         this.Active = true;
         this.sleepingPeriod= sleepingPeriod;
         this.sleeping=false;
+        this.executeOnce=executeOnce;
     }
 
     
@@ -69,6 +71,12 @@ public class Rule {
        return sleeping;
     }
     
+    public boolean executeRule(){
+        if(this.executeOnce){
+            this.setActive(false);
+        }
+        return this.action.executeAction();
+    }
     /**
      *Restituisce il nome della regola.
      *
