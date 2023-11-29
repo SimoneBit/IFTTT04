@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -100,22 +99,16 @@
             <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" visible="false" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
+      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
          <children>
-            <Spinner fx:id="daySpinner" layoutX="132.0" layoutY="214.0" prefHeight="25.0" prefWidth="113.0" />
-            <Spinner fx:id="monthSpinner" layoutX="254.0" layoutY="214.0" prefHeight="25.0" prefWidth="113.0" />
-            <Button layoutX="160.0" layoutY="283.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
-            <Button layoutX="285.0" layoutY="283.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
-            <Label layoutX="164.0" layoutY="173.0" text="Giorno">
+            <Button layoutX="212.0" layoutY="306.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
+            <Button layoutX="328.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
+            <Label layoutX="200.0" layoutY="202.0" text="Seleziona giorno e mese">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="286.0" layoutY="173.0" text="Mese">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
+            <TextField fx:id="dayAndMonthText" layoutX="212.0" layoutY="255.0" promptText="dd/mm" />
          </children>
       </AnchorPane>
    </children>

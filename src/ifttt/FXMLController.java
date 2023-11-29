@@ -65,7 +65,7 @@ public class FXMLController implements Initializable {
                                              "Elimina un file"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
-    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico"};
+    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico", "Giorno dell'anno"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
     private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
@@ -170,9 +170,7 @@ public class FXMLController implements Initializable {
     @FXML
     private AnchorPane dayAndMonthPage;
     @FXML
-    private Spinner<?> daySpinner;
-    @FXML
-    private Spinner<?> monthSpinner;
+    private TextField dayAndMonthText;
   
     
  
@@ -411,6 +409,10 @@ public class FXMLController implements Initializable {
         }
         if(condition.compareTo("Orario specifico") == 0){
             chooseHourPage.setVisible(true);
+            newRulePage.setVisible(false);
+        }
+        if(condition.compareTo("Giorno dell'anno") == 0){
+            dayAndMonthPage.setVisible(true);
             newRulePage.setVisible(false);
         }
     }
