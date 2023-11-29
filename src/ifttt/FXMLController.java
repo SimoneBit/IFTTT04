@@ -308,18 +308,35 @@ public class FXMLController implements Initializable {
        Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
        Trigger trigger = new Trigger(cond);
        //Prendi i parametri e imposta la periodicità
+       String controlString = controlLabel.getText();
+       String []controlParam;
+       controlParam = controlString.split(" : ");
+       Integer sleepingTime=0;
+       if(controlParam[0].compareTo("Ogni")==0){
+           String []num = controlParam[1].split("[a-zA-Z] ");
+            Integer days = Integer.parseInt(num[0]);
+            Integer hours = Integer.parseInt(num[1]);
+            Integer minutes = Integer.parseInt(num[2]);
+            sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
+       }
+       else if(controlParam[0]=="una volta"){
+           
+       }
+       else{
+           
+       }
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-      // Rule rule = new Rule(name1, trigger, act);
+       Rule rule = new Rule(name1, trigger, act,sleepingTime);
        
        //Aggiungi la regola al set delle regole
-      // rulesSet.getRuleList().add(rule);
-       //ruleList.add(rule); 
+      rulesSet.getRuleList().add(rule);
+       ruleList.add(rule); 
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
-       //ruleList.setAll(rulesSet.getRuleList())
+       //ruleList.setAll(rulesSet.getRuleList());
        //Ripulisci l'interfaccia
        ruleName.clear();
        actionLabel.setText("");
@@ -544,15 +561,15 @@ public class FXMLController implements Initializable {
     }      
     @FXML
     private void addSleepingPeriod(ActionEvent event) {
+        sleepingPeriodPage.setVisible(false);
+        newRulePage.setVisible(true);
         String gg =daysSleeping.getText(); 
         String h = hoursSleeping.getText();
         String m = minutesSleeping.getText();
-        controlLabel.setText("Ogni : " + gg +"gg "+h +"h "+m+"m" );
-        int days = Integer.parseInt(daysSleeping.getText());
-        int hours = Integer.parseInt(hoursSleeping.getText());
-        int minutes = Integer.parseInt(minutesSleeping.getText());
-        int s = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
-        
+        controlLabel.setText("Ogni : " + gg +"g "+h +"h "+m+"m " );
+        daysSleeping.setText("");
+        hoursSleeping.setText("");
+        minutesSleeping.setText("");
         
     }
 
