@@ -606,20 +606,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
             actionLabel.setText("Elimina il file : " + selectedFile.toString());
             
         }
-        if(action.compareTo("File esiste") == 0){
-
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showOpenDialog(new Stage());
-            actionLabel.setText(selectedFile.toString());
-            
-        }
-        if(action.compareTo("Dimensione del file") == 0){
-
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showOpenDialog(new Stage());
-            actionLabel.setText("Elimina il file : " + selectedFile.toString());
-            
-        }
+       
     }
     
   
@@ -646,6 +633,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
         if(condition.compareTo("Giorno del mese") == 0){
             dayPage.setVisible(true);
             newRulePage.setVisible(false);
+        }
+         if(condition.compareTo("File esiste") == 0){
+            existsFilePage.setVisible(true);
+            newRulePage.setVisible(false); 
+        }
+        if(condition.compareTo("Dimensione del file") == 0){
+            dimensionFilePage.setVisible(true);
+            newRulePage.setVisible(false);   
         }
     }
     
@@ -869,6 +864,10 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
     @FXML
     private void chooseFileExists(ActionEvent event) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();;
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        pathFile_id.setVisible(true);
+        pathFileLabel.setText(selectedDirectory.toString()); 
     }
 
     @FXML
@@ -877,14 +876,24 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
     @FXML
     private void chooseFileDimension(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        selectedFile = fileChooser.showOpenDialog(new Stage());
+        pathFile_id1.setVisible(true);
+        pathFileLabel1.setText(selectedFile.toString());
     }
 
     @FXML
     private void showAddPageBack6(ActionEvent event) {
+        existsFilePage.setVisible(false);
+        newRulePage.setVisible(true);
+        pathFileLabel.setText("");
     }
 
     @FXML
     private void showAddPageBack7(ActionEvent event) {
+        dimensionFilePage.setVisible(false);
+        newRulePage.setVisible(true);
+        pathFileLabel1.setText("");
     }
 }
 
