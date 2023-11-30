@@ -66,7 +66,7 @@ public class FXMLController implements Initializable {
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno del mese",
-                                                    "Giorno dell'anno"};
+                                                    "Giorno dell'anno", "File esiste" ,"Dimensione del file"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
     private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
@@ -569,6 +569,20 @@ private void showAlert(String message, Alert.AlertType alertType) {
                         
         }
         if(action.compareTo("Elimina un file") == 0){
+
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            actionLabel.setText("Elimina il file : " + selectedFile.toString());
+            
+        }
+        if(action.compareTo("File esiste") == 0){
+
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            actionLabel.setText(selectedFile.toString());
+            
+        }
+        if(action.compareTo("Dimensione del file") == 0){
 
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(new Stage());
