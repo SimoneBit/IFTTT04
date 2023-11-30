@@ -5,8 +5,7 @@ import Condition.*;
 /**
  * La classe FileSizeConditionHandler implementa l'interfaccia ConditionHandler e gestisce
  * la creazione dell'oggetto FileSizeCondition.
- * Aggiungi questa classe alla catena delle responsabilità per gestire la creazione
- * dell'oggetto FileSizeCondition.
+ * 
  * 
  * @author Nicola Lanzara
  */
@@ -14,7 +13,7 @@ public class FileSizeConditionHandler extends BaseConditionHandler {
 
     @Override
     public Condition handle(String request, String param) {
-        if (request.equalsIgnoreCase("FileSize")) {
+        if (request.equalsIgnoreCase("Dimensione del file")) {
             // Creare e restituire un'istanza di FileSizeCondition
             try {
                 String[] params = param.split(",");
