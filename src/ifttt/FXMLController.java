@@ -33,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -158,6 +159,7 @@ public class FXMLController implements Initializable {
     private RulesSet rulesSet = new RulesSet();
     private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
     private File selectedFile;
+    private File selectedDirectory;
     
     Task<Void> checkingRulesTask = new Task<Void>() {
             @Override
@@ -264,11 +266,15 @@ public class FXMLController implements Initializable {
         DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
         DeleteFileActionHandler deleteFileHandler = new DeleteFileActionHandler();
         WriteOnFileActionHandler writeOnFileHandler = new WriteOnFileActionHandler();
+        CopyFileActionHandler copyFileHandler = new CopyFileActionHandler();
+        MoveFileActionHandler moveFileHandler = new MoveFileActionHandler();        
         
         baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
         dialogBoxHandler.setNext(deleteFileHandler);
         deleteFileHandler.setNext(writeOnFileHandler);
+        writeOnFileHandler.setNext(copyFileHandler);
+        copyFileHandler.setNext(moveFileHandler);
         
         //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
@@ -446,7 +452,7 @@ public class FXMLController implements Initializable {
         // Setto l'azione da eseguire
         if (selectedFile != null && !stringToWrite.isEmpty()){
             actionLabel.setText("Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
-             //System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
+            System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
         }
         
         // Pulisci il TextField dopo l'aggiunta
@@ -462,15 +468,36 @@ public class FXMLController implements Initializable {
     private void chooseFileToCopyMove(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         selectedFile = fileChooser.showOpenDialog(new Stage());
+        selectedFilePathLabel2.setText("File selezionato: " + selectedFile.toString());
     }
     
     @FXML
     private void chooseDestination(ActionEvent event){
-        
+        DirectoryChooser directoryChooser = new DirectoryChooser();;
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        destinationFilePathLabel.setText("Destinazione selezionata: " + selectedDirectory.toString());       
     }
     
      @FXML
     private void confirmCopyMoveFile(ActionEvent event){
+        // Controllo che sia stato selezionato un file prima di confermare
+        if(selectedFile == null){
+            showAlert("Devi selezionare un file prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
+        // Controllo che sia stata selezionata una destinazione prima di confermare
+        if(selectedDirectory == null){
+            showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
+        
+        // Pulisci le label dopo l'aggiunta
+        selectedFilePathLabel2.setText("");
+        destinationFilePathLabel.setText("");
+        // Nascondi la pagina chooseFileToAppendStringPage
+        copyMoveFilePage.setVisible(false);
+        // Mostra la pagina newRulePage
+        newRulePage.setVisible(true);
         
     }
 
@@ -514,8 +541,9 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
             newRulePage.setVisible(false);
             copyMoveFilePage.setVisible(true);
-            actionLabel.setText("Copia il file : " + selectedFile.toString());
-                        
+            if(selectedFile != null && selectedDirectory != null){
+                actionLabel.setText("Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString());
+                }                        
         }
         if(action.compareTo("Sposta un file") == 0){
 
