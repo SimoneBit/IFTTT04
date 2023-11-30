@@ -39,7 +39,7 @@ public class FileSizeCondition implements Condition {
     @Override
     public boolean checkCondition() {
         File file = new File(filePath);
-        return file.exists() && file.length() > minSize;
+        return file.length() > minSize;
     }
 
     /**

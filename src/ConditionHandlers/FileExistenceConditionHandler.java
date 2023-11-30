@@ -19,7 +19,7 @@ public class FileExistenceConditionHandler extends BaseConditionHandler {
 
     @Override
     public Condition handle(String request, String param) {
-        if (request.equalsIgnoreCase("FileExistence")) {
+        if (request.equalsIgnoreCase("File esiste")) {
             // Creare e restituire un'istanza di FileExistenceCondition
             try {
                 String[] params = param.split(",");
