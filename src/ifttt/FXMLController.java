@@ -264,6 +264,7 @@ public class FXMLController implements Initializable {
         dayPage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
         copyMoveFilePage.setVisible(false);
+        dimensionFilePage.setVisible(false);
         
         // Carica le regole dal file al momento dell'avvio
         loadRules();
@@ -747,14 +748,20 @@ private void showAlert(String message, Alert.AlertType alertType) {
         Integer ggi = Integer.parseInt(gg);
         Integer hi = Integer.parseInt(h);
         Integer mi = Integer.parseInt(m);
-        if(ggi <= 7 && ggi>=0){
+        if(!(ggi >=0 && ggi<=7)){
             showAlert("Inserire un numero compreso tra 0 e 7",  Alert.AlertType.ERROR);
+             sleepingPeriodPage.setVisible(true);
+             newRulePage.setVisible(false);
         }
-        if(hi <= 24 && hi>=0){
+        if(!(hi >= 0 && hi<=24)){
             showAlert("Inserire un numero compreso tra 0 e 24",  Alert.AlertType.ERROR);
+            sleepingPeriodPage.setVisible(true);
+            newRulePage.setVisible(false);
         }
-        if(mi <= 60 && mi>=0){
+        if(!(mi >= 0 && mi<=60)){
             showAlert("Inserire un numero compreso tra 0 e 60",  Alert.AlertType.ERROR);
+            sleepingPeriodPage.setVisible(true);
+            newRulePage.setVisible(false);
         }
 
         controlLabel.setText("Ogni : " + gg +"g "+h +"h "+m+"m " );
