@@ -204,6 +204,42 @@ public class FXMLController implements Initializable {
     private TextField dayField;
     @FXML
     private AnchorPane dayPage;
+    @FXML
+    private Button confirmCopyMoveFileButton;
+    @FXML
+    private AnchorPane existsFilePage;
+    @FXML
+    private Label pathFileLabel;
+    @FXML
+    private Button confirmExistFileButton;
+    @FXML
+    private Button backButtonExists;
+    @FXML
+    private Button selectFileButton1;
+    @FXML
+    private Label nameFileLabel;
+    @FXML
+    private Label nameFile_id;
+    @FXML
+    private Label pathFile_id;
+    @FXML
+    private AnchorPane dimensionFilePage;
+    @FXML
+    private Label pathFileLabel1;
+    @FXML
+    private Button confirmDimensionFileButton1;
+    @FXML
+    private Button backButtonDimension;
+    @FXML
+    private Button selectFileButton2;
+    @FXML
+    private Label nameFileLabel1;
+    @FXML
+    private Label nameFile_id1;
+    @FXML
+    private Label pathFile_id1;
+    @FXML
+    private TextField DimensionLabel;
   
     
  
@@ -280,12 +316,25 @@ public class FXMLController implements Initializable {
         TimeConditionHandler timeHandler = new TimeConditionHandler();
         DayOfMonthConditionHandler dayOfMonthHandler = new DayOfMonthConditionHandler();
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
+        FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
+        FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
+        
+
         
         baseConditionHandler.setNext(timeHandler);
+
+        timeHandler.setNext(dayOfYearHandler);
+        dayOfYearHandler.setNext(fileExistenceHandler);
+        fileExistenceHandler.setNext(fileSizeHandler);
+
+        timeHandler.setNext(dayOfYearHandler);
+        dayOfYearHandler.setNext(fileExistenceHandler);
+        fileExistenceHandler.setNext(fileSizeHandler);
+
         timeHandler.setNext(dayOfMonthHandler);
         dayOfMonthHandler.setNext(dayOfYearHandler);
         
-        
+
         
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
@@ -373,7 +422,7 @@ public class FXMLController implements Initializable {
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-       Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce);
+       Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce); 
        
        //Aggiungi la regola al set delle regole
       rulesSet.getRuleList().add(rule);
@@ -723,6 +772,19 @@ private void showAlert(String message, Alert.AlertType alertType) {
         String gg =daysSleeping.getText(); 
         String h = hoursSleeping.getText();
         String m = minutesSleeping.getText();
+        Integer ggi = Integer.parseInt(gg);
+        Integer hi = Integer.parseInt(h);
+        Integer mi = Integer.parseInt(m);
+        if(ggi <= 7 && ggi>=0){
+            showAlert("Inserire un numero compreso tra 0 e 7",  Alert.AlertType.ERROR);
+        }
+        if(hi <= 24 && hi>=0){
+            showAlert("Inserire un numero compreso tra 0 e 24",  Alert.AlertType.ERROR);
+        }
+        if(mi <= 60 && mi>=0){
+            showAlert("Inserire un numero compreso tra 0 e 60",  Alert.AlertType.ERROR);
+        }
+
         controlLabel.setText("Ogni : " + gg +"g "+h +"h "+m+"m " );
         daysSleeping.setText("");
         hoursSleeping.setText("");
@@ -738,7 +800,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
    
 
-    private void loadRules() {
+    public void loadRules() {
         List<Rule> loadedRules = ruleFileHandler.loadRules();
         if (!loadedRules.isEmpty()) {
             rulesSet.getRuleList().addAll(loadedRules);
@@ -747,12 +809,12 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
 
     
-    private void saveRules() {
+    public void saveRules() {
         ruleFileHandler.saveRules(new ArrayList<>(rulesSet.getRuleList()));
     }
     
     
-    private void saveRulesAndExit() {
+    public void saveRulesAndExit() {
         ruleFileHandler.saveRules(rulesSet.getRuleList());
         Platform.exit(); }
 
@@ -789,6 +851,30 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
+    }
+
+    @FXML
+    private void ConfirmExistFileButton(ActionEvent event) {
+    }
+
+    @FXML
+    private void chooseFileExists(ActionEvent event) {
+    }
+
+    @FXML
+    private void ConfirmDimensionFileButton(ActionEvent event) {
+    }
+
+    @FXML
+    private void chooseFileDimension(ActionEvent event) {
+    }
+
+    @FXML
+    private void showAddPageBack6(ActionEvent event) {
+    }
+
+    @FXML
+    private void showAddPageBack7(ActionEvent event) {
     }
 }
 
