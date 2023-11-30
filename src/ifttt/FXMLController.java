@@ -213,8 +213,6 @@ public class FXMLController implements Initializable {
     @FXML
     private Button backButtonExists;
     @FXML
-    private Button selectFileButton1;
-    @FXML
     private Label nameFileLabel;
     @FXML
     private Label nameFile_id;
@@ -231,13 +229,11 @@ public class FXMLController implements Initializable {
     @FXML
     private Button selectFileButton2;
     @FXML
-    private Label nameFileLabel1;
-    @FXML
-    private Label nameFile_id1;
-    @FXML
     private Label pathFile_id1;
     @FXML
     private TextField DimensionLabel;
+    @FXML
+    private Button selectPathButton1;
   
     
  
