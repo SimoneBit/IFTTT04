@@ -61,11 +61,12 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
-    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio",
-                                             "Elimina un file"};
+    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio", 
+                                                                       "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
-    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico", "Giorno dell'anno"};
+    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno del mese",
+                                                    "Giorno dell'anno"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
     private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
@@ -113,6 +114,31 @@ public class FXMLController implements Initializable {
     private Button sleepOK;
     
     @FXML
+    private AnchorPane chooseFileToAppendStringPage;   
+    @FXML
+    private Button chooseFileButton;
+    @FXML
+    private TextField stringToAppendTextField;
+    @FXML
+    private Button backButton3;
+    @FXML
+    private Button confirmStringButton;
+    @FXML
+    private Label selectedFilePathLabel;
+    @FXML
+    private AnchorPane copyMoveFilePage;
+    @FXML
+    private Button selectFileButton;
+    @FXML
+    private Button backButton4;
+    @FXML
+    private Button destinationFileButton;
+    @FXML
+    private Label selectedFilePathLabel2;
+    @FXML
+    private Label destinationFilePathLabel;
+    
+    @FXML
     private TextField ruleName;
     
     private String name,condition,action;
@@ -131,6 +157,7 @@ public class FXMLController implements Initializable {
     private ObservableList<Rule> ruleList;
     private RulesSet rulesSet = new RulesSet();
     private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
+    private File selectedFile;
     
     Task<Void> checkingRulesTask = new Task<Void>() {
             @Override
@@ -171,6 +198,10 @@ public class FXMLController implements Initializable {
     private AnchorPane dayAndMonthPage;
     @FXML
     private TextField dayAndMonthText;
+    @FXML
+    private TextField dayField;
+    @FXML
+    private AnchorPane dayPage;
   
     
  
@@ -194,7 +225,9 @@ public class FXMLController implements Initializable {
         chooseHourPage.setVisible(false);
         sleepingPeriodPage.setVisible(false);
         dayAndMonthPage.setVisible(false);
-        
+        dayPage.setVisible(false);
+        chooseFileToAppendStringPage.setVisible(false);
+        copyMoveFilePage.setVisible(false);
         
         // Carica le regole dal file al momento dell'avvio
         loadRules();
@@ -230,12 +263,16 @@ public class FXMLController implements Initializable {
         AudioActionHandler audioHandler = new AudioActionHandler();
         DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
         DeleteFileActionHandler deleteFileHandler = new DeleteFileActionHandler();
+        WriteOnFileActionHandler writeOnFileHandler = new WriteOnFileActionHandler();
+        
         baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
         dialogBoxHandler.setNext(deleteFileHandler);
+        deleteFileHandler.setNext(writeOnFileHandler);
         
         //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
+        DayOfMonthConditionHandler dayOfMonthHandler = new DayOfMonthConditionHandler();
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
         FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
         FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
@@ -243,9 +280,15 @@ public class FXMLController implements Initializable {
 
         
         baseConditionHandler.setNext(timeHandler);
+<<<<<<< HEAD
         timeHandler.setNext(dayOfYearHandler);
         dayOfYearHandler.setNext(fileExistenceHandler);
         fileExistenceHandler.setNext(fileSizeHandler);
+=======
+        timeHandler.setNext(dayOfMonthHandler);
+        dayOfMonthHandler.setNext(dayOfYearHandler);
+        
+>>>>>>> bcef0dc6bd2486dd97f48694fd2b95a8bb4399f4
         
         
         //Creazione e avvio del thread che controlla le regole
@@ -270,6 +313,7 @@ public class FXMLController implements Initializable {
         mainMenuPage.setVisible(false);
         newRulePage.setVisible(true);
         chooseMessagePage.setVisible(false);
+        chooseFileToAppendStringPage.setVisible(false);
         actionChoiceBox.setValue("Seleziona un'azione");
         conditionChoiceBox.setValue("Seleziona una condizione");
         controlChoiceBox.setValue("Seleziona un controllo");
@@ -285,6 +329,7 @@ public class FXMLController implements Initializable {
         mainMenuPage.setVisible(true);
         newRulePage.setVisible(false);
         chooseMessagePage.setVisible(false);
+        chooseFileToAppendStringPage.setVisible(false);
         ruleName.clear();
         actionLabel.setText("");
         conditionLabel.setText("");
@@ -353,7 +398,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Gestisce l'azione di conferma del messaggio inserito. Se il messaggio è vuoto, visualizza un avviso, altrimenti crea 
-     * un oggetto @see DialogBoxActioncon il messaggio e aggiorna l'etichetta dell'azione nella pagina delle nuove regole.
+     * un oggetto @see DialogBoxAction con il messaggio e aggiorna l'etichetta dell'azione nella pagina delle nuove regole.
      * 
      * @param event l'evento scatenato da un'azione utente.
      */
@@ -383,6 +428,69 @@ public class FXMLController implements Initializable {
             
         }
     }
+    
+    @FXML
+    private void chooseFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        // Impostazione di un filtro per accettare solo file con estensione .txt
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("File di testo (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        selectedFile = fileChooser.showOpenDialog(new Stage());
+        selectedFilePathLabel.setText("File selezionato: " + selectedFile.toString());
+    }
+    
+    @FXML
+    private void confirmString(ActionEvent event){
+        String stringToWrite = stringToAppendTextField.getText();
+   
+        // Controllo che sia stato inserito del testo nel TextField
+        if(stringToWrite.isEmpty()){
+            showAlert("Inserisci il testo che vuoi scrivere sul file selezionato", Alert.AlertType.ERROR);
+            return;
+        }
+        // Controllo che sia stato selezionato un file prima di confermare l'azione
+        if (selectedFile == null) {
+        showAlert("Devi selezionare un file prima di confermare.", Alert.AlertType.ERROR);
+        return;
+         }
+        // Setto l'azione da eseguire
+        if (selectedFile != null && !stringToWrite.isEmpty()){
+            actionLabel.setText("Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
+             //System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
+        }
+        
+        // Pulisci il TextField dopo l'aggiunta
+        stringToAppendTextField.clear();
+        selectedFilePathLabel.setText("");
+        // Nascondi la pagina chooseFileToAppendStringPage
+        chooseFileToAppendStringPage.setVisible(false);
+        // Mostra la pagina newRulePage
+        newRulePage.setVisible(true);
+    }
+    
+    @FXML
+    private void chooseFileToCopyMove(ActionEvent event){
+        FileChooser fileChooser = new FileChooser();
+        selectedFile = fileChooser.showOpenDialog(new Stage());
+    }
+    
+    @FXML
+    private void chooseDestination(ActionEvent event){
+        
+    }
+    
+     @FXML
+    private void confirmCopyMoveFile(ActionEvent event){
+        
+    }
+
+private void showAlert(String message, Alert.AlertType alertType) {
+    Alert alert = new Alert(alertType);
+    alert.setTitle("Messaggio di Avviso");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+}
  
     /**
      * Gestisce l'evento di selezione di un'azione dalla ChoiceBox.
@@ -407,6 +515,26 @@ public class FXMLController implements Initializable {
         }
         if(action.compareTo("Seleziona un'azione") == 0){
             actionLabel.setText("");         
+        }
+        if(action.compareTo("Scrivi su un file") == 0){
+            newRulePage.setVisible(false);
+            chooseFileToAppendStringPage.setVisible(true);                        
+        }
+        if(action.compareTo("Copia un file") == 0){
+
+            newRulePage.setVisible(false);
+            copyMoveFilePage.setVisible(true);
+            actionLabel.setText("Copia il file : " + selectedFile.toString());
+                        
+        }
+        if(action.compareTo("Sposta un file") == 0){
+
+            newRulePage.setVisible(false);
+            copyMoveFilePage.setVisible(true);
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            actionLabel.setText("Sposta il file : " + selectedFile.toString());
+                        
         }
         if(action.compareTo("Elimina un file") == 0){
 
@@ -436,6 +564,10 @@ public class FXMLController implements Initializable {
         }
         if(condition.compareTo("Giorno dell'anno") == 0){
             dayAndMonthPage.setVisible(true);
+            newRulePage.setVisible(false);
+        }
+        if(condition.compareTo("Giorno del mese") == 0){
+            dayPage.setVisible(true);
             newRulePage.setVisible(false);
         }
     }
@@ -479,6 +611,8 @@ public class FXMLController implements Initializable {
         mainMenuPage.setVisible(false);
         newRulePage.setVisible(true);
         chooseMessagePage.setVisible(false);
+        chooseFileToAppendStringPage.setVisible(false);
+        copyMoveFilePage.setVisible(false);
         actionLabel.setText("");
         actionChoiceBox.setValue("Seleziona un'azione");
     }
@@ -620,6 +754,23 @@ public class FXMLController implements Initializable {
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
         dayAndMonthText.setText("");
+    }
+
+    @FXML
+    private void confirmDay(ActionEvent event) {
+        String day = dayField.getText();
+        conditionLabel.setText("Il giorno : " + day);
+        dayPage.setVisible(false);
+        newRulePage.setVisible(true);
+        dayField.setText("");
+        
+    }
+
+    @FXML
+    private void showAddPageBack3(ActionEvent event) {
+        dayPage.setVisible(false);
+        newRulePage.setVisible(true);
+        dayField.setText("");
     }
 }
 
