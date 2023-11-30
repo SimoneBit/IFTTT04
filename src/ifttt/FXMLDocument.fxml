@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
@@ -12,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
       <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
@@ -111,7 +115,7 @@
             <TextField fx:id="dayAndMonthText" layoutX="212.0" layoutY="255.0" promptText="dd/mm" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dayPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
+      <AnchorPane fx:id="dayPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
          <children>
             <Label layoutX="213.0" layoutY="170.0" text="Seleziona il giorno">
                <font>
@@ -121,6 +125,49 @@
             <TextField fx:id="dayField" layoutX="212.0" layoutY="221.0" />
             <Button layoutX="308.0" layoutY="285.0" mnemonicParsing="false" onAction="#confirmDay" text="OK" />
             <Button layoutX="212.0" layoutY="285.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="chooseFileToAppendStringPage" layoutX="42.0" layoutY="93.0" prefHeight="265.0" prefWidth="525.0" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="54.0" text="Scegli un file in formato .txt su cui scrivere:" />
+            <Label layoutX="22.0" layoutY="133.0" text="Inserire il testo da scrivere nel file: " />
+            <Button fx:id="chooseFileButton" layoutX="352.0" layoutY="49.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="31.0" prefWidth="131.0" text="Scegli" />
+            <Button fx:id="backButton3" layoutX="257.0" layoutY="192.0" mnemonicParsing="false" onAction="#showAddPageBack" prefHeight="31.0" prefWidth="95.0" text="Annulla" />
+            <Button fx:id="confirmStringButton" layoutX="426.0" layoutY="192.0" mnemonicParsing="false" onAction="#confirmString" prefHeight="31.0" prefWidth="57.0" text="OK" />
+            <TextField fx:id="stringToAppendTextField" layoutX="255.0" layoutY="128.0" prefHeight="31.0" prefWidth="228.0" />
+            <Label fx:id="selectedFilePathLabel" alignment="BOTTOM_RIGHT" layoutX="237.0" layoutY="94.0" prefHeight="21.0" prefWidth="245.0" textAlignment="RIGHT">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="copyMoveFilePage" layoutX="49.0" layoutY="133.0" prefHeight="265.0" prefWidth="510.0">
+         <children>
+            <Label layoutX="26.0" layoutY="126.0" text="Scegliere la destinazione del file:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="39.0" text="Selezionare il file:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="destinationFilePathLabel" alignment="BOTTOM_RIGHT" layoutX="178.0" layoutY="169.0" prefHeight="17.0" prefWidth="301.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="selectedFilePathLabel2" alignment="BOTTOM_RIGHT" layoutX="178.0" layoutY="82.0" prefHeight="17.0" prefWidth="301.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="confirmCopyMoveFileButton" layoutX="328.0" layoutY="221.0" mnemonicParsing="false" onAction="#confirmCopyMoveFile" text="OK" />
+            <Button fx:id="backButton4" layoutX="187.0" layoutY="221.0" mnemonicParsing="false" onAction="#showAddPageBack" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
+            <Button fx:id="selectFileButton" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileToCopyMove" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
+            <Button fx:id="destinationFileButton" layoutX="307.0" layoutY="124.0" mnemonicParsing="false" onAction="#chooseDestination" prefHeight="31.0" prefWidth="173.0" text="Scegli destinazione" />
          </children>
       </AnchorPane>
    </children>
