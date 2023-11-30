@@ -203,7 +203,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dimensionFilePage" layoutX="69.0" layoutY="153.0" prefHeight="265.0" prefWidth="510.0" visible="false">
+      <AnchorPane fx:id="dimensionFilePage" layoutX="69.0" layoutY="153.0" prefHeight="265.0" prefWidth="510.0">
          <children>
             <Label layoutX="26.0" layoutY="39.0" text="Selezionare il file:">
                <font>
