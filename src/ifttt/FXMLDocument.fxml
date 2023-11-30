@@ -111,11 +111,7 @@
             <TextField fx:id="dayAndMonthText" layoutX="212.0" layoutY="255.0" promptText="dd/mm" />
          </children>
       </AnchorPane>
-<<<<<<< HEAD
-      <AnchorPane fx:id="dayPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0">
-=======
       <AnchorPane fx:id="dayPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
->>>>>>> bcef0dc6bd2486dd97f48694fd2b95a8bb4399f4
          <children>
             <Label layoutX="213.0" layoutY="170.0" text="Seleziona il giorno">
                <font>
@@ -127,8 +123,6 @@
             <Button layoutX="212.0" layoutY="285.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
          </children>
       </AnchorPane>
-<<<<<<< HEAD
-=======
       <AnchorPane fx:id="chooseFileToAppendStringPage" layoutX="42.0" layoutY="93.0" prefHeight="265.0" prefWidth="525.0" visible="false">
          <children>
             <Label layoutX="22.0" layoutY="54.0" text="Scegli un file in formato .txt su cui scrivere:" />
@@ -144,7 +138,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="copyMoveFilePage" layoutX="49.0" layoutY="133.0" prefHeight="265.0" prefWidth="510.0">
+      <AnchorPane fx:id="copyMoveFilePage" layoutX="49.0" layoutY="133.0" prefHeight="265.0" prefWidth="510.0" visible="false">
          <children>
             <Label layoutX="26.0" layoutY="126.0" text="Scegliere la destinazione del file:">
                <font>
@@ -172,6 +166,75 @@
             <Button fx:id="destinationFileButton" layoutX="307.0" layoutY="124.0" mnemonicParsing="false" onAction="#chooseDestination" prefHeight="31.0" prefWidth="173.0" text="Scegli destinazione" />
          </children>
       </AnchorPane>
->>>>>>> bcef0dc6bd2486dd97f48694fd2b95a8bb4399f4
+      <AnchorPane fx:id="existsFilePage" layoutX="59.0" layoutY="143.0" prefHeight="265.0" prefWidth="510.0">
+         <children>
+            <Label layoutX="26.0" layoutY="39.0" text="Selezionare il file:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="pathFileLabel" alignment="BOTTOM_RIGHT" layoutX="234.0" layoutY="133.0" prefHeight="17.0" prefWidth="282.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="confirmExistFileButton" layoutX="308.0" layoutY="186.0" mnemonicParsing="false" onAction="#ConfirmExistFileButton" text="OK" />
+            <Button fx:id="backButtonExists" layoutX="110.0" layoutY="186.0" mnemonicParsing="false" onAction="#showAddPageBack6" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
+            <Button fx:id="selectFileButton1" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileExists" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
+            <Label fx:id="nameFileLabel" alignment="BOTTOM_RIGHT" layoutX="229.0" layoutY="93.0" prefHeight="17.0" prefWidth="301.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameFile_id" layoutX="95.0" layoutY="88.0" text="Nome file">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="pathFile_id" layoutX="95.0" layoutY="128.0" text="Path file">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="dimensionFilePage" layoutX="69.0" layoutY="153.0" prefHeight="265.0" prefWidth="510.0" visible="false">
+         <children>
+            <Label layoutX="26.0" layoutY="39.0" text="Selezionare il file:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="pathFileLabel1" alignment="BOTTOM_RIGHT" layoutX="234.0" layoutY="133.0" prefHeight="17.0" prefWidth="282.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="confirmDimensionFileButton1" layoutX="322.0" layoutY="202.0" mnemonicParsing="false" onAction="#ConfirmDimensionFileButton" text="OK" />
+            <Button fx:id="backButtonDimension" layoutX="111.0" layoutY="202.0" mnemonicParsing="false" onAction="#showAddPageBack7" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
+            <Button fx:id="selectFileButton2" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileDimension" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
+            <Label fx:id="nameFileLabel1" alignment="BOTTOM_RIGHT" layoutX="229.0" layoutY="93.0" prefHeight="17.0" prefWidth="301.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameFile_id1" layoutX="95.0" layoutY="88.0" text="Nome file" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="pathFile_id1" layoutX="95.0" layoutY="128.0" text="Path file" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="34.0" layoutY="164.0" text="Dimensione File(MB):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="DimensionLabel" layoutX="229.0" layoutY="162.0" prefHeight="31.0" prefWidth="138.0" />
+         </children>
+      </AnchorPane>
    </children>
 </Pane>
