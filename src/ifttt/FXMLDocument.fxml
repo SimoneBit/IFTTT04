@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
@@ -12,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
       <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
@@ -123,6 +127,52 @@
             <Button layoutX="212.0" layoutY="285.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="chooseDayWeekPage" layoutX="80.0" layoutY="96.0" prefHeight="308.0" prefWidth="449.0">
+         <children>
+            <RadioButton fx:id="LunRadioButton" layoutX="41.0" layoutY="62.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Lunedì">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="MarRadioButton" layoutX="41.0" layoutY="89.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Martedì">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="MerRadioButton" layoutX="41.0" layoutY="116.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Mercoledì">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="GioRadioButton" layoutX="41.0" layoutY="143.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Giovedì">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="VenRadioButton" layoutX="41.0" layoutY="170.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Venerdì">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="DomRadioButton" layoutX="41.0" layoutY="224.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Domenica">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="SabRadioButton" layoutX="41.0" layoutY="197.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="228.0" text="Sabato">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <Label layoutX="41.0" layoutY="26.0" text="Selezionare il giorno della settimana:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="confirmDayWeekButton" layoutX="370.0" layoutY="262.0" mnemonicParsing="false" onAction="#confirmDayWeek" text="OK" />
+            <Button fx:id="backButton8" layoutX="240.0" layoutY="262.0" mnemonicParsing="false" onAction="#showAddPageBack8" prefHeight="31.0" prefWidth="89.0" text="Annulla" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="chooseFileToAppendStringPage" layoutX="42.0" layoutY="93.0" prefHeight="265.0" prefWidth="525.0" visible="false">
          <children>
             <Label layoutX="22.0" layoutY="54.0" text="Scegli un file in formato .txt su cui scrivere:" />
@@ -194,7 +244,7 @@
             <TextField fx:id="ExistFileTextField" layoutX="300.0" layoutY="78.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dimensionFilePage" layoutX="69.0" layoutY="153.0" prefHeight="265.0" prefWidth="510.0">
+      <AnchorPane fx:id="dimensionFilePage" layoutX="69.0" layoutY="153.0" prefHeight="265.0" prefWidth="510.0" visible="false">
          <children>
             <Label layoutX="26.0" layoutY="39.0" text="Selezionare il file:">
                <font>

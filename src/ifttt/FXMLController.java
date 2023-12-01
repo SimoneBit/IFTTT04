@@ -27,10 +27,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
@@ -66,8 +68,8 @@ public class FXMLController implements Initializable {
                                                                        "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
-    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno del mese",
-                                                    "Giorno dell'anno", "File esiste" ,"Dimensione del file"};
+    private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno della settimana", 
+                                                                            "Giorno del mese", "Giorno dell'anno", "File esiste" ,"Dimensione del file"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
     private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
@@ -138,7 +140,6 @@ public class FXMLController implements Initializable {
     private Label selectedFilePathLabel2;
     @FXML
     private Label destinationFilePathLabel;
-    
     @FXML
     private TextField ruleName;
     
@@ -147,7 +148,6 @@ public class FXMLController implements Initializable {
     private TableColumn<Rule, String> ruleColumn;
     @FXML
     private TableColumn<Rule, String> StateColumn;
-    
     @FXML
     private MenuItem deleteRuleId;
     @FXML
@@ -193,6 +193,21 @@ public class FXMLController implements Initializable {
     @FXML
     private Button selectPathButton1;
     @FXML
+    private AnchorPane chooseDayWeekPage;
+        @FXML
+    private RadioButton LunRadioButton;
+    @FXML
+    private RadioButton MarRadioButton;
+    @FXML
+    private RadioButton MerRadioButton;
+    @FXML
+    private RadioButton GioRadioButton;
+    @FXML
+    private RadioButton VenRadioButton;
+    @FXML
+    private RadioButton SabRadioButton;
+    @FXML
+    private RadioButton DomRadioButton;
     private TextField ExistFileTextField;
   
     
@@ -202,6 +217,7 @@ public class FXMLController implements Initializable {
     private File selectedFile;
     private File selectedDirectory;
     private boolean isCopying;
+    private ToggleGroup toggleGroup;
     
     Task<Void> checkingRulesTask = new Task<Void>() {
             @Override
@@ -253,6 +269,7 @@ public class FXMLController implements Initializable {
         chooseMessagePage.setVisible(false);
         chooseHourPage.setVisible(false);
         sleepingPeriodPage.setVisible(false);
+        chooseDayWeekPage.setVisible(false);
         dayAndMonthPage.setVisible(false);
         dayPage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
@@ -287,6 +304,15 @@ public class FXMLController implements Initializable {
         hourChoiceBox.getItems().addAll(possibleHours);
         minutesChoiceBox.getItems().addAll(possibleMinutes);
         
+        // Creazione ToggleGroup e aggiunta dei RadioButton al gruppo
+        toggleGroup = new ToggleGroup();
+        LunRadioButton.setToggleGroup(toggleGroup);
+        MarRadioButton.setToggleGroup(toggleGroup);
+        MerRadioButton.setToggleGroup(toggleGroup);
+        GioRadioButton.setToggleGroup(toggleGroup);
+        VenRadioButton.setToggleGroup(toggleGroup);
+        SabRadioButton.setToggleGroup(toggleGroup);
+        DomRadioButton.setToggleGroup(toggleGroup);
         
         
         //Creazione della catena delle responsabilità per le azioni
@@ -306,32 +332,22 @@ public class FXMLController implements Initializable {
         
         //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
+        DayOfWeekConditionHandler dayOfWeekHandler= new DayOfWeekConditionHandler();
         DayOfMonthConditionHandler dayOfMonthHandler = new DayOfMonthConditionHandler();
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
         FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
         FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
-        
-
-        
+                
         baseConditionHandler.setNext(timeHandler);
-
-        timeHandler.setNext(dayOfYearHandler);
-        dayOfYearHandler.setNext(fileExistenceHandler);
-        fileExistenceHandler.setNext(fileSizeHandler);
-
-        timeHandler.setNext(dayOfYearHandler);
-        dayOfYearHandler.setNext(fileExistenceHandler);
-        fileExistenceHandler.setNext(fileSizeHandler);
-
         timeHandler.setNext(dayOfMonthHandler);
         dayOfMonthHandler.setNext(dayOfYearHandler);
-        
-
+        timeHandler.setNext(dayOfWeekHandler);
+        dayOfWeekHandler.setNext(fileExistenceHandler);
+        fileExistenceHandler.setNext(fileSizeHandler);
         
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
-        checkingRulesThread.start();
-        
+        checkingRulesThread.start();        
         
         // Aggiunta di un'azione per salvare le regole quando l'applicazione viene chiusa
         Platform.runLater(() -> {
@@ -618,6 +634,10 @@ private void showAlert(String message, Alert.AlertType alertType) {
             chooseHourPage.setVisible(true);
             newRulePage.setVisible(false);
         }
+        if(condition.compareTo("Giorno della settimana") == 0){
+            chooseDayWeekPage.setVisible(true);
+            newRulePage.setVisible(false);
+        }
         if(condition.compareTo("Giorno dell'anno") == 0){
             dayAndMonthPage.setVisible(true);
             newRulePage.setVisible(false);
@@ -735,11 +755,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
      */
     @FXML
     private void activeRule(ActionEvent event) {
-        // si setta lo stato della regola selezionata come attiva
         tableView.getSelectionModel().getSelectedItem().setActive(true);
-        // si abilita nel menù la possibilità di rendere inattiva la regola selezionata
         inactiveRuleId.setDisable(false);
-        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
         activeRuleId.setDisable(true);
         tableView.refresh();
     }
@@ -753,11 +770,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
      */
     @FXML
     private void inactiveRule(ActionEvent event) {
-        // si setta lo stato della regola selezionata come inattiva
         tableView.getSelectionModel().getSelectedItem().setActive(false);
-        // si disabilita nel menù la possibilità di rendere inattiva la regola selezionata
         inactiveRuleId.setDisable(true);
-        // si abilita nel menù la possibilità di rendere attiva la regola selezionata
         activeRuleId.setDisable(false);
         tableView.refresh();
 
@@ -848,6 +862,21 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayField.setText("");
         
     }
+    
+    @FXML
+    private void confirmDayWeek(ActionEvent event){
+        RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
+        // Verifica se un RadioButton è stato selezionato
+        if (selectedRadioButton != null) {
+            conditionLabel.setText("Il giorno della settimana è : " + selectedRadioButton.getText());
+        } else {
+            showAlert("Devi selezionare un giorno prima di confermare.", Alert.AlertType.ERROR);
+        }
+        
+        chooseDayWeekPage.setVisible(false);
+        newRulePage.setVisible(true);     
+        toggleGroup.selectToggle(null);            
+    }
 
     @FXML
     private void showAddPageBack3(ActionEvent event) {
@@ -857,22 +886,17 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
     
     private void showAddPageBack4(ActionEvent event) {
-        // Pulisci il TextField dopo l'aggiunta
+        chooseFileToAppendStringPage.setVisible(false);
+        newRulePage.setVisible(true);
         stringToAppendTextField.clear();
         selectedFilePathLabel.setText("");
-        // Nascondi la pagina chooseFileToAppendStringPage
-        chooseFileToAppendStringPage.setVisible(false);
-        // Mostra la pagina newRulePage
-        newRulePage.setVisible(true);
     }
     
     private void showAddPageBack5(ActionEvent event) {
+        copyMoveFilePage.setVisible(false);
+        newRulePage.setVisible(true);     
         selectedFilePathLabel2.setText("");
         destinationFilePathLabel.setText("");
-        // Nascondi la pagina chooseFileToAppendStringPage
-        copyMoveFilePage.setVisible(false);
-        // Mostra la pagina newRulePage
-        newRulePage.setVisible(true);     
     }
 
     @FXML
@@ -949,6 +973,13 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
         pathFileLabel1.setText("");
+    }
+    
+    @FXML
+    private void showAddPageBack8(ActionEvent event) {
+        chooseDayWeekPage.setVisible(false);
+        newRulePage.setVisible(true);     
+        toggleGroup.selectToggle(null);
     }
 }
 
