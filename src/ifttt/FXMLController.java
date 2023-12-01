@@ -414,6 +414,7 @@ public class FXMLController implements Initializable {
        String []conditionParam;
        conditionParam = conditionString.split(" : ");
        Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+       System.out.println(cond);
        Trigger trigger = new Trigger(cond);
        //Prendi i parametri e imposta la periodicità
        String controlString = controlLabel.getText();
@@ -995,10 +996,11 @@ private void showAlert(String message, Alert.AlertType alertType) {
         
         if (pathFileLabel.getText() != null && !nameFile.isEmpty()){
             conditionLabel.setText("Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText());
-            
         
+        ExistFileTextField.clear();
         existsFilePage.setVisible(false);
         newRulePage.setVisible(true);
+        
     }
     }
 
@@ -1017,9 +1019,9 @@ private void showAlert(String message, Alert.AlertType alertType) {
         }
         
         if (pathFileLabel1.getText() != null && !minSize.isEmpty()){
-            conditionLabel.setText("Il file selezionato : " + pathFileLabel.getText() + " ha dimensione minore di: " + minSize);
+            conditionLabel.setText("Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize);
             
-        
+        DimensionLabel.clear();
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
         
@@ -1046,6 +1048,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
         pathFileLabel1.setText("");
+        
     }
     
     /**
