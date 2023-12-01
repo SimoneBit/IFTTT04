@@ -251,6 +251,12 @@ public class FXMLController implements Initializable {
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler(); 
+    @FXML
+    private Button confirmDayWeekButton;
+    @FXML
+    private Button backButton8;
+    @FXML
+    private TextField ExistFileTextField;
     
     /**
      * Metodo chiamato quando viene inizializzata l'interfaccia utente.
@@ -898,9 +904,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         destinationFilePathLabel.setText("");
     }
 
-    @FXML
-    private void ConfirmExistFileButton(ActionEvent event) {
-    }
+    
 
     @FXML
     private void chooseFileExists(ActionEvent event) {
