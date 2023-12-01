@@ -32,9 +32,4 @@ public class WriteOnFileAction implements Action {
         }
     }
     
-    public File getFile() {
-        return file;
-    }
-
-    
 }
