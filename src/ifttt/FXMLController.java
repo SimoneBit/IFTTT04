@@ -900,6 +900,10 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
 
     @FXML
+    private void ConfirmExistFileButton(ActionEvent event) {
+    }
+
+    @FXML
     private void chooseFileExists(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();;
         File selectedDirectory = directoryChooser.showDialog(new Stage());
