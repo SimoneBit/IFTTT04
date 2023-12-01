@@ -154,47 +154,7 @@ public class FXMLController implements Initializable {
     private MenuItem activeRuleId;
     @FXML
     private MenuItem inactiveRuleId;
-    
-    private ObservableList<Rule> ruleList;
-    private RulesSet rulesSet = new RulesSet();
-    private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
-    private File selectedFile;
-    private File selectedDirectory;
-    
-    Task<Void> checkingRulesTask = new Task<Void>() {
-            @Override
-            protected Void call(){
-                while (true) { 
-                    for (Rule rule: rulesSet.getRuleList()){
-                        if(rule.isActive() && !rule.isSleeping()){
-                            if (rule.getTrigger().checkTrigger() ){
-                                
-                                Platform.runLater(new Runnable(){
-                                    @Override public void run(){
-                                    rule.executeRule();
-                                    }
-                                });
-                            } 
-                        }
-
-                   }
-                  try {
-                        // Dormi per 5 secondi
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                
-            }
-    };
-    
-    //private checkRules checkRules = new checkRules(rulesSet);
-    Thread checkingRulesThread = new Thread(checkingRulesTask);
-    
-    BaseActionHandler baseActionHandler = new BaseActionHandler();
-    BaseConditionHandler baseConditionHandler = new BaseConditionHandler();
-    @FXML
+        @FXML
     private Label controlLabel;
     @FXML
     private AnchorPane dayAndMonthPage;
@@ -240,9 +200,46 @@ public class FXMLController implements Initializable {
     private TextField ExistFileTextField;
   
     
- 
-   
+    private ObservableList<Rule> ruleList;
+    private RulesSet rulesSet = new RulesSet();
+    private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
+    private File selectedFile;
+    private File selectedDirectory;
+    private boolean isCopying;
     
+    Task<Void> checkingRulesTask = new Task<Void>() {
+            @Override
+            protected Void call(){
+                while (true) { 
+                    for (Rule rule: rulesSet.getRuleList()){
+                        if(rule.isActive() && !rule.isSleeping()){
+                            if (rule.getTrigger().checkTrigger() ){
+                                
+                                Platform.runLater(new Runnable(){
+                                    @Override public void run(){
+                                    rule.executeRule();
+                                    }
+                                });
+                            } 
+                        }
+
+                   }
+                  try {
+                        // Dormi per 5 secondi
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
+            }
+    };
+    
+    //private checkRules checkRules = new checkRules(rulesSet);
+    Thread checkingRulesThread = new Thread(checkingRulesTask);
+    
+    BaseActionHandler baseActionHandler = new BaseActionHandler();
+    BaseConditionHandler baseConditionHandler = new BaseConditionHandler(); 
     
     /**
      * Metodo chiamato quando viene inizializzata l'interfaccia utente.
@@ -264,6 +261,7 @@ public class FXMLController implements Initializable {
         dayPage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
         copyMoveFilePage.setVisible(false);
+        dimensionFilePage.setVisible(false);
         
         // Carica le regole dal file al momento dell'avvio
         loadRules();
@@ -423,7 +421,7 @@ public class FXMLController implements Initializable {
        Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce); 
        
        //Aggiungi la regola al set delle regole
-      rulesSet.getRuleList().add(rule);
+       rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
@@ -499,7 +497,7 @@ public class FXMLController implements Initializable {
         // Setto l'azione da eseguire
         if (selectedFile != null && !stringToWrite.isEmpty()){
             actionLabel.setText("Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
-            System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
+            //System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
         }
         
         // Pulisci il TextField dopo l'aggiunta
@@ -521,8 +519,8 @@ public class FXMLController implements Initializable {
     @FXML
     private void chooseDestination(ActionEvent event){
         DirectoryChooser directoryChooser = new DirectoryChooser();;
-        File selectedDirectory = directoryChooser.showDialog(new Stage());
-        destinationFilePathLabel.setText("Destinazione selezionata: " + selectedDirectory.toString());       
+        selectedDirectory = directoryChooser.showDialog(new Stage());
+        destinationFilePathLabel.setText("Destinazione selezionata: " + selectedDirectory.toString()); 
     }
     
      @FXML
@@ -537,6 +535,11 @@ public class FXMLController implements Initializable {
             showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
             return;
         }
+        if (isCopying) {
+            actionLabel.setText("Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString());                
+        } else {
+            actionLabel.setText("Sposta il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString());               
+        }
         
         // Pulisci le label dopo l'aggiunta
         selectedFilePathLabel2.setText("");
@@ -544,8 +547,7 @@ public class FXMLController implements Initializable {
         // Nascondi la pagina chooseFileToAppendStringPage
         copyMoveFilePage.setVisible(false);
         // Mostra la pagina newRulePage
-        newRulePage.setVisible(true);
-        
+        newRulePage.setVisible(true);        
     }
 
 private void showAlert(String message, Alert.AlertType alertType) {
@@ -585,21 +587,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
             chooseFileToAppendStringPage.setVisible(true);                        
         }
         if(action.compareTo("Copia un file") == 0){
-
             newRulePage.setVisible(false);
             copyMoveFilePage.setVisible(true);
-            if(selectedFile != null && selectedDirectory != null){
-                actionLabel.setText("Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString());
-                }                        
+            isCopying = true;                            
         }
         if(action.compareTo("Sposta un file") == 0){
-
             newRulePage.setVisible(false);
             copyMoveFilePage.setVisible(true);
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showOpenDialog(new Stage());
-            actionLabel.setText("Sposta il file : " + selectedFile.toString());
-                        
+            isCopying = false;                        
         }
         if(action.compareTo("Elimina un file") == 0){
 
@@ -782,14 +777,20 @@ private void showAlert(String message, Alert.AlertType alertType) {
         Integer ggi = Integer.parseInt(gg);
         Integer hi = Integer.parseInt(h);
         Integer mi = Integer.parseInt(m);
-        if(ggi <= 7 && ggi>=0){
+        if(!(ggi >=0 && ggi<=7)){
             showAlert("Inserire un numero compreso tra 0 e 7",  Alert.AlertType.ERROR);
+             sleepingPeriodPage.setVisible(true);
+             newRulePage.setVisible(false);
         }
-        if(hi <= 24 && hi>=0){
+        if(!(hi >= 0 && hi<=24)){
             showAlert("Inserire un numero compreso tra 0 e 24",  Alert.AlertType.ERROR);
+            sleepingPeriodPage.setVisible(true);
+            newRulePage.setVisible(false);
         }
-        if(mi <= 60 && mi>=0){
+        if(!(mi >= 0 && mi<=60)){
             showAlert("Inserire un numero compreso tra 0 e 60",  Alert.AlertType.ERROR);
+            sleepingPeriodPage.setVisible(true);
+            newRulePage.setVisible(false);
         }
 
         controlLabel.setText("Ogni : " + gg +"g "+h +"h "+m+"m " );
@@ -858,6 +859,27 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
+    }
+    
+        @FXML
+    private void showAddPageBack4(ActionEvent event) {
+        // Pulisci il TextField dopo l'aggiunta
+        stringToAppendTextField.clear();
+        selectedFilePathLabel.setText("");
+        // Nascondi la pagina chooseFileToAppendStringPage
+        chooseFileToAppendStringPage.setVisible(false);
+        // Mostra la pagina newRulePage
+        newRulePage.setVisible(true);
+    }
+    
+        @FXML
+    private void showAddPageBack5(ActionEvent event) {
+        selectedFilePathLabel2.setText("");
+        destinationFilePathLabel.setText("");
+        // Nascondi la pagina chooseFileToAppendStringPage
+        copyMoveFilePage.setVisible(false);
+        // Mostra la pagina newRulePage
+        newRulePage.setVisible(true);     
     }
 
     @FXML
