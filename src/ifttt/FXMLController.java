@@ -208,7 +208,6 @@ public class FXMLController implements Initializable {
     private RadioButton SabRadioButton;
     @FXML
     private RadioButton DomRadioButton;
-    private TextField ExistFileTextField;
   
     
     private ObservableList<Rule> ruleList;
