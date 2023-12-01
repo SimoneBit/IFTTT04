@@ -175,10 +175,6 @@ public class FXMLController implements Initializable {
     @FXML
     private Button backButtonExists;
     @FXML
-    private Label nameFileLabel;
-    @FXML
-    private Label nameFile_id;
-    @FXML
     private Label pathFile_id;
     @FXML
     private AnchorPane dimensionFilePage;
@@ -483,8 +479,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void confirmString(ActionEvent event){
         String stringToWrite = stringToAppendTextField.getText();
-   ExistFileTextField
-        // Controllo che sia stato inserito del testo nel TextField
+                // Controllo che sia stato inserito del testo nel TextField
         if(stringToWrite.isEmpty()){
             showAlert("Inserisci il testo che vuoi scrivere sul file selezionato", Alert.AlertType.ERROR);
             return;
@@ -861,7 +856,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayField.setText("");
     }
     
-        @FXML
     private void showAddPageBack4(ActionEvent event) {
         // Pulisci il TextField dopo l'aggiunta
         stringToAppendTextField.clear();
@@ -872,7 +866,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
     }
     
-        @FXML
     private void showAddPageBack5(ActionEvent event) {
         selectedFilePathLabel2.setText("");
         destinationFilePathLabel.setText("");
@@ -895,15 +888,15 @@ private void showAlert(String message, Alert.AlertType alertType) {
         String nameFile = ExistFileTextField.getText();
         
        if(nameFile.isEmpty()){
-            showAlert("Inserisci il nome delfile di vuoi vuoi verificare l'esistenza", Alert.AlertType.ERROR);
+            showAlert("Inserisci il nome del file di cui vuoi  verificare l'esistenza", Alert.AlertType.ERROR);
             return;
         }
-        if(selectedDirectory == null){
+        if(pathFileLabel.getText() == null){
             showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
             return;
         }
         
-        if (selectedDirectory != null && !nameFile.isEmpty()){
+        if (pathFileLabel.getText() != null && !nameFile.isEmpty()){
             conditionLabel.setText("Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText());
             
         
@@ -916,6 +909,24 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
     @FXML
     private void ConfirmDimensionFileButton(ActionEvent event) {
+        String minSize = DimensionLabel.getText();
+        if(minSize.isEmpty()){
+            showAlert("Inserisci la dimensione del file che vuoi verificare", Alert.AlertType.ERROR);
+            return;
+        }
+        if(pathFileLabel1.getText() == null){
+            showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
+        
+        if (pathFileLabel1.getText() != null && !minSize.isEmpty()){
+            conditionLabel.setText("Il file : " + pathFileLabel.getText() + " ha dimensione minore di: " + minSize);
+            
+        
+        dimensionFilePage.setVisible(false);
+        newRulePage.setVisible(true);
+        
+    }
     }
 
     @FXML

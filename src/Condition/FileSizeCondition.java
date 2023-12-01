@@ -26,7 +26,7 @@ public class FileSizeCondition implements Condition {
      */
     public FileSizeCondition(String filePath, long minSize) {
         this.filePath = filePath;
-        this.minSize = minSize;
+        this.minSize = minSize *1024;
     }
 
     /**
@@ -39,7 +39,8 @@ public class FileSizeCondition implements Condition {
     @Override
     public boolean checkCondition() {
         File file = new File(filePath);
-        return file.length() > minSize;
+        long fileSizeKB = file.length() / 1024;
+        return fileSizeKB > minSize;
     }
 
     /**
