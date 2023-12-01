@@ -17,6 +17,22 @@ public class Rule {
     private String name;
     private Trigger trigger;
     private Action action;
+
+    public LocalTime getLastChecked() {
+        return lastChecked;
+    }
+
+    public void setLastChecked(LocalTime lastChecked) {
+        this.lastChecked = lastChecked;
+    }
+
+    public boolean isExecuteOnce() {
+        return executeOnce;
+    }
+
+    public void setExecuteOnce(boolean executeOnce) {
+        this.executeOnce = executeOnce;
+    }
     private boolean Active;
     private int sleepingPeriod;
     private LocalTime lastChecked;
@@ -132,6 +148,13 @@ public class Rule {
     public String toString() {
         return "Rule{" + "name=" + name + ", Active=" + Active + '}';
     }
+   public void setSleepingPeriod(int sleepingPeriod) {
+    this.sleepingPeriod = sleepingPeriod;
+}
+
+ 
+
+    
 
    
     
