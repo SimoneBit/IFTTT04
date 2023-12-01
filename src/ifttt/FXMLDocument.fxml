@@ -186,12 +186,12 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Label fx:id="nameFile_id" layoutX="97.0" layoutY="123.0" text="Nome file">
+            <Label fx:id="nameFile_id" layoutX="97.0" layoutY="123.0" text="Nome file" visible="false">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="pathFile_id" layoutX="103.0" layoutY="163.0" text="Path cartella">
+            <Label fx:id="pathFile_id" layoutX="103.0" layoutY="163.0" text="Path cartella" visible="false">
                <font>
                   <Font size="14.0" />
                </font>
@@ -201,6 +201,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <TextField fx:id="ExistFileTextField" layoutX="300.0" layoutY="78.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="dimensionFilePage" layoutX="69.0" layoutY="153.0" prefHeight="265.0" prefWidth="510.0" visible="false">

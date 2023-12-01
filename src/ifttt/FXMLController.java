@@ -236,6 +236,8 @@ public class FXMLController implements Initializable {
     private TextField DimensionLabel;
     @FXML
     private Button selectPathButton1;
+    @FXML
+    private TextField ExistFileTextField;
   
     
  
@@ -483,7 +485,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void confirmString(ActionEvent event){
         String stringToWrite = stringToAppendTextField.getText();
-   
+   ExistFileTextField
         // Controllo che sia stato inserito del testo nel TextField
         if(stringToWrite.isEmpty()){
             showAlert("Inserisci il testo che vuoi scrivere sul file selezionato", Alert.AlertType.ERROR);
@@ -859,16 +861,36 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
 
     @FXML
-    private void ConfirmExistFileButton(ActionEvent event) {
-    }
-
-    @FXML
     private void chooseFileExists(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();;
         File selectedDirectory = directoryChooser.showDialog(new Stage());
         pathFile_id.setVisible(true);
         pathFileLabel.setText(selectedDirectory.toString()); 
     }
+      
+    @FXML
+    private void ConfirmExistFileButton(ActionEvent event) {
+        String nameFile = ExistFileTextField.getText();
+        
+       if(nameFile.isEmpty()){
+            showAlert("Inserisci il nome delfile di vuoi vuoi verificare l'esistenza", Alert.AlertType.ERROR);
+            return;
+        }
+        if(selectedDirectory == null){
+            showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
+        
+        if (selectedDirectory != null && !nameFile.isEmpty()){
+            conditionLabel.setText("Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText());
+            
+        
+        existsFilePage.setVisible(false);
+        newRulePage.setVisible(true);
+    }
+    }
+
+    
 
     @FXML
     private void ConfirmDimensionFileButton(ActionEvent event) {
