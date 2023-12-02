@@ -4,13 +4,14 @@
  */
 package Condition;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author Simone
  */
-public class DayOfMonthCondition implements Condition{
+public class DayOfMonthCondition implements Condition, Serializable{
     private Integer day;
     private int lastDayChecked;
     private boolean checkedToday;

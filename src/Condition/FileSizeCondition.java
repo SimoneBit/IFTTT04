@@ -2,6 +2,7 @@
 package Condition;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * La classe FileSizeCondition implementa l'interfaccia Condition e rappresenta
@@ -11,7 +12,7 @@ import java.io.File;
  * 
  * @author: Nicola Lanzara
  */
-public class FileSizeCondition implements Condition {
+public class FileSizeCondition implements Condition, Serializable {
     
     /** Il percorso del file per la condizione. */
     private String filePath;

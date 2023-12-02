@@ -2,6 +2,7 @@
 
 import Action.Action;
 import Condition.Trigger;
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -13,7 +14,7 @@ import java.time.temporal.ChronoUnit;
  * 
  * @author Nicola Lanzara
  */
-public class Rule {
+public class Rule implements Serializable{
     private String name;
     private Trigger trigger;
     private Action action;

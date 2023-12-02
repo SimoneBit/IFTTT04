@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Nicola Lanzara
  */
-public class RuleFileHandler extends BaseActionHandler{
+public class RuleFileHandler extends BaseActionHandler implements Serializable{
     private final String filePath;
 
     public RuleFileHandler(String filePath) {

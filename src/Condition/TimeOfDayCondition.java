@@ -1,5 +1,6 @@
 package Condition;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -13,7 +14,7 @@ import java.time.temporal.ChronoUnit;
  * @author Palma Orlando
  * 
  */
-public class TimeOfDayCondition implements Condition {
+public class TimeOfDayCondition implements Condition, Serializable {
     
     /**L'orario specificato per la condizione.*/
     private LocalTime specifiedTime;  

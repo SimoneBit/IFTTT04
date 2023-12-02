@@ -4,12 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  *
  * @author Palma Orlando
  */
-public class WriteOnFileAction implements Action {
+public class WriteOnFileAction implements Action, Serializable {
     
     private File file;
     private String stringToAppend;

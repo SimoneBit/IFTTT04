@@ -2,13 +2,14 @@ package Action;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.*;
 
 /**
  *
  * @author Palma Orlando
  */
-public class MoveFileAction implements Action{
+public class MoveFileAction implements Action, Serializable{
     
     private File file;
     private String destinationPath;

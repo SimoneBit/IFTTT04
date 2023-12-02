@@ -1,5 +1,6 @@
 package Rule;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author Nicola Lanzara
  */
 
-public class RulesSet{
+public class RulesSet implements Serializable{
     private List<Rule> ruleList;
 
     /**
@@ -51,6 +52,11 @@ public class RulesSet{
  */
     public void setRuleList(List<Rule> ruleList) {
         this.ruleList = ruleList;
+    }
+
+    @Override
+    public String toString() {
+        return "RulesSet{" + "ruleList=" + ruleList + '}';
     }
  
 

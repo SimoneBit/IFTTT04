@@ -1,6 +1,7 @@
 package Condition;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * La classe FileExistenceCondition implementa l'interfaccia Condition e rappresenta
@@ -10,7 +11,7 @@ import java.io.File;
  * 
  * @author: Nicola Lanzara
  */
-public class FileExistenceCondition implements Condition {
+public class FileExistenceCondition implements Condition, Serializable {
 
     /** Il percorso della cartella in cui cercare il file. */
     private String folderPath;

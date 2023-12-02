@@ -1,5 +1,7 @@
 package Condition;
 
+import java.io.Serializable;
+
 /**
  *La classe Trigger rappresenta un trigger che può essere attivato in base al risultato di una condizione specifica.
  * Un trigger è associato ad una condizione e può essere attivato invocando il metodo @see #checkTrigger() che,
@@ -7,7 +9,7 @@ package Condition;
  * 
  * @author Palma Orlando
  */
-public class Trigger {
+public class Trigger implements Serializable {
     
     private Condition condition;
 

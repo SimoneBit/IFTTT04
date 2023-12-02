@@ -1,5 +1,6 @@
 package Condition;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -9,7 +10,7 @@ import java.util.Locale;
  *
  * @author Palma Orlando
  */
-public class DayOfWeekCondition implements Condition {
+public class DayOfWeekCondition implements Condition, Serializable {
     private String daySelected;
     private boolean checkedToday;
 

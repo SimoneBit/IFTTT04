@@ -2,12 +2,13 @@
 package Action;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  *
  * @author Simone Pacifico
  */
-public class DeleteFileAction implements Action {
+public class DeleteFileAction implements Action, Serializable{
     
     File file;
 

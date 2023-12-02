@@ -2,6 +2,7 @@ package Action;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
@@ -21,7 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * La costante @see LOOP_TIMES indica il numero di volte che l'audio verrà riprodotto.
  * @author Simone Pacifico
  */
-public class PlayFileAction implements Action {
+public class PlayFileAction implements Action, Serializable{
     public final int LOOP_TIMES = 10;          
     private File file;                          //Riferimento al file audio da riprodurre
     private Clip clip;                          //Riferimento alla clip in esecuzione

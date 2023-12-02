@@ -1,5 +1,6 @@
 package Action;
 
+import java.io.Serializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -9,7 +10,7 @@ import javafx.scene.control.Alert.AlertType;
  * un'azione che mostra un messaggio in una finestra di dialogo.
  * @author Miriam Vitolo
  */
-public class DialogBoxAction implements Action {
+public class DialogBoxAction implements Action, Serializable{
 
    private String message;
     

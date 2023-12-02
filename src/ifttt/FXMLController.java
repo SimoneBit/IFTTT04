@@ -414,7 +414,6 @@ public class FXMLController implements Initializable {
        String []conditionParam;
        conditionParam = conditionString.split(" : ");
        Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
-       System.out.println(cond);
        Trigger trigger = new Trigger(cond);
        //Prendi i parametri e imposta la periodicità
        String controlString = controlLabel.getText();
@@ -441,6 +440,8 @@ public class FXMLController implements Initializable {
        //Aggiungi la regola al set delle regole
        rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
+       System.out.println("RuleSet"+rulesSet);
+       System.out.println("RuleList"+ruleList);
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
@@ -822,15 +823,29 @@ private void showAlert(String message, Alert.AlertType alertType) {
         }
 
    
-
+/*
+   
+*/
     public void loadRules() {
-        List<Rule> loadedRules = ruleFileHandler.loadRules();
-        if (!loadedRules.isEmpty()) {
+    List<Rule> loadedRules = ruleFileHandler.loadRules();
+    if (loadedRules != null && !loadedRules.isEmpty()) {
+        if (rulesSet != null) {
             rulesSet.getRuleList().addAll(loadedRules);
+        } else {
+            // Inizializza rulesSet se è null
+            rulesSet = new RulesSet();
+            rulesSet.getRuleList().addAll(loadedRules);
+        }
+
+        if (ruleList != null) {
+            ruleList.setAll(rulesSet.getRuleList());
+        } else {
+            // Inizializza ruleList se è null
+            ruleList = FXCollections.observableArrayList();
             ruleList.setAll(rulesSet.getRuleList());
         }
     }
-
+}
     
     public void saveRules() {
         ruleFileHandler.saveRules(new ArrayList<>(rulesSet.getRuleList()));
@@ -930,7 +945,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
         
         if (pathFileLabel.getText() != null && !nameFile.isEmpty()){
             conditionLabel.setText("Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText());
-        
+            
+        pathFileLabel.setText("");
         ExistFileTextField.clear();
         existsFilePage.setVisible(false);
         newRulePage.setVisible(true);
@@ -947,7 +963,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
             showAlert("Inserisci la dimensione del file che vuoi verificare", Alert.AlertType.ERROR);
             return;
         }
-        if(pathFileLabel1.getText() == null){
+        if(pathFileLabel1.getText() == ""){
             showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
             return;
         }
@@ -955,6 +971,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         if (pathFileLabel1.getText() != null && !minSize.isEmpty()){
             conditionLabel.setText("Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize);
             
+        pathFileLabel1.setText("");
         DimensionLabel.clear();
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
@@ -974,6 +991,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
     private void showAddPageBack6(ActionEvent event) {
         existsFilePage.setVisible(false);
         newRulePage.setVisible(true);
+        ExistFileTextField.clear();
         pathFileLabel.setText("");
     }
 
@@ -981,6 +999,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
     private void showAddPageBack7(ActionEvent event) {
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
+        DimensionLabel.clear();
         pathFileLabel1.setText("");
         
     }
