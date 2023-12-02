@@ -489,6 +489,14 @@ public class FXMLController implements Initializable {
         }
     }
     
+    /**
+     *Gestisce l'evento di selezione di un file attraverso un FileChooser.
+    * Apre una finestra di dialogo per la scelta di un file, consentendo all'utente di navigare e selezionare un file dal 
+    * sistema di file. Applica un filtro per accettare solo file con estensione .txt. e, una volta selezionato il file, aggiorna 
+    * l'etichetta visualizzata nell'interfaccia utente per mostrare il percorso completo del file selezionato.
+    *
+    * @param event l'evento di azione scatenato dalla scelta del file.
+     */
     @FXML
     private void chooseFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -499,6 +507,15 @@ public class FXMLController implements Initializable {
         selectedFilePathLabel.setText("File selezionato: " + selectedFile.toString());
     }
     
+    /**
+     * Gestisce l'evento di conferma della stringa da scrivere su un file selezionato.
+     * Controlla che sia stato inserito del testo nel TextField e che sia stato selezionato un file. Se il testo e il file sono stati 
+     * inseriti correttamente, imposta l'azione da eseguire e aggiorna l'etichetta nell'interfaccia utente con i dettagli dell'azione.
+     * Dopo la conferma, pulisce il TextField, resetta l'etichetta del percorso del file selezionato, nasconde la pagina di 
+     * selezione del file e mostra la pagina principale dell'applicazione.
+     *
+     * @param event l'evento di azione scatenato dalla conferma della stringa da scrivere.
+     */
     @FXML
     private void confirmString(ActionEvent event){
         String stringToWrite = stringToAppendTextField.getText();
@@ -527,6 +544,14 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
     }
     
+    /**
+     * Gestisce l'evento di selezione di un file attraverso un FileChooser per le azioni di copia e spostamento.
+     * Apre una finestra di dialogo per la scelta di un file consentendo all'utente di navigare e selezionare un file dal sistema 
+     * di file. Una volta selezionato il file, aggiorna l'etichetta visualizzata nell'interfaccia utente per mostrare il percorso 
+     * completo del file selezionato.
+     *
+     * @param event l'evento di azione scatenato dalla scelta del file per le azioni di copia e spostamento.
+     */
     @FXML
     private void chooseFileToCopyMove(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
@@ -534,6 +559,14 @@ public class FXMLController implements Initializable {
         selectedFilePathLabel2.setText("File selezionato: " + selectedFile.toString());
     }
     
+    /**
+     * Gestisce l'evento di selezione di una destinazione attraverso un DirectoryChooser.
+     * Apre una finestra di dialogo per la scelta di una directory destinazione consentendo all'utente di navigare e selezionare 
+     * una directory dal sistema di file. Una volta selezionata la directory destinazione, aggiorna l'etichetta visualizzata 
+     * nell'interfaccia utente per mostrare il percorso completo della directory selezionata.
+     *
+     * @param event l'evento di azione scatenato dalla scelta della directory destinazione. 
+     */
     @FXML
     private void chooseDestination(ActionEvent event){
         DirectoryChooser directoryChooser = new DirectoryChooser();;
@@ -541,6 +574,15 @@ public class FXMLController implements Initializable {
         destinationFilePathLabel.setText("Destinazione selezionata: " + selectedDirectory.toString()); 
     }
     
+    /**
+     * Gestisce l'evento di conferma dell'azione di copia o spostamento del file.
+     * Controlla che sia stato selezionato un file e una destinazione prima di confermare l'azione. Se entrambi sono stati 
+     * selezionati correttamente, imposta l'azione da eseguire e aggiorna l'etichetta nell'interfaccia utente con i dettagli 
+     * dell'azione. Dopo la conferma, resetta le etichette del percorso del file selezionato e della destinazione,
+     * nasconde la pagina di selezione del file e destinazione, e mostra la pagina principale dell'applicazione.
+     *
+     * @param event l'evento di azione scatenato dalla conferma dell'azione di copia o spostamento del file. 
+     */
      @FXML
     private void confirmCopyMoveFile(ActionEvent event){
         // Controllo che sia stato selezionato un file prima di confermare
@@ -884,6 +926,16 @@ private void showAlert(String message, Alert.AlertType alertType) {
         
     }
     
+    /**
+     * Gestisce l'evento di conferma della scelta del giorno della settimana attraverso i RadioButton.
+     * Verifica se un RadioButton è stato selezionato. Se sì, imposta l'etichetta nell'interfaccia utente
+     * con il giorno della settimana selezionato. Se nessun RadioButton è selezionato, mostra un avviso
+     * all'utente indicando che deve selezionare un giorno prima di confermare.
+     * Dopo la conferma, nasconde la pagina di scelta del giorno della settimana e mostra la pagina principale
+     * dell'applicazione, resettando anche la selezione del toggleGroup per i RadioButton.
+     *
+     * @param event l'evento di azione scatenato dalla conferma della scelta del giorno della settimana.
+     */
     @FXML
     private void confirmDayWeek(ActionEvent event){
         RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
@@ -906,6 +958,13 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayField.setText("");
     }
     
+    /**
+     * Gestisce l'evento di ritorno alla pagina principale dall'aggiunta di una stringa su file.
+     * Nasconde la pagina di scelta della stringa da scrivere sul file e mostra la pagina principale dell'applicazione. 
+     * Inoltre, pulisce il TextField utilizzato per inserire la stringa da scrivere e resetta l'etichetta del percorso del file selezionato.
+     *
+     * @param event l'evento di azione scatenato dal ritorno alla pagina principale dall'aggiunta di stringa su file.
+     */
     private void showAddPageBack4(ActionEvent event) {
         chooseFileToAppendStringPage.setVisible(false);
         newRulePage.setVisible(true);
@@ -913,6 +972,13 @@ private void showAlert(String message, Alert.AlertType alertType) {
         selectedFilePathLabel.setText("");
     }
     
+    /**
+     * Gestisce l'evento di ritorno alla pagina principale dalla scelta di copia o spostamento di un file.
+     * Nasconde la pagina di scelta del file e di destinazione per le azioni di copia o spostamento, mostrando
+     * la pagina principale dell'applicazione. Inoltre, resetta le etichette del percorso del file e della destinazione selezionati.
+     *
+     * @param event l'evento di azione scatenato dal ritorno alla pagina principale dalla scelta di copia o spostamento di un file.
+     */
     private void showAddPageBack5(ActionEvent event) {
         copyMoveFilePage.setVisible(false);
         newRulePage.setVisible(true);     
@@ -1004,6 +1070,13 @@ private void showAlert(String message, Alert.AlertType alertType) {
         
     }
     
+    /**
+     * Gestisce l'evento di ritorno alla pagina principale dalla scelta del giorno della settimana.
+     * Nasconde la pagina di scelta del giorno della settimana e mostra la pagina principale dell'applicazione.
+     * Inoltre, resetta la selezione del toggleGroup per i RadioButton.
+     *
+     * @param event l'evento di azione scatenato dal ritorno alla pagina principale dalla scelta del giorno della settimana.
+     */
     @FXML
     private void showAddPageBack8(ActionEvent event) {
         chooseDayWeekPage.setVisible(false);
