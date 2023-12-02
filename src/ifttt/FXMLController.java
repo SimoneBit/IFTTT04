@@ -28,7 +28,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,7 +37,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 /**
  * La classe FXMLController è un controller per la gestione dell'interfaccia utente definita in un file FXML. 
@@ -426,7 +424,7 @@ public class FXMLController implements Initializable {
             Integer days = Integer.parseInt(num[0]);
             Integer hours = Integer.parseInt(num[1]);
             Integer minutes = Integer.parseInt(num[2]);
-            sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60*60);
+            sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60);
        }
        if(controlParam[0].compareTo("Una volta ")==0){
            executeOnce=true;
