@@ -71,13 +71,16 @@ public class Rule implements Serializable{
             return exit;     
         }
         else {
-           long difference=  Duration.between(currentDate, lastChecked).getSeconds();
+           
+           long difference=  Duration.between(lastChecked, currentDate).getSeconds();
            if(sleepingPeriod<= difference){
+             lastChecked = currentDate;
              return exit;
              
          }
            else{
-               exit = true;
+               if(sleepingPeriod> difference);
+              exit=true;           
           }
       }
         return exit;
@@ -91,6 +94,7 @@ public class Rule implements Serializable{
     public boolean executeRule(){
         if(this.executeOnce){
             this.setActive(false);
+            
         }
         return this.action.executeAction();
     }
