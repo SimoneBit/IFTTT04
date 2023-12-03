@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
@@ -90,13 +91,14 @@ public class FXMLController implements Initializable {
     private Label conditionLabel;
     @FXML
     private AnchorPane chooseHourPage;
-    @FXML
-    private ChoiceBox<String> hourChoiceBox;
-    private final String[] possibleHours = {" ","00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+
+   @FXML
+    private ComboBox<String> hourComboBox;
+    private final String[] possibleHours = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
                                             "15","16","17","18","19","20","21","22","23"};
     @FXML
-    private ChoiceBox<String> minutesChoiceBox;
-    private final String[] possibleMinutes = {" ","00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+    private ComboBox<String> minutesComboBox;
+    private final String[] possibleMinutes = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
                                             "15","16","17","18","19","20","21","22","23", "24","25","26","27","28","29","30","31","32","33",
                                             "34","35","36","37","38", "39","40","41","42","43","44","45","46","47","48","49","50","51","52", 
                                             "53","54","55","56","57","58","59" };
@@ -227,6 +229,7 @@ public class FXMLController implements Initializable {
                                 Platform.runLater(new Runnable(){
                                     @Override public void run(){
                                     rule.executeRule();
+                                    tableView.refresh();
                                     }
                                 });
                             } 
@@ -255,6 +258,7 @@ public class FXMLController implements Initializable {
     private Button backButton8;
     @FXML
     private TextField ExistFileTextField;
+  
     
     /**
      * Metodo chiamato quando viene inizializzata l'interfaccia utente.
@@ -304,8 +308,8 @@ public class FXMLController implements Initializable {
         controlChoiceBox.getItems().addAll(possibleControls);
         controlChoiceBox.setOnAction(this::getControl);
         
-        hourChoiceBox.getItems().addAll(possibleHours);
-        minutesChoiceBox.getItems().addAll(possibleMinutes);
+        hourComboBox.getItems().addAll(possibleHours);
+        minutesComboBox.getItems().addAll(possibleMinutes);
         
         // Creazione ToggleGroup e aggiunta dei RadioButton al gruppo
         toggleGroup = new ToggleGroup();
@@ -757,12 +761,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
      */
     @FXML
     private void confirmHour(ActionEvent event) {
-        String hour = hourChoiceBox.getValue();
-        String minutes = minutesChoiceBox.getValue();
+        String hour = hourComboBox.getValue();
+        String minutes = minutesComboBox.getValue();
         String time = hour + ":" + minutes;
         conditionLabel.setText("Alle : " + time);
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
+        hourComboBox.setValue(" ");
+        minutesComboBox.setValue(" ");
     }
 
     /**
@@ -778,6 +784,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         conditionLabel.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
+        hourComboBox.setValue(" ");
+        minutesComboBox.setValue(" ");
     }
 
     /**
