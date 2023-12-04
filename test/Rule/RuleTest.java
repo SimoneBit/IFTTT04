@@ -55,10 +55,8 @@ public class RuleTest {
     public void testCheckSleepingState_SleepingPeriodElapsed() {
         // Imposta il periodo di riposo a un valore qualsiasi
         rule.setSleepingPeriod(10);
-
         // Imposta l'ultimo controllo a 11 secondi fa
         rule.setLastChecked(LocalTime.now().minusSeconds(11));
-
         // Verifica che il risultato sia true poiché il periodo di riposo è trascorso
         assertTrue(rule.checkSleepingState());
     }
