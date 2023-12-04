@@ -788,6 +788,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         minutesComboBox.setValue(" ");
     }
 
+    
     /**
      * Gestisce l'evento di eliminazione di una regola. 
      * Rimuove la regola selezionata dalla lista delle regole e dall'elenco visualizzato nella TableView.
