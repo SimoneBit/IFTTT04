@@ -33,6 +33,8 @@ public class ExecuteProgramActionHandler extends BaseActionHandler {
             String programParameters = parts[1];
             
             // Crea un'istanza di ExecuteProgramAction con i dati forniti
+            System.out.println(programParameters);
+            
             ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);
             return executeProgramAction;          
         } else {

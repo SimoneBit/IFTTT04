@@ -214,6 +214,7 @@ public class FXMLController implements Initializable {
     private RulesSet rulesSet = new RulesSet();
     private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
     private File selectedFile;
+    private File selectedProgram;
     private File selectedDirectory;
     private boolean isCopying;
     private ToggleGroup toggleGroup;
@@ -460,8 +461,7 @@ public class FXMLController implements Initializable {
        //Aggiungi la regola al set delle regole
        rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
-       System.out.println("RuleSet"+rulesSet);
-       System.out.println("RuleList"+ruleList);
+       
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
@@ -684,13 +684,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
             
         }
         if(action.compareTo("Esegui un programma") == 0){
-            
-        FileChooser fileChooser = new FileChooser();
-        // Imposta un filtro per accettare solo file .jar e .exe
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Eseguibili (*.jar, *.exe)", "*.jar", "*.exe");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
-        actionLabel.setText("Esegui il programma: " + selectedFile.toString());
+            newRulePage.setVisible(false);
+            executeProgramPage.setVisible(true);
         }
 
        
@@ -733,6 +728,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
             dimensionFilePage.setVisible(true);
             newRulePage.setVisible(false);   
         }
+        
     }
     
     /**
@@ -1021,7 +1017,12 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
 
     
-
+        /**
+     * Gestisce l'evento di scelta di una cartella per verificare l'esistenza di un file.
+     * Apre una finestra di dialogo per la scelta di una cartella e imposta l'etichetta del percorso della cartella selezionata.
+     *
+     * @param event l'evento di azione scatenato dalla scelta di una cartella.
+     */
     @FXML
     private void chooseFileExists(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();;
@@ -1029,7 +1030,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
         pathFile_id.setVisible(true);
         pathFileLabel.setText(selectedDirectory.toString()); 
     }
-      
+   /**
+   * Gestisce l'evento di conferma della verifica dell'esistenza di un file.
+   * Verifica se è stato inserito un nome di file e se è stata selezionata una cartella destinazione.
+   * Se entrambe le condizioni sono soddisfatte, mostra un messaggio con il risultato della verifica
+   * e dopo l'esecuzione resetta i campi relativi alla scelta della cartella e al nome del file.
+   *
+   * @param event l'evento di azione scatenato dalla conferma della verifica dell'esistenza di un file.
+   */
     @FXML
     private void ConfirmExistFileButton(ActionEvent event) {
         String nameFile = ExistFileTextField.getText();
@@ -1055,7 +1063,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
 
     
-
+    /**
+     * Gestisce l'evento di conferma della verifica della dimensione di un file.
+     * Verifica se è stata inserita una dimensione minima e se è stata selezionata una cartella destinazione.
+     * Se entrambe le condizioni sono soddisfatte, mostra un messaggio con il risultato della verifica
+     * e dopo l'esecuzione resetta i campi relativi alla scelta della cartella e alla dimensione del file.
+     *
+     * @param event l'evento di azione scatenato dalla conferma della verifica della dimensione di un file.
+     */
     @FXML
     private void ConfirmDimensionFileButton(ActionEvent event) {
         String minSize = DimensionLabel.getText();
@@ -1078,7 +1093,12 @@ private void showAlert(String message, Alert.AlertType alertType) {
         
     }
     }
-
+    /**
+     * Gestisce l'evento di scelta di un file per verificare la dimensione.
+     * Apre una finestra di dialogo per la scelta di un file e imposta l'etichetta del percorso del file selezionato.
+     *
+     * @param event l'evento di azione scatenato dalla scelta di un file.
+     */
     @FXML
     private void chooseFileDimension(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1086,7 +1106,13 @@ private void showAlert(String message, Alert.AlertType alertType) {
         pathFile_id1.setVisible(true);
         pathFileLabel1.setText(selectedFile.toString());
     }
-
+    /**
+    * Gestisce l'evento di ritorno alla pagina principale dalla verifica dell'esistenza di un file.
+    * Nasconde la pagina di verifica dell'esistenza di un file e mostra la pagina principale dell'applicazione.
+    * Inoltre, resetta i campi relativi alla scelta della cartella e al nome del file.
+    *
+    * @param event l'evento di azione scatenato dal ritorno alla pagina principale dalla verifica dell'esistenza di un file.
+    */
     @FXML
     private void showAddPageBack6(ActionEvent event) {
         existsFilePage.setVisible(false);
@@ -1094,7 +1120,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
         ExistFileTextField.clear();
         pathFileLabel.setText("");
     }
-
+    
+    /**
+    * Gestisce l'evento di ritorno alla pagina principale dalla verifica della dimensione di un file.
+    * Nasconde la pagina di verifica della dimensione di un file e mostra la pagina principale dell'applicazione.
+    * Inoltre, resetta i campi relativi alla scelta della cartella e alla dimensione del file.
+    *
+    * @param event l'evento di azione scatenato dal ritorno alla pagina principale dalla verifica della dimensione di un file.
+    */
     @FXML
     private void showAddPageBack7(ActionEvent event) {
         dimensionFilePage.setVisible(false);
@@ -1117,9 +1150,34 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);     
         toggleGroup.selectToggle(null);
     }
+    
+    
+    @FXML
+    private void chooseProgram(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        // Imposta un filtro per accettare solo file .jar e .exe
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Eseguibili (*.jar, *.exe)", "*.jar", "*.exe");
+        fileChooser.getExtensionFilters().add(extFilter);
+        selectedProgram = fileChooser.showOpenDialog(new Stage());
+        pathProgramId.setVisible(true);
+        pathProgramLabel.setText(selectedProgram.toString());
+        actionLabel.setText("Esegui il programma: " + selectedProgram.toString());
+    }
 
+    
     @FXML
     private void ConfirmExecuteProgramButton(ActionEvent event) {
+    
+        if (selectedProgram == null) {
+        showAlert("Devi selezionare un programma prima di confermare.", Alert.AlertType.ERROR);
+        return;
+         }
+        
+        actionLabel.setText("Esegui il programma : " + selectedProgram.toString()+ " con parametri: " + ParametersTextField.getText()); 
+        ParametersTextField.clear();
+        pathProgramLabel.setText("");
+        executeProgramPage.setVisible(false);
+        newRulePage.setVisible(true);
     }
 
     @FXML
@@ -1128,10 +1186,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         ParametersTextField.clear();
         pathProgramLabel.setText("");
-    }
-
-    @FXML
-    private void chooseProgram(ActionEvent event) {
     }
 }
 
