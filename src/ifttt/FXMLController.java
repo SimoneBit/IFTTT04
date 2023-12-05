@@ -64,7 +64,7 @@ public class FXMLController implements Initializable {
     @FXML
     private ChoiceBox<String> actionChoiceBox;
     private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio", 
-                                                                       "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file"};
+                                                                       "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file","Esegui un programma"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno della settimana", 
@@ -258,6 +258,20 @@ public class FXMLController implements Initializable {
     private Button backButton8;
     @FXML
     private TextField ExistFileTextField;
+    @FXML
+    private AnchorPane executeProgramPage;
+    @FXML
+    private Label pathProgramLabel;
+    @FXML
+    private Button confirmDimensionFileButton11;
+    @FXML
+    private Button backButtonDimension1;
+    @FXML
+    private Button selectProgramButton;
+    @FXML
+    private Label pathProgramId;
+    @FXML
+    private TextField ParametersTextField;
   
     
     /**
@@ -328,7 +342,8 @@ public class FXMLController implements Initializable {
         DeleteFileActionHandler deleteFileHandler = new DeleteFileActionHandler();
         WriteOnFileActionHandler writeOnFileHandler = new WriteOnFileActionHandler();
         CopyFileActionHandler copyFileHandler = new CopyFileActionHandler();
-        MoveFileActionHandler moveFileHandler = new MoveFileActionHandler();        
+        MoveFileActionHandler moveFileHandler = new MoveFileActionHandler(); 
+        ExecuteProgramActionHandler executeProgramHandler = new ExecuteProgramActionHandler();
         
         baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
@@ -336,6 +351,7 @@ public class FXMLController implements Initializable {
         deleteFileHandler.setNext(writeOnFileHandler);
         writeOnFileHandler.setNext(copyFileHandler);
         copyFileHandler.setNext(moveFileHandler);
+        moveFileHandler.setNext(executeProgramHandler);
         
         //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
@@ -344,6 +360,7 @@ public class FXMLController implements Initializable {
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
         FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
         FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
+        
                 
         baseConditionHandler.setNext(timeHandler);
         timeHandler.setNext(dayOfMonthHandler);
@@ -351,6 +368,7 @@ public class FXMLController implements Initializable {
         timeHandler.setNext(dayOfWeekHandler);
         dayOfWeekHandler.setNext(fileExistenceHandler);
         fileExistenceHandler.setNext(fileSizeHandler);
+        
         
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
@@ -665,6 +683,16 @@ private void showAlert(String message, Alert.AlertType alertType) {
             actionLabel.setText("Elimina il file : " + selectedFile.toString());
             
         }
+        if(action.compareTo("Esegui un programma") == 0){
+            
+        FileChooser fileChooser = new FileChooser();
+        // Imposta un filtro per accettare solo file .jar e .exe
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Eseguibili (*.jar, *.exe)", "*.jar", "*.exe");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        actionLabel.setText("Esegui il programma: " + selectedFile.toString());
+        }
+
        
     }
     
@@ -1088,6 +1116,18 @@ private void showAlert(String message, Alert.AlertType alertType) {
         chooseDayWeekPage.setVisible(false);
         newRulePage.setVisible(true);     
         toggleGroup.selectToggle(null);
+    }
+
+    @FXML
+    private void ConfirmExecuteProgramButton(ActionEvent event) {
+    }
+
+    @FXML
+    private void showAddPageBackProgram(ActionEvent event) {
+    }
+
+    @FXML
+    private void chooseProgram(ActionEvent event) {
     }
 }
 
