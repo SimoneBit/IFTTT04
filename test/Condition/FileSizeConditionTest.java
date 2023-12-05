@@ -16,8 +16,9 @@ import static org.junit.Assert.*;
  * @author 39349
  */
 public class FileSizeConditionTest {
-
-  public void testCheckConditionWhenFileSizeExceedsMinSize() {
+  
+    @Test
+    public void testCheckConditionWhenFileSizeExceedsMinSize() {
     try {
         // Specifica un percorso di file esistente e una dimensione minima
         String filePath = "C:\\Users\\39349\\Desktop\\Software\\Progetto\\IFTTT04\\file_esistente.txt";
@@ -38,7 +39,7 @@ public class FileSizeConditionTest {
     public void testCheckConditionWhenFileSizeDoesNotExceedMinSize() {
         // Specifica un percorso di file esistente e una dimensione minima irragionevolmente grande
         String filePath = "C:\\Users\\39349\\Desktop\\Software\\Progetto\\IFTTT04\\file_esistente.txt";
-        long minSize = 100000; // in KB (un valore molto grande)
+        long minSize = 100000*1024; // in KB (un valore molto grande)
 
         // Crea un'istanza di FileSizeCondition
         FileSizeCondition condition = new FileSizeCondition(filePath, minSize);

@@ -1124,6 +1124,10 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
     @FXML
     private void showAddPageBackProgram(ActionEvent event) {
+        executeProgramPage.setVisible(false);
+        newRulePage.setVisible(true);
+        ParametersTextField.clear();
+        pathProgramLabel.setText("");
     }
 
     @FXML
