@@ -32,6 +32,7 @@ public class ExecuteProgramActionHandler extends BaseActionHandler {
             if(parts.length >=2){
             String programPath = parts[0];
             String programParameters = parts[1];
+            System.out.println(programParameters);
             ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);
             return executeProgramAction;
             }

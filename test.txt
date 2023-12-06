@@ -1,1 +1,0 @@
-La somma dei numeri inseriti è 45.

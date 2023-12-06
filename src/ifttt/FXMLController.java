@@ -415,6 +415,7 @@ public class FXMLController implements Initializable {
         actionChoiceBox.setValue("Seleziona un'azione");
         conditionChoiceBox.setValue("Seleziona una condizione");
         controlChoiceBox.setValue("Seleziona un controllo");
+        controlLabel.setText("");
     }
 
     /**
@@ -892,6 +893,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
     private void showNewRulePage(ActionEvent event) {
         sleepingPeriodPage.setVisible(false);
         newRulePage.setVisible(true);
+        controlChoiceBox.setValue("Seleziona un controllo");
         }
 
    
