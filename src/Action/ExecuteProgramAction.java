@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * La classe ExecuteProgramAction implementa l'interfaccia Action e fornisce un'azione per eseguire un programma
@@ -32,13 +34,23 @@ public class ExecuteProgramAction implements Action, Serializable {
      */
     @Override
     public boolean executeAction() {
-        try {
-            // Esegui il programma con i parametri specificati
-            Runtime.getRuntime().exec(programPath + " " + programParameters);
+        if(programParameters.length() == 0){
+            try {
+                Runtime.getRuntime().exec(programPath);
+            } catch (IOException ex) {
+                Logger.getLogger(ExecuteProgramAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        }
+        else{
+            try {
+                // Esegui il programma con i parametri specificati
+                Runtime.getRuntime().exec(programPath + " " + programParameters);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 }

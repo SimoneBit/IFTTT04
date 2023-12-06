@@ -301,7 +301,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="ParametersTextField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="301.0" promptText="Inserisci i parametri separati da una virgola" />
+            <TextField fx:id="ParametersTextField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="301.0" promptText="Inserisci i parametri separati da uno spazio" />
          </children>
       </AnchorPane>
    </children>

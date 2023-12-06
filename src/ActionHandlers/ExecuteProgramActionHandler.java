@@ -29,14 +29,19 @@ public class ExecuteProgramActionHandler extends BaseActionHandler {
         if(request.equals("Esegui il programma")){
             // Analizza il parametro per ottenere il percorso del programma e i parametri
             String[] parts = param.split(" con parametri: ");
+            if(parts.length >=2){
             String programPath = parts[0];
             String programParameters = parts[1];
-            
-            // Crea un'istanza di ExecuteProgramAction con i dati forniti
-            System.out.println(programParameters);
-            
             ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);
-            return executeProgramAction;          
+            return executeProgramAction;
+            }
+            else{
+                String programPath = parts[0];
+                String programParameters = "";
+                ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);
+            return executeProgramAction;
+            }
+            
         } else {
             // Delega la gestione alla classe successiva nella catena
             if(next != null){

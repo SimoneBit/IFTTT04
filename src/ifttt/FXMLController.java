@@ -986,6 +986,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
     /**
@@ -1000,6 +1001,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         stringToAppendTextField.clear();
         selectedFilePathLabel.setText("");
+        actionChoiceBox.setValue("Seleziona un'azione");
     }
     
     /**
@@ -1014,6 +1016,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);     
         selectedFilePathLabel2.setText("");
         destinationFilePathLabel.setText("");
+        actionChoiceBox.setValue("Seleziona un'azione");
     }
 
     
@@ -1119,6 +1122,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         ExistFileTextField.clear();
         pathFileLabel.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
     /**
@@ -1134,6 +1138,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         DimensionLabel.clear();
         pathFileLabel1.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
         
     }
     
@@ -1149,6 +1154,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         chooseDayWeekPage.setVisible(false);
         newRulePage.setVisible(true);     
         toggleGroup.selectToggle(null);
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
     
@@ -1186,6 +1192,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         ParametersTextField.clear();
         pathProgramLabel.setText("");
+        actionChoiceBox.setValue("Seleziona un'azione");
     }
 }
 
