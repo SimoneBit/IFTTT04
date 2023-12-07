@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
       <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
@@ -44,7 +44,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="newRulePage" layoutX="42.0" layoutY="2.0" prefHeight="574.0" prefWidth="640.0">
+      <AnchorPane fx:id="newRulePage" layoutX="18.0" layoutY="-2.0" prefHeight="574.0" prefWidth="640.0">
          <children>
             <ChoiceBox fx:id="conditionChoiceBox" layoutX="85.0" layoutY="117.0" prefHeight="31.0" prefWidth="229.0" />
             <ChoiceBox fx:id="controlChoiceBox" layoutX="85.0" layoutY="288.0" prefHeight="31.0" prefWidth="229.0" />
@@ -53,7 +53,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="4.0" layoutY="207.0" text="Allora:">
+
+            <Label layoutX="1.0" layoutY="209.0" text="Allora:">
                <font>
                   <Font size="18.0" />
                </font>
@@ -71,8 +72,9 @@
             <TextField fx:id="ruleName" layoutX="187.0" layoutY="47.0" prefHeight="35.0" prefWidth="228.0" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="192.0" AnchorPane.topAnchor="47.0" />
             <Label fx:id="controlLabel" layoutY="341.0" prefHeight="21.0" prefWidth="308.0" />
             <Button fx:id="addRuleButton" layoutX="319.0" layoutY="407.0" mnemonicParsing="false" onAction="#addRule" text="Aggiungi" />
-            <ChoiceBox fx:id="actionChoiceBox" layoutX="85.0" layoutY="208.0" prefHeight="31.0" prefWidth="229.0" />
-            <Label fx:id="actionLabel" layoutX="337.0" layoutY="133.0" prefHeight="151.0" prefWidth="289.0" />
+            <ChoiceBox fx:id="actionChoiceBox" layoutX="85.0" layoutY="207.0" prefHeight="31.0" prefWidth="229.0" />
+            <Label fx:id="actionLabel" layoutX="337.0" layoutY="163.0" prefHeight="151.0" prefWidth="289.0" />
+
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chooseMessagePage" layoutX="35.0" layoutY="7.0" prefHeight="547.0" prefWidth="588.0" visible="false">
@@ -281,6 +283,34 @@
                </font>
             </Label>
             <TextField fx:id="DimensionLabel" layoutX="311.0" layoutY="131.0" prefHeight="31.0" prefWidth="165.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="executeProgramPage" layoutX="70.0" layoutY="163.0" prefHeight="265.0" prefWidth="525.0" visible="false">
+         <children>
+            <Label layoutX="26.0" layoutY="39.0" text="Seleziona il programma">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="pathProgramLabel" alignment="BOTTOM_RIGHT" layoutX="234.0" layoutY="95.0" prefHeight="17.0" prefWidth="282.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="confirmDimensionFileButton11" layoutX="322.0" layoutY="202.0" mnemonicParsing="false" onAction="#ConfirmExecuteProgramButton" text="OK" />
+            <Button fx:id="backButtonDimension1" layoutX="111.0" layoutY="202.0" mnemonicParsing="false" onAction="#showAddPageBackProgram" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
+            <Button fx:id="selectProgramButton" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseProgram" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
+            <Label fx:id="pathProgramId" layoutX="31.0" layoutY="91.0" prefHeight="25.0" prefWidth="114.0" text="Path program" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="31.0" layoutY="133.0" text="Parametri">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ParametersTextField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="301.0" promptText="Inserisci i parametri separati da uno spazio" />
          </children>
       </AnchorPane>
    </children>

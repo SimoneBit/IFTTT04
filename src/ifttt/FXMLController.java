@@ -63,8 +63,9 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
+
     private final String[] possibleActions = {"Seleziona una sequenza di azioni","Fai partire un audio","Mostra un messaggio", 
-                                                                       "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file"};
+                                                                       "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file","Esegui un programma"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno della settimana", 
@@ -214,6 +215,7 @@ public class FXMLController implements Initializable {
     private RulesSet rulesSet = new RulesSet();
     private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
     private File selectedFile;
+    private File selectedProgram;
     private File selectedDirectory;
     private boolean isCopying;
     private ToggleGroup toggleGroup;
@@ -259,6 +261,20 @@ public class FXMLController implements Initializable {
     private Button backButton8;
     @FXML
     private TextField ExistFileTextField;
+    @FXML
+    private AnchorPane executeProgramPage;
+    @FXML
+    private Label pathProgramLabel;
+    @FXML
+    private Button confirmDimensionFileButton11;
+    @FXML
+    private Button backButtonDimension1;
+    @FXML
+    private Button selectProgramButton;
+    @FXML
+    private Label pathProgramId;
+    @FXML
+    private TextField ParametersTextField;
   
     
     /**
@@ -329,7 +345,8 @@ public class FXMLController implements Initializable {
         DeleteFileActionHandler deleteFileHandler = new DeleteFileActionHandler();
         WriteOnFileActionHandler writeOnFileHandler = new WriteOnFileActionHandler();
         CopyFileActionHandler copyFileHandler = new CopyFileActionHandler();
-        MoveFileActionHandler moveFileHandler = new MoveFileActionHandler();        
+        MoveFileActionHandler moveFileHandler = new MoveFileActionHandler(); 
+        ExecuteProgramActionHandler executeProgramHandler = new ExecuteProgramActionHandler();
         
         baseActionHandler.setNext(audioHandler);
         audioHandler.setNext(dialogBoxHandler);
@@ -337,6 +354,7 @@ public class FXMLController implements Initializable {
         deleteFileHandler.setNext(writeOnFileHandler);
         writeOnFileHandler.setNext(copyFileHandler);
         copyFileHandler.setNext(moveFileHandler);
+        moveFileHandler.setNext(executeProgramHandler);
         
         //Creazione della catena delle responsabilità per le condizioni
         TimeConditionHandler timeHandler = new TimeConditionHandler();
@@ -345,6 +363,7 @@ public class FXMLController implements Initializable {
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
         FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
         FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
+        
                 
         baseConditionHandler.setNext(timeHandler);
         timeHandler.setNext(dayOfMonthHandler);
@@ -352,6 +371,7 @@ public class FXMLController implements Initializable {
         timeHandler.setNext(dayOfWeekHandler);
         dayOfWeekHandler.setNext(fileExistenceHandler);
         fileExistenceHandler.setNext(fileSizeHandler);
+        
         
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
@@ -397,6 +417,7 @@ public class FXMLController implements Initializable {
         actionChoiceBox.setValue("Seleziona una sequenza di azioni");
         conditionChoiceBox.setValue("Seleziona una condizione");
         controlChoiceBox.setValue("Seleziona un controllo");
+        controlLabel.setText("");
     }
 
     /**
@@ -449,8 +470,7 @@ public class FXMLController implements Initializable {
        //Aggiungi la regola al set delle regole
        rulesSet.getRuleList().add(rule);
        ruleList.add(rule); 
-       System.out.println("RuleSet"+rulesSet);
-       System.out.println("RuleList"+ruleList);
+       
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
        activeRuleId.setDisable(true);
@@ -685,6 +705,11 @@ private void showAlert(String message, Alert.AlertType alertType) {
             actionLabel.setText(concat);
             
         }
+        if(action.compareTo("Esegui un programma") == 0){
+            newRulePage.setVisible(false);
+            executeProgramPage.setVisible(true);
+        }
+
        
     }
     
@@ -725,6 +750,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
             dimensionFilePage.setVisible(true);
             newRulePage.setVisible(false);   
         }
+        
     }
     
     /**
@@ -889,6 +915,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
     private void showNewRulePage(ActionEvent event) {
         sleepingPeriodPage.setVisible(false);
         newRulePage.setVisible(true);
+        controlChoiceBox.setValue("Seleziona un controllo");
         }
 
    
@@ -983,6 +1010,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
     /**
@@ -997,6 +1025,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         stringToAppendTextField.clear();
         selectedFilePathLabel.setText("");
+        actionChoiceBox.setValue("Seleziona un'azione");
     }
     
     /**
@@ -1011,10 +1040,16 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);     
         selectedFilePathLabel2.setText("");
         destinationFilePathLabel.setText("");
+        actionChoiceBox.setValue("Seleziona un'azione");
     }
 
     
-
+        /**
+     * Gestisce l'evento di scelta di una cartella per verificare l'esistenza di un file.
+     * Apre una finestra di dialogo per la scelta di una cartella e imposta l'etichetta del percorso della cartella selezionata.
+     *
+     * @param event l'evento di azione scatenato dalla scelta di una cartella.
+     */
     @FXML
     private void chooseFileExists(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();;
@@ -1022,7 +1057,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
         pathFile_id.setVisible(true);
         pathFileLabel.setText(selectedDirectory.toString()); 
     }
-      
+   /**
+   * Gestisce l'evento di conferma della verifica dell'esistenza di un file.
+   * Verifica se è stato inserito un nome di file e se è stata selezionata una cartella destinazione.
+   * Se entrambe le condizioni sono soddisfatte, mostra un messaggio con il risultato della verifica
+   * e dopo l'esecuzione resetta i campi relativi alla scelta della cartella e al nome del file.
+   *
+   * @param event l'evento di azione scatenato dalla conferma della verifica dell'esistenza di un file.
+   */
     @FXML
     private void ConfirmExistFileButton(ActionEvent event) {
         String nameFile = ExistFileTextField.getText();
@@ -1048,7 +1090,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
     }
 
     
-
+    /**
+     * Gestisce l'evento di conferma della verifica della dimensione di un file.
+     * Verifica se è stata inserita una dimensione minima e se è stata selezionata una cartella destinazione.
+     * Se entrambe le condizioni sono soddisfatte, mostra un messaggio con il risultato della verifica
+     * e dopo l'esecuzione resetta i campi relativi alla scelta della cartella e alla dimensione del file.
+     *
+     * @param event l'evento di azione scatenato dalla conferma della verifica della dimensione di un file.
+     */
     @FXML
     private void ConfirmDimensionFileButton(ActionEvent event) {
         String minSize = DimensionLabel.getText();
@@ -1071,7 +1120,12 @@ private void showAlert(String message, Alert.AlertType alertType) {
         
     }
     }
-
+    /**
+     * Gestisce l'evento di scelta di un file per verificare la dimensione.
+     * Apre una finestra di dialogo per la scelta di un file e imposta l'etichetta del percorso del file selezionato.
+     *
+     * @param event l'evento di azione scatenato dalla scelta di un file.
+     */
     @FXML
     private void chooseFileDimension(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1079,21 +1133,36 @@ private void showAlert(String message, Alert.AlertType alertType) {
         pathFile_id1.setVisible(true);
         pathFileLabel1.setText(selectedFile.toString());
     }
-
+    /**
+    * Gestisce l'evento di ritorno alla pagina principale dalla verifica dell'esistenza di un file.
+    * Nasconde la pagina di verifica dell'esistenza di un file e mostra la pagina principale dell'applicazione.
+    * Inoltre, resetta i campi relativi alla scelta della cartella e al nome del file.
+    *
+    * @param event l'evento di azione scatenato dal ritorno alla pagina principale dalla verifica dell'esistenza di un file.
+    */
     @FXML
     private void showAddPageBack6(ActionEvent event) {
         existsFilePage.setVisible(false);
         newRulePage.setVisible(true);
         ExistFileTextField.clear();
         pathFileLabel.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
-
+    
+    /**
+    * Gestisce l'evento di ritorno alla pagina principale dalla verifica della dimensione di un file.
+    * Nasconde la pagina di verifica della dimensione di un file e mostra la pagina principale dell'applicazione.
+    * Inoltre, resetta i campi relativi alla scelta della cartella e alla dimensione del file.
+    *
+    * @param event l'evento di azione scatenato dal ritorno alla pagina principale dalla verifica della dimensione di un file.
+    */
     @FXML
     private void showAddPageBack7(ActionEvent event) {
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
         DimensionLabel.clear();
         pathFileLabel1.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
         
     }
     
@@ -1109,6 +1178,45 @@ private void showAlert(String message, Alert.AlertType alertType) {
         chooseDayWeekPage.setVisible(false);
         newRulePage.setVisible(true);     
         toggleGroup.selectToggle(null);
+        conditionChoiceBox.setValue("Seleziona una condizione");
+    }
+    
+    
+    @FXML
+    private void chooseProgram(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        // Imposta un filtro per accettare solo file .jar e .exe
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Eseguibili (*.jar, *.exe)", "*.jar", "*.exe");
+        fileChooser.getExtensionFilters().add(extFilter);
+        selectedProgram = fileChooser.showOpenDialog(new Stage());
+        pathProgramId.setVisible(true);
+        pathProgramLabel.setText(selectedProgram.toString());
+        actionLabel.setText("Esegui il programma: " + selectedProgram.toString());
+    }
+
+    
+    @FXML
+    private void ConfirmExecuteProgramButton(ActionEvent event) {
+    
+        if (selectedProgram == null) {
+        showAlert("Devi selezionare un programma prima di confermare.", Alert.AlertType.ERROR);
+        return;
+         }
+        
+        actionLabel.setText("Esegui il programma : " + selectedProgram.toString()+ " con parametri: " + ParametersTextField.getText()); 
+        ParametersTextField.clear();
+        pathProgramLabel.setText("");
+        executeProgramPage.setVisible(false);
+        newRulePage.setVisible(true);
+    }
+
+    @FXML
+    private void showAddPageBackProgram(ActionEvent event) {
+        executeProgramPage.setVisible(false);
+        newRulePage.setVisible(true);
+        ParametersTextField.clear();
+        pathProgramLabel.setText("");
+        actionChoiceBox.setValue("Seleziona un'azione");
     }
 
   
