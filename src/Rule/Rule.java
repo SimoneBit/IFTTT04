@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 /**
  * La classe Rule rappresenta una regola che associa un trigger a un'azione all'interno di un sistema di 
@@ -17,7 +18,7 @@ import java.time.temporal.ChronoUnit;
 public class Rule implements Serializable{
     private String name;
     private Trigger trigger;
-    private Action action;
+    private ArrayList<Action>action;
 
     public LocalTime getLastChecked() {
         return lastChecked;
@@ -49,7 +50,7 @@ public class Rule implements Serializable{
      * @param trigger il trigger associato alla regola.
      * @param action l'azione associata alla regola.
      */
-    public Rule(String name, Trigger trigger, Action action, int sleepingPeriod, boolean executeOnce) {
+    public Rule(String name, Trigger trigger, ArrayList<Action> action, int sleepingPeriod, boolean executeOnce) {
         this.name = name;
         this.trigger = trigger;
         this.action = action;
@@ -92,11 +93,23 @@ public class Rule implements Serializable{
     }
     
     public boolean executeRule(){
-        if(this.executeOnce){
-            this.setActive(false);
+        boolean exit=false;
+        
+            for(Action a : this.action){
+            
+            if(a.executeAction()==false){
+                return false;
+            }
+            else{
+                exit=true;
+            }
             
         }
-        return this.action.executeAction();
+            if(this.executeOnce){
+                this.setActive(false);
+            
+            }
+        return exit;
     }
     /**
      *Restituisce il nome della regola.
@@ -139,8 +152,8 @@ public class Rule implements Serializable{
      *
      * @return l'azione associata alla regola.
      */
-    public Action getAction() {
-        return action;
+    public ArrayList<Action> getAction() {
+        return this.action;
     }
 
     /**
@@ -156,12 +169,5 @@ public class Rule implements Serializable{
    public void setSleepingPeriod(int sleepingPeriod) {
     this.sleepingPeriod = sleepingPeriod;
 }
-
  
-
-    
-
-   
-    
-    
 }

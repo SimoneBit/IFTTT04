@@ -63,7 +63,7 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
-    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio", 
+    private final String[] possibleActions = {"Seleziona una sequenza di azioni","Fai partire un audio","Mostra un messaggio", 
                                                                        "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
@@ -234,8 +234,9 @@ public class FXMLController implements Initializable {
                                 });
                             } 
                         }
-
+                        
                    }
+                   
                   try {
                         // Dormi per 5 secondi
                         Thread.sleep(5000);
@@ -374,7 +375,7 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         chooseMessagePage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
-        actionChoiceBox.setValue("Seleziona un'azione");
+        actionChoiceBox.setValue("Seleziona una sequenza di azioni");
         conditionChoiceBox.setValue("Seleziona una condizione");
         controlChoiceBox.setValue("Seleziona un controllo");
     }
@@ -393,7 +394,7 @@ public class FXMLController implements Initializable {
         ruleName.clear();
         actionLabel.setText("");
         conditionLabel.setText("");
-        actionChoiceBox.setValue("Seleziona un'azione");
+        actionChoiceBox.setValue("Seleziona una sequenza di azioni");
         conditionChoiceBox.setValue("Seleziona una condizione");
         controlChoiceBox.setValue("Seleziona un controllo");
     }
@@ -404,13 +405,19 @@ public class FXMLController implements Initializable {
      * 
      * @param event l'evento scatenato da un'azione utente.
      */
+    
     @FXML
     private void addRule(ActionEvent event) {
        //Prendi i parametri e crea l'azione scelta
+       ArrayList<Action> actionArrayList= new ArrayList<>();
        String actionString = actionLabel.getText();
+       String []actions = actionString.split("\n");
        String []actionParam;
-       actionParam = actionString.split(" : ");
-       Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
+       for(String s : actions){
+             actionParam = s.split(" : ");
+            Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
+            actionArrayList.add(act);
+       }
        //Prendi i parametri e crea la condizione scelta con il relativo trigger
        String conditionString = conditionLabel.getText();
        String []conditionParam;
@@ -437,7 +444,7 @@ public class FXMLController implements Initializable {
        
        //Prendi il nome per la nuova regola e creala
        String name1 = ruleName.getText();       
-       Rule rule = new Rule(name1, trigger, act,sleepingTime,executeOnce); 
+       Rule rule = new Rule(name1, trigger, actionArrayList,sleepingTime,executeOnce); 
        
        //Aggiungi la regola al set delle regole
        rulesSet.getRuleList().add(rule);
@@ -486,7 +493,10 @@ public class FXMLController implements Initializable {
             // Nascondi DialogBox
             chooseMessagePage.setVisible(false);
             newRulePage.setVisible(true);
-            actionLabel.setText("Mostra il messaggio : " + message);
+            String label = actionLabel.getText();
+            String concat = label.concat("Mostra il messaggio : " + message+"\n");
+            actionLabel.setText(concat);
+            //System.out.println(concat);
             
         }
     }
@@ -533,8 +543,10 @@ public class FXMLController implements Initializable {
          }
         // Setto l'azione da eseguire
         if (selectedFile != null && !stringToWrite.isEmpty()){
-            actionLabel.setText("Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
             //System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
+           String label = actionLabel.getText();
+           String concat = label.concat("Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText()+"\n");
+           actionLabel.setText(concat);
         }
         
         // Pulisci il TextField dopo l'aggiunta
@@ -598,9 +610,13 @@ public class FXMLController implements Initializable {
             return;
         }
         if (isCopying) {
-            actionLabel.setText("Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString());                
+           String label = actionLabel.getText();
+           String concat = label.concat("Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString()+"\n");
+           actionLabel.setText(concat);
         } else {
-            actionLabel.setText("Sposta il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString());               
+           String label = actionLabel.getText();
+           String concat = label.concat("Sposta il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString()+"\n");
+           actionLabel.setText(concat);
         }
         
         // Pulisci le label dopo l'aggiunta
@@ -638,10 +654,12 @@ private void showAlert(String message, Alert.AlertType alertType) {
             fileChooser.getExtensionFilters().addAll(
             new FileChooser.ExtensionFilter("Audio Files","*.wav"));
             File selectedFile = fileChooser.showOpenDialog(new Stage());
-            actionLabel.setText("Riproduci il file : " + selectedFile.toString());
+           String label = actionLabel.getText();
+           String concat = label.concat("Riproduci il file : " + selectedFile.toString()+"\n");
+           actionLabel.setText(concat);
             
         }
-        if(action.compareTo("Seleziona un'azione") == 0){
+        if(action.compareTo("Seleziona una sequenza di azioni") == 0){
             actionLabel.setText("");         
         }
         if(action.compareTo("Scrivi su un file") == 0){
@@ -662,7 +680,9 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(new Stage());
-            actionLabel.setText("Elimina il file : " + selectedFile.toString());
+            String label = actionLabel.getText();
+            String concat = label.concat("Elimina il file : " + selectedFile.toString()+"\n");
+            actionLabel.setText(concat);
             
         }
        
@@ -749,7 +769,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         chooseFileToAppendStringPage.setVisible(false);
         copyMoveFilePage.setVisible(false);
         actionLabel.setText("");
-        actionChoiceBox.setValue("Seleziona un'azione");
+        actionChoiceBox.setValue("Seleziona una sequenza di azioni");
     }
 
     /**
@@ -1090,6 +1110,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);     
         toggleGroup.selectToggle(null);
     }
+
+  
 }
 
 
