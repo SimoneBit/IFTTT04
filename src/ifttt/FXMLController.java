@@ -928,6 +928,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         sleepingPeriodPage.setVisible(false);
         newRulePage.setVisible(true);
         controlChoiceBox.setValue("Seleziona un controllo");
+        controlLabel.setText("");
         }
 
    

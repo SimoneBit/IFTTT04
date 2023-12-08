@@ -16,7 +16,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
-      <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
+      <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0">
          <children>
             <Label layoutX="279.0" layoutY="34.0" text="IFTTT ">
                <font>
@@ -40,7 +40,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="newRulePage" layoutX="-4.0" layoutY="1.0" prefHeight="635.0" prefWidth="673.0">
+      <AnchorPane fx:id="newRulePage" layoutX="-4.0" layoutY="1.0" prefHeight="635.0" prefWidth="673.0" visible="false">
          <children>
             <ChoiceBox fx:id="controlChoiceBox" layoutX="199.0" layoutY="501.0" prefHeight="31.0" prefWidth="229.0" />
             <Label layoutX="63.0" layoutY="503.0" text="Controlla:">
