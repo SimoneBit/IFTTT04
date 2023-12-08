@@ -13,7 +13,6 @@ import java.time.LocalDate;
  */
 public class DayOfMonthCondition implements Condition, Serializable{
     private Integer day;
-    private int lastDayChecked;
     private boolean checkedToday;
 
     public DayOfMonthCondition(Integer day) {
@@ -30,7 +29,6 @@ public class DayOfMonthCondition implements Condition, Serializable{
         
         boolean cond = day.equals(currentDay);
         if (cond && !checkedToday){
-            checkedToday = true;
             return true;
         }
         if(!cond){
@@ -40,6 +38,11 @@ public class DayOfMonthCondition implements Condition, Serializable{
         
         
        
+    }
+
+    @Override
+    public void resetState() {
+        this.checkedToday = true;
     }
     
 }

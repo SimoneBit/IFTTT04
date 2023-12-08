@@ -60,6 +60,5 @@ public class RuleTest {
         // Verifica che il risultato sia true poiché il periodo di riposo è trascorso
         assertTrue(rule.checkSleepingState());
     }
-
    
 }

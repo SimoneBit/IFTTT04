@@ -64,7 +64,7 @@ public class FXMLController implements Initializable {
     @FXML
     private ChoiceBox<String> actionChoiceBox;
 
-    private final String[] possibleActions = {"Seleziona una sequenza di azioni","Fai partire un audio","Mostra un messaggio", 
+    private final String[] possibleActions = {"Seleziona un azione","Fai partire un audio","Mostra un messaggio", 
                                                                        "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file","Esegui un programma"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
@@ -86,10 +86,7 @@ public class FXMLController implements Initializable {
     private Button backButton1;
     @FXML
     private Button backButton2;
-    @FXML
-    private Label actionLabel;
-    @FXML
-    private Label conditionLabel;
+    
     @FXML
     private AnchorPane chooseHourPage;
 
@@ -195,7 +192,7 @@ public class FXMLController implements Initializable {
     private Button selectPathButton1;
     @FXML
     private AnchorPane chooseDayWeekPage;
-        @FXML
+    @FXML
     private RadioButton LunRadioButton;
     @FXML
     private RadioButton MarRadioButton;
@@ -275,8 +272,22 @@ public class FXMLController implements Initializable {
     private Label pathProgramId;
     @FXML
     private TextField ParametersTextField;
+    @FXML
+    private TableColumn<String, String> condColumn;
+    @FXML
+    private AnchorPane selectConditionPage;
+    @FXML
+    private TableView<String> conditionTable;
   
+    private ObservableList<String> conditionList; 
     
+    private ObservableList<String> actionList; 
+    @FXML
+    private TableView<String> actionTable;
+    @FXML
+    private TableColumn<String, String> actColumn;
+    @FXML
+    private AnchorPane selectActionPage;
     /**
      * Metodo chiamato quando viene inizializzata l'interfaccia utente.
      * Inizializza i componenti grafici, popola le choice boxes, crea le catene di responsabilità e avvia il thread per il controllo
@@ -316,15 +327,25 @@ public class FXMLController implements Initializable {
         String stato = rule.isActive() ? "Attivo" : "Inattivo";
         return new SimpleStringProperty(stato);
         });
-             
+        
+        //Inizializza le tabelle per azioni e condizioni
+        conditionList = FXCollections.observableArrayList();
+        conditionTable.setItems(conditionList);
+        condColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
+        
+        actionList = FXCollections.observableArrayList();
+        actionTable.setItems(actionList);
+        actColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
+        
         //Popolamento choiche boxes
         actionChoiceBox.getItems().addAll(possibleActions);
         actionChoiceBox.setOnAction(this::getAction);
         conditionChoiceBox.getItems().addAll(possibleConditions);
         conditionChoiceBox.setOnAction(this::getCondition);
         controlChoiceBox.getItems().addAll(possibleControls);
-        controlChoiceBox.setOnAction(this::getControl);
-        
+        controlChoiceBox.setOnAction(this::getControl);   
+        actionChoiceBox.setValue("Seleziona un azione");
+        conditionChoiceBox.setValue("Seleziona una condizione");
         hourComboBox.getItems().addAll(possibleHours);
         minutesComboBox.getItems().addAll(possibleMinutes);
         
@@ -395,8 +416,6 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         chooseMessagePage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
-        actionChoiceBox.setValue("Seleziona una sequenza di azioni");
-        conditionChoiceBox.setValue("Seleziona una condizione");
         controlChoiceBox.setValue("Seleziona un controllo");
     }
 
@@ -412,10 +431,8 @@ public class FXMLController implements Initializable {
         chooseMessagePage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
         ruleName.clear();
-        actionLabel.setText("");
-        conditionLabel.setText("");
-        actionChoiceBox.setValue("Seleziona una sequenza di azioni");
-        conditionChoiceBox.setValue("Seleziona una condizione");
+        conditionList.clear();
+        actionList.clear();
         controlChoiceBox.setValue("Seleziona un controllo");
         controlLabel.setText("");
     }
@@ -429,37 +446,39 @@ public class FXMLController implements Initializable {
     
     @FXML
     private void addRule(ActionEvent event) {
-       //Prendi i parametri e crea l'azione scelta
-       ArrayList<Action> actionArrayList= new ArrayList<>();
-       String actionString = actionLabel.getText();
-       String []actions = actionString.split("\n");
-       String []actionParam;
-       for(String s : actions){
-             actionParam = s.split(" : ");
+        //Prendi i parametri e crea l'azione scelta
+        ArrayList<Action> actionArrayList= new ArrayList<>();    
+        for(String actionString : actionList){
+            String []actionParam;
+            actionParam = actionString.split(" : ");
             Action act = baseActionHandler.handle(actionParam[0], actionParam[1]);
             actionArrayList.add(act);
-       }
-       //Prendi i parametri e crea la condizione scelta con il relativo trigger
-       String conditionString = conditionLabel.getText();
-       String []conditionParam;
-       conditionParam = conditionString.split(" : ");
-       Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
-       Trigger trigger = new Trigger(cond);
-       //Prendi i parametri e imposta la periodicità
-       String controlString = controlLabel.getText();
-       String []controlParam;
-       controlParam = controlString.split(" : ");
-       Integer sleepingTime=0;
-       boolean executeOnce=false;
-       if(controlParam[0].compareTo("Ogni")==0){
-           String []num = controlParam[1].split("[a-zA-Z] ");
+        }
+        //Prendi i parametri e crea la condizione scelta con il relativo trigger
+        ArrayList <Condition> conditionArrayList = new ArrayList<>();
+        for(String conditionString : conditionList){
+            String []conditionParam;
+            conditionParam = conditionString.split(" : ");
+            Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+            conditionArrayList.add(cond);
+        }
+       
+        Trigger trigger = new Trigger(conditionArrayList);
+        //Prendi i parametri e imposta la periodicità
+        String controlString = controlLabel.getText();
+        String []controlParam;
+        controlParam = controlString.split(" : ");
+        Integer sleepingTime=0;
+        boolean executeOnce=false;
+        if(controlParam[0].compareTo("Ogni")==0){
+            String []num = controlParam[1].split("[a-zA-Z] ");
             Integer days = Integer.parseInt(num[0]);
             Integer hours = Integer.parseInt(num[1]);
             Integer minutes = Integer.parseInt(num[2]);
             sleepingTime = (days*24*60*60)+(hours*60*60)+(minutes*60);
-       }
-       if(controlParam[0].compareTo("Una volta ")==0){
-           executeOnce=true;
+        }
+        if(controlParam[0].compareTo("Una volta ")==0){
+            executeOnce=true;
    }
        
        
@@ -477,10 +496,9 @@ public class FXMLController implements Initializable {
        //ruleList.setAll(rulesSet.getRuleList());
        //Ripulisci l'interfaccia
        ruleName.clear();
-       actionLabel.setText("");
-       conditionLabel.setText("");
-       actionChoiceBox.setValue("");
-       conditionChoiceBox.setValue("");
+       conditionList.clear();
+       actionList.clear();
+       controlLabel.setText("");
        newRulePage.setVisible(false);
        mainMenuPage.setVisible(true);
     }
@@ -506,17 +524,14 @@ public class FXMLController implements Initializable {
         }else{
 
             DialogBoxAction d = new DialogBoxAction(message);
-            //d.executeAction(message, primaryStage);
 
             // Pulisci il TextField dopo l'aggiunta
             userMessage.clear();
             // Nascondi DialogBox
             chooseMessagePage.setVisible(false);
             newRulePage.setVisible(true);
-            String label = actionLabel.getText();
-            String concat = label.concat("Mostra il messaggio : " + message+"\n");
-            actionLabel.setText(concat);
-            //System.out.println(concat);
+            String action = "Mostra il messaggio : " + message;
+            actionList.add(action);
             
         }
     }
@@ -564,9 +579,9 @@ public class FXMLController implements Initializable {
         // Setto l'azione da eseguire
         if (selectedFile != null && !stringToWrite.isEmpty()){
             //System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
-           String label = actionLabel.getText();
-           String concat = label.concat("Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText()+"\n");
-           actionLabel.setText(concat);
+           
+           String action = "Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText();
+           actionList.add(action);
         }
         
         // Pulisci il TextField dopo l'aggiunta
@@ -630,13 +645,11 @@ public class FXMLController implements Initializable {
             return;
         }
         if (isCopying) {
-           String label = actionLabel.getText();
-           String concat = label.concat("Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString()+"\n");
-           actionLabel.setText(concat);
+           String action = "Copia il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString();
+           actionList.add(action);
         } else {
-           String label = actionLabel.getText();
-           String concat = label.concat("Sposta il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString()+"\n");
-           actionLabel.setText(concat);
+           String action = "Sposta il file : " + selectedFile.toString() + " Path di destinazione: " + selectedDirectory.toString();
+           actionList.add(action);
         }
         
         // Pulisci le label dopo l'aggiunta
@@ -665,7 +678,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
     public void getAction(ActionEvent event){
         String action = actionChoiceBox.getValue();
         if(action.compareTo("Mostra un messaggio") == 0){
-            newRulePage.setVisible(false);
+            selectActionPage.setVisible(false);
             chooseMessagePage.setVisible(true);          
         }
         if(action.compareTo("Fai partire un audio") == 0){
@@ -674,25 +687,24 @@ private void showAlert(String message, Alert.AlertType alertType) {
             fileChooser.getExtensionFilters().addAll(
             new FileChooser.ExtensionFilter("Audio Files","*.wav"));
             File selectedFile = fileChooser.showOpenDialog(new Stage());
-           String label = actionLabel.getText();
-           String concat = label.concat("Riproduci il file : " + selectedFile.toString()+"\n");
-           actionLabel.setText(concat);
+
+            String audioAction = "Riproduci il file : " + selectedFile.toString();
+            actionList.add(audioAction);
+            selectActionPage.setVisible(false);
+            newRulePage.setVisible(true);
             
         }
-        if(action.compareTo("Seleziona una sequenza di azioni") == 0){
-            actionLabel.setText("");         
-        }
         if(action.compareTo("Scrivi su un file") == 0){
-            newRulePage.setVisible(false);
+            selectActionPage.setVisible(false);
             chooseFileToAppendStringPage.setVisible(true);                        
         }
         if(action.compareTo("Copia un file") == 0){
-            newRulePage.setVisible(false);
+            selectActionPage.setVisible(false);
             copyMoveFilePage.setVisible(true);
             isCopying = true;                            
         }
         if(action.compareTo("Sposta un file") == 0){
-            newRulePage.setVisible(false);
+            selectActionPage.setVisible(false);
             copyMoveFilePage.setVisible(true);
             isCopying = false;                        
         }
@@ -700,16 +712,19 @@ private void showAlert(String message, Alert.AlertType alertType) {
 
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(new Stage());
-            String label = actionLabel.getText();
-            String concat = label.concat("Elimina il file : " + selectedFile.toString()+"\n");
-            actionLabel.setText(concat);
+            
+            String fileAction = "Elimina il file : " + selectedFile.toString();
+            actionList.add(fileAction);
+            selectActionPage.setVisible(false);
+            newRulePage.setVisible(true);
             
         }
         if(action.compareTo("Esegui un programma") == 0){
-            newRulePage.setVisible(false);
+            selectActionPage.setVisible(false);
             executeProgramPage.setVisible(true);
         }
-
+        
+        actionChoiceBox.setValue("Seleziona un azione");
        
     }
     
@@ -723,32 +738,30 @@ private void showAlert(String message, Alert.AlertType alertType) {
      */
     public void getCondition(ActionEvent event){
         String condition = conditionChoiceBox.getValue();
-        if(condition.compareTo("Seleziona una condizione") == 0){
-            conditionLabel.setText("");         
-        }
+        
         if(condition.compareTo("Orario specifico") == 0){
             chooseHourPage.setVisible(true);
-            newRulePage.setVisible(false);
+            selectConditionPage.setVisible(false);
         }
         if(condition.compareTo("Giorno della settimana") == 0){
             chooseDayWeekPage.setVisible(true);
-            newRulePage.setVisible(false);
+            selectConditionPage.setVisible(false);
         }
         if(condition.compareTo("Giorno dell'anno") == 0){
             dayAndMonthPage.setVisible(true);
-            newRulePage.setVisible(false);
+            selectConditionPage.setVisible(false);
         }
         if(condition.compareTo("Giorno del mese") == 0){
             dayPage.setVisible(true);
-            newRulePage.setVisible(false);
+            selectConditionPage.setVisible(false);
         }
          if(condition.compareTo("File esiste") == 0){
             existsFilePage.setVisible(true);
-            newRulePage.setVisible(false); 
+            selectConditionPage.setVisible(false);
         }
         if(condition.compareTo("Dimensione del file") == 0){
             dimensionFilePage.setVisible(true);
-            newRulePage.setVisible(false);   
+            selectConditionPage.setVisible(false);   
         }
         
     }
@@ -794,8 +807,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
         chooseMessagePage.setVisible(false);
         chooseFileToAppendStringPage.setVisible(false);
         copyMoveFilePage.setVisible(false);
-        actionLabel.setText("");
-        actionChoiceBox.setValue("Seleziona una sequenza di azioni");
     }
 
     /**
@@ -810,7 +821,9 @@ private void showAlert(String message, Alert.AlertType alertType) {
         String hour = hourComboBox.getValue();
         String minutes = minutesComboBox.getValue();
         String time = hour + ":" + minutes;
-        conditionLabel.setText("Alle : " + time);
+        String condition = "Alle : " + time;
+        conditionList.add(condition);
+        conditionChoiceBox.setValue("Seleziona una condizione");
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
         hourComboBox.setValue(" ");
@@ -828,7 +841,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
     private void showAddPageBack1(ActionEvent event) {
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
-        conditionLabel.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
         hourComboBox.setValue(" ");
         minutesComboBox.setValue(" ");
@@ -957,27 +969,29 @@ private void showAlert(String message, Alert.AlertType alertType) {
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
         dayAndMonthText.setText("");
-        conditionLabel.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
     @FXML
     private void confirmDayAndMonth(ActionEvent event) {
         String day = dayAndMonthText.getText();
-        conditionLabel.setText("Il : " + day);
+        String condition = "Il : " + day;
+        conditionList.add(condition);
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
         dayAndMonthText.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
     @FXML
     private void confirmDay(ActionEvent event) {
         String day = dayField.getText();
-        conditionLabel.setText("Il giorno : " + day);
+        String condition = "Il giorno : " + day;
+        conditionList.add(condition);
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
-        
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
     /**
@@ -995,7 +1009,9 @@ private void showAlert(String message, Alert.AlertType alertType) {
         RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
         // Verifica se un RadioButton è stato selezionato
         if (selectedRadioButton != null) {
-            conditionLabel.setText("Il giorno della settimana è : " + selectedRadioButton.getText());
+            String condition = "Il giorno della settimana è : " + selectedRadioButton.getText();
+            conditionList.add(condition);
+            conditionChoiceBox.setValue("Seleziona una condizione");
         } else {
             showAlert("Devi selezionare un giorno prima di confermare.", Alert.AlertType.ERROR);
         }
@@ -1025,7 +1041,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         stringToAppendTextField.clear();
         selectedFilePathLabel.setText("");
-        actionChoiceBox.setValue("Seleziona un'azione");
     }
     
     /**
@@ -1040,7 +1055,6 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);     
         selectedFilePathLabel2.setText("");
         destinationFilePathLabel.setText("");
-        actionChoiceBox.setValue("Seleziona un'azione");
     }
 
     
@@ -1079,13 +1093,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
         }
         
         if (pathFileLabel.getText() != null && !nameFile.isEmpty()){
-            conditionLabel.setText("Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText());
+            String condition = "Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText();
+            conditionList.add(condition);
             
         pathFileLabel.setText("");
         ExistFileTextField.clear();
         existsFilePage.setVisible(false);
         newRulePage.setVisible(true);
-        
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
     }
 
@@ -1111,12 +1126,14 @@ private void showAlert(String message, Alert.AlertType alertType) {
         }
         
         if (pathFileLabel1.getText() != null && !minSize.isEmpty()){
-            conditionLabel.setText("Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize);
+            String condition = "Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize;
+            conditionList.add(condition);
             
         pathFileLabel1.setText("");
         DimensionLabel.clear();
         dimensionFilePage.setVisible(false);
         newRulePage.setVisible(true);
+        conditionChoiceBox.setValue("Seleziona una condizione");
         
     }
     }
@@ -1191,7 +1208,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
         selectedProgram = fileChooser.showOpenDialog(new Stage());
         pathProgramId.setVisible(true);
         pathProgramLabel.setText(selectedProgram.toString());
-        actionLabel.setText("Esegui il programma: " + selectedProgram.toString());
+        String actionP = "Esegui il programma: " + selectedProgram.toString();
+        actionList.add(actionP);
     }
 
     
@@ -1203,7 +1221,8 @@ private void showAlert(String message, Alert.AlertType alertType) {
         return;
          }
         
-        actionLabel.setText("Esegui il programma : " + selectedProgram.toString()+ " con parametri: " + ParametersTextField.getText()); 
+        String actionP = "Esegui il programma : " + selectedProgram.toString()+ " con parametri: " + ParametersTextField.getText(); 
+        actionList.add(actionP);
         ParametersTextField.clear();
         pathProgramLabel.setText("");
         executeProgramPage.setVisible(false);
@@ -1216,7 +1235,32 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         ParametersTextField.clear();
         pathProgramLabel.setText("");
-        actionChoiceBox.setValue("Seleziona un'azione");
+    }
+
+    @FXML
+    private void addCondition(ActionEvent event) {
+        selectConditionPage.setVisible(true);
+        newRulePage.setVisible(false);
+    }
+
+    @FXML
+    private void removeCondition(ActionEvent event) {
+        String remove = conditionTable.getSelectionModel().getSelectedItem();
+        conditionList.remove(remove);
+        conditionTable.refresh();
+    }
+
+    @FXML
+    private void addAction(ActionEvent event) {
+        selectActionPage.setVisible(true);
+        newRulePage.setVisible(false);
+    }
+
+    @FXML
+    private void removeAction(ActionEvent event) {
+        String remove = actionTable.getSelectionModel().getSelectedItem();
+        actionList.remove(remove);
+        actionTable.refresh();
     }
 
   

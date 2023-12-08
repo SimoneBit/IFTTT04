@@ -28,12 +28,16 @@ public class DayOfWeekCondition implements Condition, Serializable {
         boolean cond = dayUpperCase.equals(giornoSettimanaCorrente.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase());
         
         if (cond && !checkedToday){
-            checkedToday = true;
             return true;
         }
         if(!cond){
             checkedToday = false;
         }
         return false;        
+    }
+    
+    @Override
+    public void resetState() {
+        this.checkedToday = true;
     }
 }

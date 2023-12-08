@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -18,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
       <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
@@ -44,36 +40,44 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="newRulePage" layoutX="18.0" layoutY="-2.0" prefHeight="574.0" prefWidth="640.0">
+      <AnchorPane fx:id="newRulePage" layoutX="-4.0" layoutY="1.0" prefHeight="635.0" prefWidth="673.0">
          <children>
-            <ChoiceBox fx:id="conditionChoiceBox" layoutX="85.0" layoutY="117.0" prefHeight="31.0" prefWidth="229.0" />
-            <ChoiceBox fx:id="controlChoiceBox" layoutX="85.0" layoutY="288.0" prefHeight="31.0" prefWidth="229.0" />
-            <Label layoutX="3.0" layoutY="119.0" text="Se:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-
-            <Label layoutX="1.0" layoutY="209.0" text="Allora:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="4.0" layoutY="290.0" text="Controlla:">
+            <ChoiceBox fx:id="controlChoiceBox" layoutX="199.0" layoutY="501.0" prefHeight="31.0" prefWidth="229.0" />
+            <Label layoutX="63.0" layoutY="503.0" text="Controlla:">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="backButton1" layoutX="42.0" layoutY="407.0" mnemonicParsing="false" onAction="#showMainMenuPage" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
-            <Label fx:id="conditionLabel" layoutY="161.0" prefHeight="17.0" prefWidth="449.0" />
-            <Label layoutX="213.0" layoutY="14.0" text="Inserisci nome regola">
+            <Button fx:id="backButton1" layoutX="187.0" layoutY="575.0" mnemonicParsing="false" onAction="#showMainMenuPage" prefHeight="35.0" prefWidth="81.0" text="Annulla">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            <Label layoutX="246.0" layoutY="14.0" text="Inserisci nome regola">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Label>
-            <TextField fx:id="ruleName" layoutX="187.0" layoutY="47.0" prefHeight="35.0" prefWidth="228.0" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="192.0" AnchorPane.topAnchor="47.0" />
-            <Label fx:id="controlLabel" layoutY="341.0" prefHeight="21.0" prefWidth="308.0" />
-            <Button fx:id="addRuleButton" layoutX="319.0" layoutY="407.0" mnemonicParsing="false" onAction="#addRule" text="Aggiungi" />
-            <ChoiceBox fx:id="actionChoiceBox" layoutX="85.0" layoutY="207.0" prefHeight="31.0" prefWidth="229.0" />
-            <Label fx:id="actionLabel" layoutX="337.0" layoutY="163.0" prefHeight="151.0" prefWidth="289.0" />
+            <TextField fx:id="ruleName" layoutX="187.0" layoutY="47.0" prefHeight="35.0" prefWidth="228.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="192.0" AnchorPane.topAnchor="47.0" />
+            <Label fx:id="controlLabel" layoutX="463.0" layoutY="506.0" prefHeight="21.0" prefWidth="188.0">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <Button fx:id="addRuleButton" layoutX="363.0" layoutY="575.0" mnemonicParsing="false" onAction="#addRule" text="Aggiungi">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            <TableView fx:id="conditionTable" layoutX="55.0" layoutY="98.0" prefHeight="172.0" prefWidth="373.0" AnchorPane.leftAnchor="55.0">
+              <columns>
+                <TableColumn fx:id="condColumn" prefWidth="372.0" text="Se:" />
+              </columns>
+            </TableView>
+            <Button layoutX="469.0" layoutY="157.0" mnemonicParsing="false" onAction="#addCondition" text="Aggiungi condizione" />
+            <Button layoutX="469.0" layoutY="203.0" mnemonicParsing="false" onAction="#removeCondition" prefHeight="25.0" prefWidth="126.0" text="Rimuovi condizione" />
+            <TableView fx:id="actionTable" layoutX="60.0" layoutY="294.0" prefHeight="172.0" prefWidth="373.0" AnchorPane.leftAnchor="55.0">
+               <columns>
+                  <TableColumn fx:id="actColumn" prefWidth="372.0" text="Allora:" />
+               </columns>
+            </TableView>
+            <Button layoutX="469.0" layoutY="347.0" mnemonicParsing="false" onAction="#addAction" prefHeight="25.0" prefWidth="126.0" text="Aggiungi azione" />
+            <Button layoutX="469.0" layoutY="390.0" mnemonicParsing="false" onAction="#removeAction" prefHeight="25.0" prefWidth="126.0" text="Rimuovi azione" />
 
          </children>
       </AnchorPane>
@@ -311,6 +315,16 @@
                </font>
             </Label>
             <TextField fx:id="ParametersTextField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="301.0" promptText="Inserisci i parametri separati da uno spazio" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="selectConditionPage" layoutX="8.0" layoutY="8.0" prefHeight="547.0" prefWidth="657.0" visible="false">
+         <children>
+            <ChoiceBox fx:id="conditionChoiceBox" layoutX="193.0" layoutY="236.0" prefHeight="31.0" prefWidth="229.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="selectActionPage" layoutX="188.0" layoutY="118.0" prefHeight="265.0" prefWidth="282.0" visible="false">
+         <children>
+            <ChoiceBox fx:id="actionChoiceBox" layoutX="27.0" layoutY="117.0" prefHeight="31.0" prefWidth="229.0" />
          </children>
       </AnchorPane>
    </children>

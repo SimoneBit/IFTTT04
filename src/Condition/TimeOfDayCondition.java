@@ -43,7 +43,6 @@ public class TimeOfDayCondition implements Condition, Serializable {
     public boolean checkCondition() {
         boolean cond = LocalTime.now().truncatedTo(ChronoUnit.MINUTES).equals(specifiedTime);
         if (cond && !checkedToday){
-            checkedToday = true;
             return true;
         }
         if(!cond){
@@ -62,5 +61,8 @@ public class TimeOfDayCondition implements Condition, Serializable {
         return "TimeOfDayCondition{" + "specifiedTime=" + specifiedTime + '}';
     }
     
-    
+    @Override
+    public void resetState() {
+        this.checkedToday = true;
+    }
 }

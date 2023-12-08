@@ -30,19 +30,7 @@ public class DayOfWeekConditionTest {
         assertTrue(dayCondition.checkCondition());
     }
 
-    @Test
-    public void testCheckConditionReturnsFalseWhenCurrentDayMatchesAlreadySpecifiedDay() {
-       // Ottiengo il giorno attuale
-        DayOfWeek actualDay = LocalDate.now().getDayOfWeek();
-        String specifiedDay = actualDay.getDisplayName(TextStyle.FULL, Locale.getDefault());
-        // Creo un'istanza di DayOfWeekCondition con il giorno specificato
-        DayOfWeekCondition dayCondition = new DayOfWeekCondition(specifiedDay);
-        dayCondition.checkCondition();
 
-        // Verifica che checkCondition restituisca false quando il giorno attuale è uguale al giorno specificato
-        // ma è stato già restituito true una volta
-        assertFalse(dayCondition.checkCondition());
-    }
 
     @Test
     public void testCheckConditionReturnsFalseWhenCurrentDayDoesNotMatchSpecifiedDay() {

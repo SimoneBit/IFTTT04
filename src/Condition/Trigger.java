@@ -1,6 +1,7 @@
 package Condition;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *La classe Trigger rappresenta un trigger che può essere attivato in base al risultato di una condizione specifica.
@@ -11,24 +12,36 @@ import java.io.Serializable;
  */
 public class Trigger implements Serializable {
     
-    private Condition condition;
+    private ArrayList <Condition> condition;
 
     
     /**
      * Costruisce un'istanza di Trigger associata alla condizione specificata.
      * @param condition La condizione associata al trigger.
      */
-    public Trigger(Condition condition) {
+    public Trigger(ArrayList <Condition> condition) {
         this.condition = condition;
     }
  
     
  /**
-  * Verifica se il trigger si è attivato valutando la condizione associata.
+  * Verifica se il trigger si è attivato valutando la condizioni associata.
   * @return true se il trigger è attivato, altrimenti false.
   */   
     public boolean checkTrigger(){
-        return condition.checkCondition();
+        boolean exit = true;
+        for (Condition c: condition){
+            if(!c.checkCondition()){
+                exit = false;
+                break;
+            }
+        }
+        if(exit){
+            for(Condition c: condition){
+                c.resetState();
+            }
+        }
+        return exit;
     }
 
     
@@ -37,7 +50,7 @@ public class Trigger implements Serializable {
      * Restituisce la condizione associata al trigger.
      * @return L'oggetto @see Condition associato al trigger.
      */
-    public Condition getCondition() {
+    public ArrayList<Condition> getCondition() {
         return condition;
     }
 

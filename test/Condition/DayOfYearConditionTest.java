@@ -36,16 +36,7 @@ public class DayOfYearConditionTest {
         assertTrue(cond.checkCondition());
     }
     
-    public void testCheckConditionFalseDoubleCheck() {
-        LocalDate currentDate = LocalDate.now();
-        // Get the current day and month as integers
-        Integer currentMonth = currentDate.getMonthValue();
-        Integer currentDay = currentDate.getDayOfMonth();
-        
-        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay);
-        cond.checkCondition();
-        assertFalse(cond.checkCondition());
-    }
+   
     
     public void testCheckConditionFalse() {
         LocalDate currentDate = LocalDate.now();

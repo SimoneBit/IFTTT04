@@ -33,7 +33,6 @@ public class DayOfYearCondition implements Condition, Serializable {
         
         boolean cond = month.equals(currentMonth) && day.equals(currentDay);
         if (cond && !checkedToday){
-            checkedToday = true;
             return true;
         }
         if(!cond){
@@ -45,4 +44,8 @@ public class DayOfYearCondition implements Condition, Serializable {
         
     }
     
+    @Override
+    public void resetState() {
+        this.checkedToday = true;
+    }
 }

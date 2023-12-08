@@ -52,4 +52,9 @@ public class FileExistenceCondition implements Condition, Serializable {
                 ", fileName='" + fileName + '\'' +
                 '}';
     }
+    
+    @Override
+    public void resetState() {
+        return;
+    }
 }

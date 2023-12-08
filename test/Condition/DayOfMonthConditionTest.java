@@ -34,16 +34,7 @@ public class DayOfMonthConditionTest {
         DayOfMonthCondition cond = new DayOfMonthCondition(currentDay);
         assertTrue(cond.checkCondition());
     }
-    
-    public void testCheckConditionFalseDoubleCheck() {
-        LocalDate currentDate = LocalDate.now();
-        // Get the current day as integers
-        Integer currentDay = currentDate.getDayOfMonth();
-        
-        DayOfMonthCondition cond = new DayOfMonthCondition(currentDay);
-        cond.checkCondition();
-        assertFalse(cond.checkCondition());
-    }
+
     
     public void testCheckConditionFalse() {
         LocalDate currentDate = LocalDate.now();

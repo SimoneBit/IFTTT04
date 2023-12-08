@@ -54,4 +54,9 @@ public class FileSizeCondition implements Condition, Serializable {
     public String toString() {
         return "FileSizeCondition{" + "filePath='" + filePath + '\'' + ", minSize=" + minSize + '}';
     }
+    
+    @Override
+    public void resetState() {
+        return;
+    }
 }
