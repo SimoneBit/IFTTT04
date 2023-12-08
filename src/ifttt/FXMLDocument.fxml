@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -14,9 +18,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
-      <AnchorPane fx:id="mainMenuPage" prefHeight="560.0" prefWidth="623.0">
+      <AnchorPane fx:id="mainMenuPage" layoutX="25.0" layoutY="32.0" prefHeight="560.0" prefWidth="623.0">
          <children>
             <Label layoutX="279.0" layoutY="34.0" text="IFTTT ">
                <font>
@@ -43,7 +47,7 @@
       <AnchorPane fx:id="newRulePage" layoutX="-4.0" layoutY="1.0" prefHeight="635.0" prefWidth="673.0" visible="false">
          <children>
             <ChoiceBox fx:id="controlChoiceBox" layoutX="199.0" layoutY="501.0" prefHeight="31.0" prefWidth="229.0" />
-            <Label layoutX="63.0" layoutY="503.0" text="Controlla:">
+            <Label layoutX="55.0" layoutY="503.0" text="Controlla:">
                <font>
                   <Font size="18.0" />
                </font></Label>
@@ -70,14 +74,14 @@
               </columns>
             </TableView>
             <Button layoutX="469.0" layoutY="157.0" mnemonicParsing="false" onAction="#addCondition" text="Aggiungi condizione" />
-            <Button layoutX="469.0" layoutY="203.0" mnemonicParsing="false" onAction="#removeCondition" prefHeight="25.0" prefWidth="126.0" text="Rimuovi condizione" />
+            <Button layoutX="469.0" layoutY="203.0" mnemonicParsing="false" onAction="#removeCondition" prefHeight="31.0" prefWidth="156.0" text="Rimuovi condizione" />
             <TableView fx:id="actionTable" layoutX="60.0" layoutY="294.0" prefHeight="172.0" prefWidth="373.0" AnchorPane.leftAnchor="55.0">
                <columns>
                   <TableColumn fx:id="actColumn" prefWidth="372.0" text="Allora:" />
                </columns>
             </TableView>
-            <Button layoutX="469.0" layoutY="347.0" mnemonicParsing="false" onAction="#addAction" prefHeight="25.0" prefWidth="126.0" text="Aggiungi azione" />
-            <Button layoutX="469.0" layoutY="390.0" mnemonicParsing="false" onAction="#removeAction" prefHeight="25.0" prefWidth="126.0" text="Rimuovi azione" />
+            <Button layoutX="469.0" layoutY="347.0" mnemonicParsing="false" onAction="#addAction" prefHeight="31.0" prefWidth="156.0" text="Aggiungi azione" />
+            <Button layoutX="469.0" layoutY="390.0" mnemonicParsing="false" onAction="#removeAction" prefHeight="31.0" prefWidth="156.0" text="Rimuovi azione" />
 
          </children>
       </AnchorPane>
@@ -89,22 +93,23 @@
             <Button fx:id="backButton2" layoutX="183.0" layoutY="267.0" mnemonicParsing="false" onAction="#showAddPageBack" text="Annulla" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="chooseHourPage" layoutX="129.0" layoutY="18.0" prefHeight="533.0" prefWidth="351.0" visible="false">
+      <AnchorPane fx:id="chooseHourPage" layoutX="79.0" layoutY="105.0" prefHeight="278.0" prefWidth="516.0" visible="false">
          <children>
-            <Label layoutX="164.0" layoutY="183.0" prefHeight="50.0" prefWidth="23.0" text=":">
+            <Label layoutX="234.0" layoutY="103.0" prefHeight="50.0" prefWidth="23.0" text=":">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label layoutX="85.0" layoutY="135.0" text="Seleziona l'orario">
+            <Label layoutX="145.0" layoutY="55.0" prefHeight="31.0" prefWidth="188.0" text="Selezionare l'orario:">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Button layoutX="216.0" layoutY="267.0" mnemonicParsing="false" onAction="#confirmHour" text="OK" />
-            <Button layoutX="80.0" layoutY="267.0" mnemonicParsing="false" onAction="#showAddPageBack1" text="Annulla" />
-            <ComboBox fx:id="hourComboBox" layoutX="80.0" layoutY="195.0" prefHeight="31.0" prefWidth="71.0" />
-            <ComboBox fx:id="minutesComboBox" layoutX="180.0" layoutY="195.0" prefHeight="31.0" prefWidth="71.0" />
+            <Button layoutX="292.0" layoutY="204.0" mnemonicParsing="false" onAction="#confirmHour" text="OK" />
+            <Button layoutX="145.0" layoutY="204.0" mnemonicParsing="false" onAction="#showAddPageBack1" text="Annulla" />
+            <ComboBox fx:id="hourComboBox" layoutX="145.0" layoutY="112.0" prefHeight="31.0" prefWidth="71.0" />
+            <ComboBox fx:id="minutesComboBox" layoutX="262.0" layoutY="112.0" prefHeight="31.0" prefWidth="71.0" />
+            <CheckBox fx:id="timeDayNOT" alignment="TOP_LEFT" layoutX="145.0" layoutY="161.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="sleepingPeriodPage" layoutX="137.0" layoutY="125.0" prefHeight="319.0" prefWidth="334.0" visible="false">
@@ -120,28 +125,30 @@
             <Button fx:id="buttonCancel" layoutX="31.0" layoutY="245.0" mnemonicParsing="false" onAction="#showNewRulePage" text="Annulla" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dayAndMonthPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
+      <AnchorPane fx:id="dayAndMonthPage" layoutX="81.0" layoutY="140.0" prefHeight="358.0" prefWidth="497.0" visible="false">
          <children>
-            <Button layoutX="212.0" layoutY="306.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
-            <Button layoutX="328.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
-            <Label layoutX="200.0" layoutY="202.0" text="Seleziona giorno e mese">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <TextField fx:id="dayAndMonthText" layoutX="212.0" layoutY="255.0" promptText="dd/mm" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="dayPage" layoutX="18.0" layoutY="14.0" prefHeight="533.0" prefWidth="572.0" visible="false">
-         <children>
-            <Label layoutX="213.0" layoutY="141.0" text="Seleziona il giorno">
+            <Button layoutX="142.0" layoutY="229.0" mnemonicParsing="false" onAction="#showAddPageBack2" text="Annulla" />
+            <Button layoutX="315.0" layoutY="229.0" mnemonicParsing="false" onAction="#confirmDayAndMonth" text="OK" />
+            <Label layoutX="142.0" layoutY="67.0" text="Selezionare giorno e mese:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="dayField" layoutX="193.0" layoutY="194.0" />
-            <Button layoutX="340.0" layoutY="270.0" mnemonicParsing="false" onAction="#confirmDay" text="OK" />
-            <Button layoutX="193.0" layoutY="270.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
+            <TextField fx:id="dayAndMonthText" layoutX="142.0" layoutY="112.0" prefHeight="31.0" prefWidth="214.0" promptText="dd/mm" />
+            <CheckBox fx:id="dayMonthNOT" layoutX="142.0" layoutY="169.0" mnemonicParsing="false" text="Logica NOT" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="dayPage" layoutX="85.0" layoutY="81.0" prefHeight="429.0" prefWidth="504.0" visible="false">
+         <children>
+            <Label layoutX="159.0" layoutY="65.0" text="Selezionare il giorno:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="dayField" layoutX="159.0" layoutY="104.0" promptText="dd" />
+            <Button layoutX="305.0" layoutY="215.0" mnemonicParsing="false" onAction="#confirmDay" text="OK" />
+            <Button layoutX="159.0" layoutY="215.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
+            <CheckBox fx:id="dayNOT" layoutX="159.0" layoutY="168.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chooseDayWeekPage" layoutX="80.0" layoutY="96.0" prefHeight="308.0" prefWidth="449.0" visible="false">
@@ -188,6 +195,7 @@
             </Label>
             <Button fx:id="confirmDayWeekButton" layoutX="370.0" layoutY="262.0" mnemonicParsing="false" onAction="#confirmDayWeek" text="OK" />
             <Button fx:id="backButton8" layoutX="240.0" layoutY="262.0" mnemonicParsing="false" onAction="#showAddPageBack8" prefHeight="31.0" prefWidth="89.0" text="Annulla" />
+            <CheckBox fx:id="weekNOT" layoutX="240.0" layoutY="224.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chooseFileToAppendStringPage" layoutX="42.0" layoutY="93.0" prefHeight="265.0" prefWidth="525.0" visible="false">
@@ -233,9 +241,9 @@
             <Button fx:id="destinationFileButton" layoutX="307.0" layoutY="124.0" mnemonicParsing="false" onAction="#chooseDestination" prefHeight="31.0" prefWidth="173.0" text="Scegli destinazione" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="existsFilePage" layoutX="47.0" layoutY="152.0" prefHeight="265.0" prefWidth="510.0" visible="false">
+      <AnchorPane fx:id="existsFilePage" layoutX="82.0" layoutY="152.0" prefHeight="265.0" prefWidth="510.0" visible="false">
          <children>
-            <Label layoutX="25.0" layoutY="80.0" text="Selezionare il nome del file:">
+            <Label layoutX="25.0" layoutY="80.0" text="Scrivere il nome del file:">
                <font>
                   <Font size="18.0" />
                </font>
@@ -245,20 +253,21 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Button fx:id="confirmExistFileButton" layoutX="318.0" layoutY="202.0" mnemonicParsing="false" onAction="#ConfirmExistFileButton" text="OK" />
-            <Button fx:id="backButtonExists" layoutX="112.0" layoutY="202.0" mnemonicParsing="false" onAction="#showAddPageBack6" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
-            <Button fx:id="selectPathButton1" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileExists" prefHeight="31.0" prefWidth="165.0" text="Scegli cartella" />
+            <Button fx:id="confirmExistFileButton" layoutX="297.0" layoutY="211.0" mnemonicParsing="false" onAction="#ConfirmExistFileButton" text="OK" />
+            <Button fx:id="backButtonExists" layoutX="147.0" layoutY="211.0" mnemonicParsing="false" onAction="#showAddPageBack6" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
+            <Button fx:id="selectPathButton1" layoutX="297.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileExists" prefHeight="31.0" prefWidth="187.0" text="Scegli cartella" />
             <Label fx:id="pathFile_id" layoutX="103.0" layoutY="145.0" text="Path cartella" visible="false">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="39.0" text="Seleziona la cartella">
+            <Label layoutX="25.0" layoutY="39.0" prefHeight="27.0" prefWidth="203.0" text="Selezionare la cartella:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="ExistFileTextField" layoutX="300.0" layoutY="78.0" />
+            <TextField fx:id="ExistFileTextField" layoutX="297.0" layoutY="78.0" promptText="nomefile.formato" />
+            <CheckBox fx:id="existFileNOT" layoutX="297.0" layoutY="171.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="dimensionFilePage" layoutX="71.0" layoutY="179.0" prefHeight="265.0" prefWidth="510.0" visible="false">
@@ -273,8 +282,8 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Button fx:id="confirmDimensionFileButton1" layoutX="320.0" layoutY="202.0" mnemonicParsing="false" onAction="#ConfirmDimensionFileButton" text="OK" />
-            <Button fx:id="backButtonDimension" layoutX="111.0" layoutY="202.0" mnemonicParsing="false" onAction="#showAddPageBack7" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
+            <Button fx:id="confirmDimensionFileButton1" layoutX="311.0" layoutY="210.0" mnemonicParsing="false" onAction="#ConfirmDimensionFileButton" text="OK" />
+            <Button fx:id="backButtonDimension" layoutX="107.0" layoutY="210.0" mnemonicParsing="false" onAction="#showAddPageBack7" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
             <Button fx:id="selectFileButton2" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileDimension" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
             <Label fx:id="pathFile_id1" layoutX="31.0" layoutY="91.0" prefHeight="25.0" prefWidth="114.0" text="Path file" visible="false">
                <font>
@@ -287,6 +296,7 @@
                </font>
             </Label>
             <TextField fx:id="DimensionLabel" layoutX="311.0" layoutY="131.0" prefHeight="31.0" prefWidth="165.0" />
+            <CheckBox fx:id="dimFileNOT" layoutX="311.0" layoutY="178.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="executeProgramPage" layoutX="70.0" layoutY="163.0" prefHeight="265.0" prefWidth="525.0" visible="false">
@@ -315,6 +325,28 @@
                </font>
             </Label>
             <TextField fx:id="ParametersTextField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="301.0" promptText="Inserisci i parametri separati da uno spazio" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="exitStatusPage" layoutX="71.0" layoutY="150.0" prefHeight="292.0" prefWidth="516.0" visible="false">
+         <children>
+            <Button fx:id="backExitStatusButton" layoutX="217.0" layoutY="223.0" mnemonicParsing="false" onAction="#showAddPageBackProgram2" text="Annulla" />
+            <Button fx:id="chooseProgramButton" layoutX="306.0" layoutY="49.0" mnemonicParsing="false" onAction="#chooseProgramExitStatus" prefHeight="31.0" prefWidth="159.0" text="Scegli il file" />
+            <Button fx:id="confirmExitStatusButton" layoutX="306.0" layoutY="223.0" mnemonicParsing="false" onAction="#confirmExitStatus" text="OK" />
+            <Label layoutX="65.0" layoutY="51.0" text="Selezionare il file eseguibile:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="selectedProgramPathLabel" layoutX="66.0" layoutY="91.0" prefHeight="21.0" prefWidth="398.0">
+               <font>
+                  <Font size="12.0" />
+               </font></Label>
+            <Label layoutX="65.0" layoutY="133.0" prefHeight="27.0" prefWidth="217.0" text="Inserire il valore atteso:">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <TextField fx:id="expectedExitTextField" layoutX="306.0" layoutY="131.0" prefHeight="31.0" prefWidth="165.0" />
+            <CheckBox fx:id="exitStatusNOT" layoutX="306.0" layoutY="181.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="selectConditionPage" layoutX="8.0" layoutY="8.0" prefHeight="547.0" prefWidth="657.0" visible="false">

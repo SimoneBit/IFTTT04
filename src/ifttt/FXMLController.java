@@ -22,17 +22,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
@@ -63,13 +53,12 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
-
     private final String[] possibleActions = {"Seleziona un azione","Fai partire un audio","Mostra un messaggio", 
                                                                        "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file","Esegui un programma"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
     private final String[] possibleConditions = {"Seleziona una condizione","Orario specifico","Giorno della settimana", 
-                                                                            "Giorno del mese", "Giorno dell'anno", "File esiste" ,"Dimensione del file"};
+                                                                            "Giorno del mese", "Giorno dell'anno", "File esiste" ,"Dimensione del file", "Exit status"};
     @FXML
     private ChoiceBox<String> controlChoiceBox;
     private final String[] possibleControls = {"Seleziona un controllo", "Sempre", "Una volta", "Periodicamente"};
@@ -85,11 +74,9 @@ public class FXMLController implements Initializable {
     @FXML
     private Button backButton1;
     @FXML
-    private Button backButton2;
-    
+    private Button backButton2;    
     @FXML
     private AnchorPane chooseHourPage;
-
    @FXML
     private ComboBox<String> hourComboBox;
     private final String[] possibleHours = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
@@ -113,7 +100,6 @@ public class FXMLController implements Initializable {
     private Button buttonCancel;
     @FXML
     private Button sleepOK;
-    
     @FXML
     private AnchorPane chooseFileToAppendStringPage;   
     @FXML
@@ -140,8 +126,6 @@ public class FXMLController implements Initializable {
     private Label destinationFilePathLabel;
     @FXML
     private TextField ruleName;
-    
-    private String name,condition,action;
     @FXML
     private TableColumn<Rule, String> ruleColumn;
     @FXML
@@ -152,7 +136,7 @@ public class FXMLController implements Initializable {
     private MenuItem activeRuleId;
     @FXML
     private MenuItem inactiveRuleId;
-        @FXML
+    @FXML
     private Label controlLabel;
     @FXML
     private AnchorPane dayAndMonthPage;
@@ -206,16 +190,76 @@ public class FXMLController implements Initializable {
     private RadioButton SabRadioButton;
     @FXML
     private RadioButton DomRadioButton;
-  
+    @FXML
+    private AnchorPane exitStatusPage;
+    @FXML
+    private Button chooseProgramButton;
+    @FXML
+    private Button backExitStatusButton;
+    @FXML
+    private Button confirmExitStatusButton;
+    @FXML
+    private TextField expectedExitTextField;
+    @FXML
+    private Label selectedProgramPathLabel;
+    @FXML
+    private TableView<String> actionTable;
+    @FXML
+    private TableColumn<String, String> actColumn;
+    @FXML
+    private AnchorPane selectActionPage;
+    @FXML
+    private Button confirmDayWeekButton;
+    @FXML
+    private Button backButton8;
+    @FXML
+    private TextField ExistFileTextField;
+    @FXML
+    private AnchorPane executeProgramPage;
+    @FXML
+    private Label pathProgramLabel;
+    @FXML
+    private Button confirmDimensionFileButton11;
+    @FXML
+    private Button backButtonDimension1;
+    @FXML
+    private Button selectProgramButton;
+    @FXML
+    private Label pathProgramId;
+    @FXML
+    private TextField ParametersTextField;
+    @FXML
+    private TableColumn<String, String> condColumn;
+    @FXML
+    private AnchorPane selectConditionPage;
+    @FXML
+    private TableView<String> conditionTable;
+    @FXML
+    private CheckBox timeDayNOT;
+    @FXML
+    private CheckBox dayMonthNOT;
+    @FXML
+    private CheckBox dayNOT;
+    @FXML
+    private CheckBox weekNOT;
+    @FXML
+    private CheckBox existFileNOT;
+    @FXML
+    private CheckBox dimFileNOT;
+    @FXML
+    private CheckBox exitStatusNOT; 
     
     private ObservableList<Rule> ruleList;
     private RulesSet rulesSet = new RulesSet();
     private RuleFileHandler ruleFileHandler = new RuleFileHandler("rules.bin");
+    private String name,condition,action;
     private File selectedFile;
     private File selectedProgram;
     private File selectedDirectory;
     private boolean isCopying;
     private ToggleGroup toggleGroup;
+    private ObservableList<String> conditionList; 
+    private ObservableList<String> actionList;
     
     Task<Void> checkingRulesTask = new Task<Void>() {
             @Override
@@ -252,42 +296,8 @@ public class FXMLController implements Initializable {
     
     BaseActionHandler baseActionHandler = new BaseActionHandler();
     BaseConditionHandler baseConditionHandler = new BaseConditionHandler(); 
-    @FXML
-    private Button confirmDayWeekButton;
-    @FXML
-    private Button backButton8;
-    @FXML
-    private TextField ExistFileTextField;
-    @FXML
-    private AnchorPane executeProgramPage;
-    @FXML
-    private Label pathProgramLabel;
-    @FXML
-    private Button confirmDimensionFileButton11;
-    @FXML
-    private Button backButtonDimension1;
-    @FXML
-    private Button selectProgramButton;
-    @FXML
-    private Label pathProgramId;
-    @FXML
-    private TextField ParametersTextField;
-    @FXML
-    private TableColumn<String, String> condColumn;
-    @FXML
-    private AnchorPane selectConditionPage;
-    @FXML
-    private TableView<String> conditionTable;
-  
-    private ObservableList<String> conditionList; 
-    
-    private ObservableList<String> actionList; 
-    @FXML
-    private TableView<String> actionTable;
-    @FXML
-    private TableColumn<String, String> actColumn;
-    @FXML
-    private AnchorPane selectActionPage;
+     
+
     /**
      * Metodo chiamato quando viene inizializzata l'interfaccia utente.
      * Inizializza i componenti grafici, popola le choice boxes, crea le catene di responsabilità e avvia il thread per il controllo
@@ -310,6 +320,7 @@ public class FXMLController implements Initializable {
         chooseFileToAppendStringPage.setVisible(false);
         copyMoveFilePage.setVisible(false);
         dimensionFilePage.setVisible(false);
+        exitStatusPage.setVisible(false);
         
         // Carica le regole dal file al momento dell'avvio
         loadRules();
@@ -384,6 +395,8 @@ public class FXMLController implements Initializable {
         DayOfYearConditionHandler dayOfYearHandler = new DayOfYearConditionHandler();
         FileExistenceConditionHandler fileExistenceHandler = new FileExistenceConditionHandler();
         FileSizeConditionHandler fileSizeHandler = new FileSizeConditionHandler();
+        ExitStatusConditionHandler exitStatusHandler = new ExitStatusConditionHandler(); 
+
         
                 
         baseConditionHandler.setNext(timeHandler);
@@ -392,7 +405,8 @@ public class FXMLController implements Initializable {
         timeHandler.setNext(dayOfWeekHandler);
         dayOfWeekHandler.setNext(fileExistenceHandler);
         fileExistenceHandler.setNext(fileSizeHandler);
-        
+        fileSizeHandler.setNext(exitStatusHandler);
+                
         
         //Creazione e avvio del thread che controlla le regole
         checkingRulesThread.setDaemon(true);
@@ -661,13 +675,13 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);        
     }
 
-private void showAlert(String message, Alert.AlertType alertType) {
-    Alert alert = new Alert(alertType);
-    alert.setTitle("Messaggio di Avviso");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
-}
+    private void showAlert(String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle("Messaggio di Avviso");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
  
     /**
      * Gestisce l'evento di selezione di un'azione dalla ChoiceBox.
@@ -761,6 +775,10 @@ private void showAlert(String message, Alert.AlertType alertType) {
         }
         if(condition.compareTo("Dimensione del file") == 0){
             dimensionFilePage.setVisible(true);
+            selectConditionPage.setVisible(false);   
+        }
+        if(condition.compareTo("Exit status") == 0){
+            exitStatusPage.setVisible(true);
             selectConditionPage.setVisible(false);   
         }
         
@@ -1015,6 +1033,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
             conditionChoiceBox.setValue("Seleziona una condizione");
         } else {
             showAlert("Devi selezionare un giorno prima di confermare.", Alert.AlertType.ERROR);
+            return;
         }
         
         chooseDayWeekPage.setVisible(false);
@@ -1235,6 +1254,79 @@ private void showAlert(String message, Alert.AlertType alertType) {
         newRulePage.setVisible(true);
         ParametersTextField.clear();
         pathProgramLabel.setText("");
+    }
+    
+    @FXML
+    private void chooseProgramExitStatus(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        // Aggiungo un filtro per file eseguibili con estensioni .exe e .jar
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("File eseguibili (*.exe, *.jar)", "*.exe", "*.jar");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Apri la finestra di dialogo per la scelta del file
+        selectedProgram = fileChooser.showOpenDialog(new Stage());
+
+        if (selectedProgram != null) {
+            selectedProgramPathLabel.setText(selectedProgram.toString());
+            System.out.println("Eseguibile: "+selectedProgram.toString());
+        } else{
+            System.out.println("Eseguibile else: "+selectedProgram.toString());
+            showAlert("Devi selezionare un file eseguibile valido", Alert.AlertType.ERROR);
+            selectedProgramPathLabel.setText("");
+        }
+    }
+    
+    @FXML
+    private void confirmExitStatus(ActionEvent event) throws InterruptedException {
+        
+        if (expectedExitTextField == null && selectedProgram == null) {
+            showAlert("Scegliere il file eseguibile ed inserire il valore atteso", Alert.AlertType.ERROR);
+            return;
+        }
+        try {
+            System.out.println("Valore: "+expectedExitTextField.toString());
+            String valoreAttesoText = expectedExitTextField.getText().trim();
+            if (valoreAttesoText.isEmpty() || !valoreAttesoText.matches("\\d+")) {
+                showAlert("Inserisci un numero intero valido", Alert.AlertType.ERROR);
+                return;
+            }
+            int valoreAtteso = Integer.parseInt(valoreAttesoText);
+            System.out.println("VALORE: " + valoreAtteso);
+         } catch (NumberFormatException e) {
+             e.printStackTrace();
+             showAlert("Devi inserire un numero intero", Alert.AlertType.ERROR);
+             return;
+        }
+        if(expectedExitTextField.getText().isEmpty()){
+            showAlert("Inserisci il valore atteso", Alert.AlertType.ERROR);
+            return;
+        }
+        // Controllo che sia stato selezionato un file prima di confermare l'azione
+        if (selectedProgram == null) {
+        showAlert("Devi selezionare un programma prima di confermare.", Alert.AlertType.ERROR);
+        return;
+         }
+        // Setto l'azione da eseguire
+        if (selectedProgram != null && !expectedExitTextField.getText().isEmpty()){
+            System.out.println("VALORE: "+expectedExitTextField.getText().toString());
+            String condition = "Controlla il valore : " + selectedProgram.toString() + " Valore atteso: " + expectedExitTextField.getText();
+            conditionList.add(condition);
+        }
+        
+        expectedExitTextField.clear();
+        selectedProgramPathLabel.setText("");
+        exitStatusPage.setVisible(false);
+        conditionChoiceBox.setValue("Seleziona una condizione");
+        newRulePage.setVisible(true);        
+    }
+    
+    @FXML
+    private void showAddPageBackProgram2(ActionEvent event) {
+        exitStatusPage.setVisible(false);
+        newRulePage.setVisible(true);
+        expectedExitTextField.clear();
+        selectedProgramPathLabel.setText("");
+        conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
     @FXML
