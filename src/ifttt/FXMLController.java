@@ -1209,8 +1209,7 @@ private void showAlert(String message, Alert.AlertType alertType) {
         selectedProgram = fileChooser.showOpenDialog(new Stage());
         pathProgramId.setVisible(true);
         pathProgramLabel.setText(selectedProgram.toString());
-        String actionP = "Esegui il programma: " + selectedProgram.toString();
-        actionList.add(actionP);
+        
     }
 
     

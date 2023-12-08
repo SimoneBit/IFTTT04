@@ -19,6 +19,11 @@ public class Rule implements Serializable{
     private String name;
     private Trigger trigger;
     private ArrayList<Action>action;
+    private boolean Active;
+    private int sleepingPeriod;
+    private LocalTime lastChecked;
+    private boolean sleeping;
+    private boolean executeOnce;
 
     public LocalTime getLastChecked() {
         return lastChecked;
@@ -35,12 +40,6 @@ public class Rule implements Serializable{
     public void setExecuteOnce(boolean executeOnce) {
         this.executeOnce = executeOnce;
     }
-    private boolean Active;
-    private int sleepingPeriod;
-    private LocalTime lastChecked;
-    private boolean sleeping;
-    private boolean executeOnce;
-
     
     /**
      *Costruisce un'istanza di @see Rule con il nome specificato, il trigger associato e l'azione associata. 
@@ -93,18 +92,19 @@ public class Rule implements Serializable{
     }
     
     public boolean executeRule(){
+        //la variabile exit tiene traccia se almeno una delle azioni ha restituito true
         boolean exit=false;
         
             for(Action a : this.action){
-            
-            if(a.executeAction()==false){
-                return false;
+                 if(a.executeAction()==false){
+                    //se almeno una delle azioni dell'ArrayList non è stata eseguita con successo restituisce false
+                 return false;
+                 }
+                else{
+                    exit=true;
+                 }   
             }
-            else{
-                exit=true;
-            }
-            
-        }
+            //executeOnce è utilizzato per quando l'utende vuole che la regola sia eseguita una sola volta e poi si disattivi automaticamente
             if(this.executeOnce){
                 this.setActive(false);
             

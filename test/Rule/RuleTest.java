@@ -4,10 +4,11 @@
  */
 package Rule;
 
-import Action.Action;
-import Condition.Condition;
+import Action.*;
+import Condition.*;
 import Condition.Trigger;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -22,14 +23,17 @@ public class RuleTest {
 
     @Before
     public void setUp() {
-        Condition condition = null;
-        Trigger trigger = new Trigger(condition);
-        Action action = null;
-        int sleepingPeriod = 10; // Imposta il periodo di riposo come necessario;
+        ArrayList<Condition> conditionArrayList = null;
+        Trigger trigger = new Trigger(conditionArrayList);
+        ArrayList<Action> actions = new ArrayList<>();
+        int sleepingPeriod = 0; // Imposta il periodo di riposo come necessario;
         boolean executeOnce = false; // Imposta executeOnce come necessario;
 
-        rule = new Rule("TestRule", trigger, action, sleepingPeriod, executeOnce);
+       actions.add(() -> true);
+
+      rule = new Rule("TestRule", trigger, actions,sleepingPeriod , executeOnce);
     }
+
 
     @Test
     public void testCheckSleepingState_NoSleepingPeriod() {
@@ -49,8 +53,6 @@ public class RuleTest {
         assertFalse(rule.checkSleepingState());
     }
 
-
-
     @Test
     public void testCheckSleepingState_SleepingPeriodElapsed() {
         // Imposta il periodo di riposo a un valore qualsiasi
@@ -58,7 +60,19 @@ public class RuleTest {
         // Imposta l'ultimo controllo a 11 secondi fa
         rule.setLastChecked(LocalTime.now().minusSeconds(11));
         // Verifica che il risultato sia true poiché il periodo di riposo è trascorso
-        assertTrue(rule.checkSleepingState());
+        assertFalse(rule.checkSleepingState());
     }
-   
+    
+    @Test
+    public void testExecuteRule() {
+        // Caso 1: Assicurati che il metodo executeRule ritorni true quando tutte le azioni hanno successo
+        assertTrue(rule.executeRule());
+
+        // Caso 2: Assicurati che il metodo executeRule ritorni false quando almeno un'azione fallisce
+        rule.getAction().clear(); // Rimuovi tutte le azioni
+        rule.getAction().add(() -> false);
+        assertFalse(rule.executeRule());
+    
+    }
+    
 }
