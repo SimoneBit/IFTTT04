@@ -8,7 +8,7 @@ public class ExecuteProgramActionTest {
     @Test
     public void testExecuteActionWithParameters() {
         // Simula l'esecuzione di un programma con parametri
-        String programPath = "\"C:\\Users\\39349\\Documents\\NetBeansProjects\\sum\\sum1.exe\"";
+        String programPath = "test\\TestFiles\\sum1.exe";
         String programParameters = "1 2 3 4";
 
         ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);

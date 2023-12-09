@@ -18,7 +18,7 @@ public class FileSizeConditionTest {
     public void testCheckConditionWhenFileSizeExceedsMinSize() {
     try {
         // Specifica un percorso di file esistente e una dimensione minima
-        String fileName = "file_esistente.txt";
+        String fileName = "test\\TestFiles\\file_esistente.txt";
         long minSize = 5; // in KB
         // Trovo il percorso del file
         String projectPath = System.getProperty("user.dir");
@@ -39,7 +39,7 @@ public class FileSizeConditionTest {
     @Test
     public void testCheckConditionWhenFileSizeDoesNotExceedMinSize() {
         // Specifica un percorso di file esistente e una dimensione minima
-        String fileName = "file_esistente.txt";
+        String fileName = "test\\TestFiles\\file_esistente.txt";
         long minSize = 100000*1024; // in KB (un valore molto grande)
         // Trovo il percorso del file
         String projectPath = System.getProperty("user.dir");
@@ -56,7 +56,7 @@ public class FileSizeConditionTest {
     @Test
     public void testCheckConditionWhenFileDoesNotExist() {
         // Specifica un percorso di file esistente e una dimensione minima
-        String fileName = "file_inesistente.txt";
+        String fileName = "test\\TestFiles\\file_inesistente.txt";
         long minSize = 1; // in KB
         // Trovo il percorso del file
         String projectPath = System.getProperty("user.dir");
@@ -74,7 +74,7 @@ public class FileSizeConditionTest {
     public void testCheckConditionWhenFileSizeExceedsMinSizeNOT() {
     try {
         // Specifica un percorso di file esistente e una dimensione minima
-        String fileName = "file_esistente.txt";
+        String fileName = "test\\TestFiles\\file_esistente.txt";
         long minSize = 5; // in KB
         // Trovo il percorso del file
         String projectPath = System.getProperty("user.dir");
@@ -95,7 +95,7 @@ public class FileSizeConditionTest {
     @Test
     public void testCheckConditionWhenFileSizeDoesNotExceedMinSizeNOT() {
         // Specifica un percorso di file esistente e una dimensione minima
-        String fileName = "file_esistente.txt";
+        String fileName = "test\\TestFiles\\file_esistente.txt";
         long minSize = 100000*1024; // in KB (un valore molto grande)
         // Trovo il percorso del file
         String projectPath = System.getProperty("user.dir");
@@ -112,7 +112,7 @@ public class FileSizeConditionTest {
     @Test
     public void testCheckConditionWhenFileDoesNotExistNOT() {
         // Specifica un percorso di file esistente e una dimensione minima
-        String fileName = "file_inesistente.txt";
+        String fileName = "test\\TestFiles\\file_inesistente.txt";
         long minSize = 1; // in KB
         // Trovo il percorso del file
         String projectPath = System.getProperty("user.dir");

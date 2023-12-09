@@ -17,7 +17,7 @@ public class FileExistenceConditionTest {
     @Test
     public void testCheckConditionWhenFileExists() {
         // Specifica un percorso di cartella esistente e un nome di file esistente
-        String fileName = "file_esistente.txt";
+        String fileName = "test\\TestFiles\\file_esistente.txt";
 
         // Trovo il percorso della cartella 
         String folderPath = System.getProperty("user.dir");  
@@ -33,7 +33,7 @@ public class FileExistenceConditionTest {
     public void testCheckConditionWhenFileDoesNotExist() {
         // Specifica un percorso di cartella esistente e un nome di file inesistente
         String folderPath = System.getProperty("user.dir");  
-        String fileName = "file_inesistente.txt";
+        String fileName = "test\\TestFiles\\file_inesistente.txt";
 
         // Crea un'istanza di FileExistenceCondition
         FileExistenceCondition condition = new FileExistenceCondition(folderPath, fileName, false);
@@ -46,7 +46,7 @@ public class FileExistenceConditionTest {
     public void testCheckConditionWhenFileExistsNOT() {
         // Specifica un percorso di cartella esistente e un nome di file esistente
         String folderPath = System.getProperty("user.dir");  
-        String fileName = "file_esistente.txt";
+        String fileName = "test\\TestFiles\\file_esistente.txt";
 
         // Crea un'istanza di FileExistenceCondition
         FileExistenceCondition condition = new FileExistenceCondition(folderPath, fileName, true);
@@ -59,7 +59,7 @@ public class FileExistenceConditionTest {
     public void testCheckConditionWhenFileDoesNotExistNOT() {
         // Specifica un percorso di cartella esistente e un nome di file inesistente
         String folderPath = System.getProperty("user.dir");  
-        String fileName = "file_inesistente.txt";
+        String fileName = "test\\TestFiles\\file_inesistente.txt";
 
         // Crea un'istanza di FileExistenceCondition
         FileExistenceCondition condition = new FileExistenceCondition(folderPath, fileName, true);

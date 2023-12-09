@@ -40,7 +40,7 @@ public class DeleteFileActionTest {
     @Test
     public void testDeleteFileSuccess() {
         // File temporaneo per i test
-        String filePath = "testfile.txt";
+        String filePath = "test\\TestFiles\\testfile.txt";
 
         File file = new File("testfile.txt");
         try {
@@ -57,7 +57,7 @@ public class DeleteFileActionTest {
     @Test
     public void testDeleteFileNotFound() {
         // File temporaneo per i test
-        String filePath = "testfile.txt";
+        String filePath = "test\\TestFiles\\testfile.txt";
 
         File file = new File("testfile.txt");
         
@@ -70,7 +70,7 @@ public class DeleteFileActionTest {
     @Test
     public void testDeleteFileUnableToDelete() {
         // File temporaneo per i test
-        String filePath = "testfile.txt";
+        String filePath = "test\\TestFiles\\testfile.txt";
 
         File file = new File("testfile.txt");
         try {
