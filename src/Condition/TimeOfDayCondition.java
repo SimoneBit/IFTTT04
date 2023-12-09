@@ -20,16 +20,17 @@ public class TimeOfDayCondition implements Condition, Serializable {
     private LocalTime specifiedTime;  
 /** Flag che indica se la condizione è stata verificata in giornata */    
     private boolean checkedToday;
+    private boolean not;
     
     
  /**
   * Costruisce un'istanza di TimeOfDayCondition con l'orario specificato.
   * @param orarioSpecificato stringa rappresentante l'orario nel formato "HH:mm".
   */   
-    public TimeOfDayCondition(String orarioSpecificato) {
+    public TimeOfDayCondition(String orarioSpecificato, boolean not) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.specifiedTime = LocalTime.parse(orarioSpecificato, formatter);
-        this.checkedToday = false;
+        this.not = not;
     }
 
     
@@ -42,13 +43,15 @@ public class TimeOfDayCondition implements Condition, Serializable {
     @Override
     public boolean checkCondition() {
         boolean cond = LocalTime.now().truncatedTo(ChronoUnit.MINUTES).equals(specifiedTime);
-        if (cond && !checkedToday){
-            return true;
+        if (cond && !checkedToday) {
+            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
+        } else if (!cond && not) {
+            checkedToday = true;
+            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
         }
-        if(!cond){
-            checkedToday = false;
-        }
-        return false;
+
+        checkedToday = !not; // Altrimenti, setta checkedToday a !not
+        return not;  // Restituisci il valore di not
     }
 
     

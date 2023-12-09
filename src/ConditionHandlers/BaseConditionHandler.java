@@ -30,12 +30,13 @@ public class BaseConditionHandler implements ConditionHandler{
      * Gestisce la richiesta di condizione passandola al successivo gestore nella catena, se presente.
      *
      * @param request la richiesta di condizione da gestire.
-     * @param  Parametri aggiuntivi necessari per la gestione della richiesta di condizione.
+     * @param param aggiuntivi necessari per la gestione della richiesta di condizione.
+     * @param logic se true, applica la logica invertita del NOT alla condizione, se false, applica la logica normale.
      * @return il risultato della gestione da parte del successivo gestore nella catena.
      */
     @Override
-    public Condition handle(String request, String param) {
-        return next.handle(request, param);
+    public Condition handle(String request, String param, boolean logic) {
+        return next.handle(request, param, logic);
     }
 
     

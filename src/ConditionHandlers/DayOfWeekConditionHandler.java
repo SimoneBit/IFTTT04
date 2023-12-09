@@ -10,13 +10,13 @@ import Condition.DayOfWeekCondition;
 public class DayOfWeekConditionHandler extends BaseConditionHandler{
 
     @Override
-    public Condition handle(String request, String param) {
+    public Condition handle(String request, String param, boolean logic) {
         if(request.compareTo("Il giorno della settimana è") == 0){
-            Condition c = new DayOfWeekCondition(param);
+            Condition c = new DayOfWeekCondition(param, logic);
             return c;
         }else{
             if(next != null){
-                return next.handle(request, param);
+                return next.handle(request, param,logic);
             }
         }
         return null;

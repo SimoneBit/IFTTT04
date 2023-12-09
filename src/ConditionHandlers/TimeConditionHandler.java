@@ -23,13 +23,13 @@ public class TimeConditionHandler extends BaseConditionHandler{
      *                  del successivo gestore di condizioni nella catena, o null se nessun gestore può gestire la richiesta.
      */
     @Override
-    public Condition handle(String request, String param) {
+    public Condition handle(String request, String param, boolean logic) {
         if(request.compareTo("Alle") == 0){
-            Condition c = new TimeOfDayCondition(param);
+            Condition c = new TimeOfDayCondition(param, logic);
             return c;
         }else{
             if(next != null){
-                return next.handle(request, param);
+                return next.handle(request, param, logic);
             }
         }
         return null;

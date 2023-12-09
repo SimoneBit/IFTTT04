@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package ActionHandlers;
 
 import Action.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -18,6 +17,9 @@ public class BaseActionHandlerTest {
     AudioActionHandler audio;
     DialogBoxActionHandler dialog;
     DeleteFileActionHandler deleteFile;
+    CopyFileActionHandler copyFile;
+    MoveFileActionHandler moveFile;
+    WriteOnFileActionHandler writeFile;
     
     @Before
     public void setUp() {
@@ -25,10 +27,16 @@ public class BaseActionHandlerTest {
         audio = new AudioActionHandler();
         dialog = new DialogBoxActionHandler();
         deleteFile = new DeleteFileActionHandler();
+        copyFile = new CopyFileActionHandler();
+        moveFile = new MoveFileActionHandler();
+        writeFile = new WriteOnFileActionHandler();
         
         base.setNext(audio);
         audio.setNext(dialog);
         dialog.setNext(deleteFile);
+        deleteFile.setNext(copyFile);
+        copyFile.setNext(moveFile);
+        moveFile.setNext(writeFile);
     }
 
     /**
@@ -39,6 +47,9 @@ public class BaseActionHandlerTest {
         assertEquals(base.getNext(), audio);
         assertEquals(audio.getNext(), dialog);
         assertEquals(dialog.getNext(), deleteFile);
+        assertEquals(deleteFile.getNext(), copyFile);
+        assertEquals(copyFile.getNext(), moveFile);
+        assertEquals(moveFile.getNext(), writeFile);
     }
 
     /**
@@ -87,5 +98,48 @@ public class BaseActionHandlerTest {
         Action result = base.handle(request, param);
         assertEquals(expResult3.getClass(), result.getClass());
         
+    }
+    
+    @Test
+    public void testCopyFile() throws IOException{
+        String request = "Copia il file";
+        File tempFile = createTempFile();
+        Path tempDir = Files.createTempDirectory("tempDir");
+        String param = tempFile + " Path di destinazione: " + tempDir.toString();
+        CopyFileAction expResult3 = new CopyFileAction(tempFile, tempDir.toString());
+        Action result = base.handle(request, param);
+        assertEquals(expResult3.getClass(), result.getClass());
+        
+    }
+    
+    @Test
+    public void testMoveFile() throws IOException{
+        String request = "Sposta il file";
+        File tempFile = createTempFile();
+        Path tempDir = Files.createTempDirectory("tempDir");
+        String param = tempFile + " Path di destinazione: " + tempDir.toString();
+        MoveFileAction expResult3 = new MoveFileAction(tempFile, tempDir.toString());
+        Action result = base.handle(request, param);
+        assertEquals(expResult3.getClass(), result.getClass());
+        
+    }
+    
+    @Test
+    public void testWriteFile() throws IOException{
+        String request = "Scrivi sul file";
+        Path tempDirectory = Files.createTempDirectory("tempDir");
+        Path filePath = tempDirectory.resolve("testFile.txt");
+        String param = filePath + " Testo da scrivere: " + "Hello, World";
+        WriteOnFileAction expResult3 = new WriteOnFileAction(filePath.toFile(), "Hello, World");
+        Action result = base.handle(request, param);
+        assertEquals(expResult3.getClass(), result.getClass());
+        
+    }
+    
+    private File createTempFile() throws IOException {
+        // Creo un file temporaneo con alcuni dati di prova
+        File tempFile = File.createTempFile("testFile", ".txt");
+        Files.write(tempFile.toPath(), "Hello, World!".getBytes());
+        return tempFile;
     }
 }

@@ -18,6 +18,8 @@ public class FileSizeCondition implements Condition, Serializable {
     private String filePath;
     /** La dimensione minima del file per soddisfare la condizione. */
     private long minSize;
+    private boolean checkedToday;
+    private boolean not;
 
     /**
      * Costruisce un'istanza di FileSizeCondition con il percorso del file e la dimensione minima specificati.
@@ -25,9 +27,10 @@ public class FileSizeCondition implements Condition, Serializable {
      * @param filePath percorso del file.
      * @param minSize dimensione minima del file.
      */
-    public FileSizeCondition(String filePath, long minSize) {
+    public FileSizeCondition(String filePath, long minSize, boolean not) {
         this.filePath = filePath;
-        this.minSize = minSize *1024;
+        this.minSize = minSize * 1024; // trasformo il valore minimo dato da KB a Byte
+        this.not = not;
     }
 
     /**
@@ -40,8 +43,20 @@ public class FileSizeCondition implements Condition, Serializable {
     @Override
     public boolean checkCondition() {
         File file = new File(filePath);
-        long fileSizeKB = file.length() / 1024;
-        return fileSizeKB > minSize;
+        if (file.exists()) {
+            long fileSize = file.length();
+            boolean cond = fileSize > minSize;
+            if (cond && !checkedToday) {
+                return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
+            } else if (!cond && not) {
+                checkedToday = true;
+                return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
+            }
+            checkedToday = !not; // Altrimenti, setta checkedToday a !not
+            return not;  // Restituisci il valore di not
+        } else {
+            return false;  // il file non esite
+        }
     }
 
     /**

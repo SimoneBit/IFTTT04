@@ -18,21 +18,21 @@ import Condition.FileExistenceCondition;
 public class FileExistenceConditionHandler extends BaseConditionHandler {
 
     @Override
-    public Condition handle(String request, String param) {
+    public Condition handle(String request, String param, boolean logic) {
         if (request.equals("Il file")) {
             // Creare e restituire un'istanza di FileExistenceCondition
             try {
                 String[] params = param.split(" esiste nella cartella: ");
                 String folderPath = params[1];
                 String fileName = params[0];
-                return new FileExistenceCondition(folderPath, fileName);
+                return new FileExistenceCondition(folderPath, fileName, logic);
             } catch (Exception e) {
                 // Gestisci eventuali errori durante la creazione dell'istanza
                 e.printStackTrace();
             }
         } else {
             if (next != null) {
-                return next.handle(request, param);
+                return next.handle(request, param, logic);
             }
         }
         return null;

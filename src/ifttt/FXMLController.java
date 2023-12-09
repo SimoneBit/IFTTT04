@@ -473,7 +473,9 @@ public class FXMLController implements Initializable {
         for(String conditionString : conditionList){
             String []conditionParam;
             conditionParam = conditionString.split(" : ");
-            Condition cond = baseConditionHandler.handle(conditionParam[0], conditionParam[1]);
+            String[] condition2Param = conditionParam[1].split(" , Logica: ");
+            boolean logic = Boolean.parseBoolean(condition2Param[1]);
+            Condition cond = baseConditionHandler.handle(conditionParam[0], condition2Param[0], logic);
             conditionArrayList.add(cond);
         }
        
@@ -838,14 +840,24 @@ public class FXMLController implements Initializable {
     private void confirmHour(ActionEvent event) {
         String hour = hourComboBox.getValue();
         String minutes = minutesComboBox.getValue();
-        String time = hour + ":" + minutes;
-        String condition = "Alle : " + time;
-        conditionList.add(condition);
-        conditionChoiceBox.setValue("Seleziona una condizione");
+        if(hour == null){
+            showAlert("Devi selezionare l'ora prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }else if(minutes == null){
+            showAlert("Devi selezionare i minuti prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
+        if(hour != null && minutes != null){
+            String time = hour + ":" + minutes;
+            String condition = "Alle : " + time + " , Logica: "+ timeDayNOT.isSelected();
+            conditionList.add(condition);
+            conditionChoiceBox.setValue("Seleziona una condizione");
+        }
         chooseHourPage.setVisible(false);
         newRulePage.setVisible(true);
         hourComboBox.setValue(" ");
         minutesComboBox.setValue(" ");
+        timeDayNOT.setSelected(false);
     }
 
     /**
@@ -862,6 +874,7 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setValue("Seleziona una condizione");
         hourComboBox.setValue(" ");
         minutesComboBox.setValue(" ");
+        timeDayNOT.setSelected(false);
     }
 
     
@@ -988,29 +1001,43 @@ public class FXMLController implements Initializable {
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
         dayAndMonthText.setText("");
+        dayMonthNOT.setSelected(false);
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
-    @FXML
+    @FXML //anno
     private void confirmDayAndMonth(ActionEvent event) {
         String day = dayAndMonthText.getText();
-        String condition = "Il : " + day;
-        conditionList.add(condition);
+        if(!day.isEmpty()){
+            String condition = "Il : " + String.format("%s", day) + " , Logica: " + dayMonthNOT.isSelected();
+            conditionList.add(condition);
+        }else{
+            showAlert("Devi specificare un giorno e un mese prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
         dayAndMonthPage.setVisible(false);
         newRulePage.setVisible(true);
         dayAndMonthText.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
+        dayMonthNOT.setSelected(false);
     }
 
-    @FXML
+    @FXML //mese
     private void confirmDay(ActionEvent event) {
         String day = dayField.getText();
-        String condition = "Il giorno : " + day;
-        conditionList.add(condition);
+        if(!day.isEmpty()){
+            String condition = "Il giorno : " + String.format("%s", day) + " , Logica: " + dayNOT.isSelected();
+            System.out.println("Stringa: "+condition);
+            conditionList.add(condition);
+        }else{
+            showAlert("Devi specificare un giorno prima di confermare.", Alert.AlertType.ERROR);
+            return;
+        }
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
         conditionChoiceBox.setValue("Seleziona una condizione");
+        dayNOT.setSelected(false);
     }
     
     /**
@@ -1028,7 +1055,7 @@ public class FXMLController implements Initializable {
         RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
         // Verifica se un RadioButton è stato selezionato
         if (selectedRadioButton != null) {
-            String condition = "Il giorno della settimana è : " + selectedRadioButton.getText();
+            String condition = "Il giorno della settimana è : " + selectedRadioButton.getText() + " , Logica: " + weekNOT.isSelected();
             conditionList.add(condition);
             conditionChoiceBox.setValue("Seleziona una condizione");
         } else {
@@ -1038,7 +1065,8 @@ public class FXMLController implements Initializable {
         
         chooseDayWeekPage.setVisible(false);
         newRulePage.setVisible(true);     
-        toggleGroup.selectToggle(null);            
+        toggleGroup.selectToggle(null);
+        weekNOT.setSelected(false);
     }
 
     @FXML
@@ -1046,6 +1074,7 @@ public class FXMLController implements Initializable {
         dayPage.setVisible(false);
         newRulePage.setVisible(true);
         dayField.setText("");
+        dayNOT.setSelected(false);
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
@@ -1100,9 +1129,8 @@ public class FXMLController implements Initializable {
    * @param event l'evento di azione scatenato dalla conferma della verifica dell'esistenza di un file.
    */
     @FXML
-    private void ConfirmExistFileButton(ActionEvent event) {
+    private void confirmExistFileButton(ActionEvent event) {
         String nameFile = ExistFileTextField.getText();
-        
        if(nameFile.isEmpty()){
             showAlert("Inserisci il nome del file di cui vuoi  verificare l'esistenza", Alert.AlertType.ERROR);
             return;
@@ -1111,9 +1139,8 @@ public class FXMLController implements Initializable {
             showAlert("Devi selezionare una cartella destinazione prima di confermare.", Alert.AlertType.ERROR);
             return;
         }
-        
         if (pathFileLabel.getText() != null && !nameFile.isEmpty()){
-            String condition = "Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText();
+            String condition = "Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText() +  " , Logica: "+ existFileNOT.isSelected();
             conditionList.add(condition);
             
         pathFileLabel.setText("");
@@ -1134,7 +1161,7 @@ public class FXMLController implements Initializable {
      * @param event l'evento di azione scatenato dalla conferma della verifica della dimensione di un file.
      */
     @FXML
-    private void ConfirmDimensionFileButton(ActionEvent event) {
+    private void confirmDimensionFileButton(ActionEvent event) {
         String minSize = DimensionLabel.getText();
         if(minSize.isEmpty()){
             showAlert("Inserisci la dimensione del file che vuoi verificare", Alert.AlertType.ERROR);
@@ -1146,7 +1173,7 @@ public class FXMLController implements Initializable {
         }
         
         if (pathFileLabel1.getText() != null && !minSize.isEmpty()){
-            String condition = "Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize;
+            String condition = "Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize + " , Logica: "+ dimFileNOT.isSelected();
             conditionList.add(condition);
             
         pathFileLabel1.setText("");
@@ -1183,6 +1210,7 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         ExistFileTextField.clear();
         pathFileLabel.setText("");
+        existFileNOT.setSelected(false);
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
     
@@ -1199,6 +1227,7 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         DimensionLabel.clear();
         pathFileLabel1.setText("");
+        dimFileNOT.setSelected(false);
         conditionChoiceBox.setValue("Seleziona una condizione");
         
     }
@@ -1216,6 +1245,7 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);     
         toggleGroup.selectToggle(null);
         conditionChoiceBox.setValue("Seleziona una condizione");
+        weekNOT.setSelected(false);
     }
     
     
@@ -1233,7 +1263,7 @@ public class FXMLController implements Initializable {
 
     
     @FXML
-    private void ConfirmExecuteProgramButton(ActionEvent event) {
+    private void confirmExecuteProgramButton(ActionEvent event) {
     
         if (selectedProgram == null) {
         showAlert("Devi selezionare un programma prima di confermare.", Alert.AlertType.ERROR);
@@ -1278,7 +1308,6 @@ public class FXMLController implements Initializable {
     
     @FXML
     private void confirmExitStatus(ActionEvent event) throws InterruptedException {
-        
         if (expectedExitTextField == null && selectedProgram == null) {
             showAlert("Scegliere il file eseguibile ed inserire il valore atteso", Alert.AlertType.ERROR);
             return;
@@ -1291,7 +1320,7 @@ public class FXMLController implements Initializable {
                 return;
             }
             int valoreAtteso = Integer.parseInt(valoreAttesoText);
-            System.out.println("VALORE: " + valoreAtteso);
+            //System.out.println("VALORE: " + valoreAtteso);
          } catch (NumberFormatException e) {
              e.printStackTrace();
              showAlert("Devi inserire un numero intero", Alert.AlertType.ERROR);
@@ -1307,14 +1336,14 @@ public class FXMLController implements Initializable {
         return;
          }
         // Setto l'azione da eseguire
-        if (selectedProgram != null && !expectedExitTextField.getText().isEmpty()){
-            System.out.println("VALORE: "+expectedExitTextField.getText().toString());
-            String condition = "Controlla il valore : " + selectedProgram.toString() + " Valore atteso: " + expectedExitTextField.getText();
+        if (selectedProgram != null && !expectedExitTextField.getText().isEmpty()){         
+            String condition = "Controlla il valore : " + selectedProgram.toString() + " Valore atteso: " + expectedExitTextField.getText() + " , Logica: "+ exitStatusNOT.isSelected();
             conditionList.add(condition);
         }
         
         expectedExitTextField.clear();
         selectedProgramPathLabel.setText("");
+        exitStatusNOT.setSelected(false);
         exitStatusPage.setVisible(false);
         conditionChoiceBox.setValue("Seleziona una condizione");
         newRulePage.setVisible(true);        
@@ -1326,6 +1355,7 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
         expectedExitTextField.clear();
         selectedProgramPathLabel.setText("");
+        exitStatusNOT.setSelected(false);
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
@@ -1357,5 +1387,3 @@ public class FXMLController implements Initializable {
 
   
 }
-
-

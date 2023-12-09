@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Condition;
 
 import java.time.LocalDate;
@@ -11,7 +7,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Simone
+ * @author Simone Pacifico
  */
 public class DayOfYearConditionTest {
     
@@ -32,7 +28,7 @@ public class DayOfYearConditionTest {
         Integer currentMonth = currentDate.getMonthValue();
         Integer currentDay = currentDate.getDayOfMonth();
         
-        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay);
+        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay, false);
         assertTrue(cond.checkCondition());
     }
     
@@ -48,10 +44,37 @@ public class DayOfYearConditionTest {
         }else{
             currentDay++;
         }
-        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay);
+        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay, false);
         assertFalse(cond.checkCondition());
     }
     
+    
+    @Test
+    public void testCheckConditionFalseNOT() {
+        LocalDate currentDate = LocalDate.now();
+        // Get the current day and month as integers
+        Integer currentMonth = currentDate.getMonthValue();
+        Integer currentDay = currentDate.getDayOfMonth();
+        
+        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay, true);
+        assertFalse(cond.checkCondition());
+    }
+    
+   
+    
+    public void testCheckConditionTrueNOT() {
+        LocalDate currentDate = LocalDate.now();
+        // Get the current day and month as integers
+        Integer currentMonth = currentDate.getMonthValue();
+        Integer currentDay = currentDate.getDayOfMonth();
+        if(currentDay != 15){
+            currentDay = 15;
+        }else{
+            currentDay++;
+        }
+        DayOfYearCondition cond = new DayOfYearCondition(currentMonth, currentDay, true);
+        assertTrue(cond.checkCondition());
+    }
     
     
 }

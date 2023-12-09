@@ -20,7 +20,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifttt.FXMLController">
    <children>
-      <AnchorPane fx:id="mainMenuPage" layoutX="25.0" layoutY="32.0" prefHeight="560.0" prefWidth="623.0">
+      <AnchorPane fx:id="mainMenuPage" layoutX="25.0" layoutY="32.0" prefHeight="560.0" prefWidth="623.0" visible="false">
          <children>
             <Label layoutX="279.0" layoutY="34.0" text="IFTTT ">
                <font>
@@ -148,7 +148,7 @@
             <TextField fx:id="dayField" layoutX="159.0" layoutY="104.0" promptText="dd" />
             <Button layoutX="305.0" layoutY="215.0" mnemonicParsing="false" onAction="#confirmDay" text="OK" />
             <Button layoutX="159.0" layoutY="215.0" mnemonicParsing="false" onAction="#showAddPageBack3" text="Annulla" />
-            <CheckBox fx:id="dayNOT" layoutX="159.0" layoutY="168.0" mnemonicParsing="false" text="Logica NOT" />
+            <CheckBox fx:id="dayNOT" layoutX="159.0" layoutY="166.0" mnemonicParsing="false" text="Logica NOT" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chooseDayWeekPage" layoutX="80.0" layoutY="96.0" prefHeight="308.0" prefWidth="449.0" visible="false">
@@ -253,7 +253,7 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Button fx:id="confirmExistFileButton" layoutX="297.0" layoutY="211.0" mnemonicParsing="false" onAction="#ConfirmExistFileButton" text="OK" />
+            <Button fx:id="confirmExistFileButton" layoutX="297.0" layoutY="211.0" mnemonicParsing="false" onAction="#confirmExistFileButton" text="OK" />
             <Button fx:id="backButtonExists" layoutX="147.0" layoutY="211.0" mnemonicParsing="false" onAction="#showAddPageBack6" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
             <Button fx:id="selectPathButton1" layoutX="297.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileExists" prefHeight="31.0" prefWidth="187.0" text="Scegli cartella" />
             <Label fx:id="pathFile_id" layoutX="103.0" layoutY="145.0" text="Path cartella" visible="false">
@@ -282,7 +282,7 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Button fx:id="confirmDimensionFileButton1" layoutX="311.0" layoutY="210.0" mnemonicParsing="false" onAction="#ConfirmDimensionFileButton" text="OK" />
+            <Button fx:id="confirmDimensionFileButton1" layoutX="311.0" layoutY="210.0" mnemonicParsing="false" onAction="#confirmDimensionFileButton" text="OK" />
             <Button fx:id="backButtonDimension" layoutX="107.0" layoutY="210.0" mnemonicParsing="false" onAction="#showAddPageBack7" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
             <Button fx:id="selectFileButton2" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFileDimension" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
             <Label fx:id="pathFile_id1" layoutX="31.0" layoutY="91.0" prefHeight="25.0" prefWidth="114.0" text="Path file" visible="false">
@@ -311,7 +311,7 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Button fx:id="confirmDimensionFileButton11" layoutX="322.0" layoutY="202.0" mnemonicParsing="false" onAction="#ConfirmExecuteProgramButton" text="OK" />
+            <Button fx:id="confirmDimensionFileButton11" layoutX="322.0" layoutY="202.0" mnemonicParsing="false" onAction="#confirmExecuteProgramButton" text="OK" />
             <Button fx:id="backButtonDimension1" layoutX="111.0" layoutY="202.0" mnemonicParsing="false" onAction="#showAddPageBackProgram" prefHeight="31.0" prefWidth="81.0" text="Annulla" />
             <Button fx:id="selectProgramButton" layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseProgram" prefHeight="31.0" prefWidth="165.0" text="Scegli file" />
             <Label fx:id="pathProgramId" layoutX="31.0" layoutY="91.0" prefHeight="25.0" prefWidth="114.0" text="Path program" visible="false">

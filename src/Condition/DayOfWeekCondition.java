@@ -13,9 +13,11 @@ import java.util.Locale;
 public class DayOfWeekCondition implements Condition, Serializable {
     private String daySelected;
     private boolean checkedToday;
+    private boolean not;
 
-    public DayOfWeekCondition(String daySelected) {
+    public DayOfWeekCondition(String daySelected, boolean not) {
         this.daySelected = daySelected;
+        this.not = not;
     }
 
     @Override
@@ -27,13 +29,15 @@ public class DayOfWeekCondition implements Condition, Serializable {
         // Confronto l'input con il giorno della settimana corrente
         boolean cond = dayUpperCase.equals(giornoSettimanaCorrente.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase());
         
-        if (cond && !checkedToday){
-            return true;
+        if (cond && !checkedToday) {
+            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
+        } else if (!cond && not) {
+            checkedToday = true;
+            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
         }
-        if(!cond){
-            checkedToday = false;
-        }
-        return false;        
+
+        checkedToday = !not; // Altrimenti, setta checkedToday a !not
+        return not;  // Restituisci il valore di not
     }
     
     @Override

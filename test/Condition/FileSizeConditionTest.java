@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package Condition;
 
+import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author 39349
+ * @author Nicola Lanzara
  */
 public class FileSizeConditionTest {
   
@@ -21,11 +18,15 @@ public class FileSizeConditionTest {
     public void testCheckConditionWhenFileSizeExceedsMinSize() {
     try {
         // Specifica un percorso di file esistente e una dimensione minima
-        String filePath = "C:\\Users\\39349\\Desktop\\Software\\Progetto\\IFTTT04\\file_esistente.txt";
+        String fileName = "file_esistente.txt";
         long minSize = 5; // in KB
+        // Trovo il percorso del file
+        String projectPath = System.getProperty("user.dir");
+        // Costruisco il percorso completo del file
+        String filePath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + fileName;
 
         // Crea un'istanza di FileSizeCondition
-        FileSizeCondition condition = new FileSizeCondition(filePath, minSize);
+        FileSizeCondition condition = new FileSizeCondition(filePath, minSize, false);
 
         // Verifica che la condizione sia soddisfatta (la dimensione del file supera la dimensione minima)
         assertTrue(condition.checkCondition());
@@ -37,12 +38,16 @@ public class FileSizeConditionTest {
 
     @Test
     public void testCheckConditionWhenFileSizeDoesNotExceedMinSize() {
-        // Specifica un percorso di file esistente e una dimensione minima irragionevolmente grande
-        String filePath = "C:\\Users\\39349\\Desktop\\Software\\Progetto\\IFTTT04\\file_esistente.txt";
+        // Specifica un percorso di file esistente e una dimensione minima
+        String fileName = "file_esistente.txt";
         long minSize = 100000*1024; // in KB (un valore molto grande)
-
+        // Trovo il percorso del file
+        String projectPath = System.getProperty("user.dir");
+        // Costruisco il percorso completo del file
+        String filePath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + fileName;
+        
         // Crea un'istanza di FileSizeCondition
-        FileSizeCondition condition = new FileSizeCondition(filePath, minSize);
+        FileSizeCondition condition = new FileSizeCondition(filePath, minSize, false);
 
         // Verifica che la condizione non sia soddisfatta (la dimensione del file non supera la dimensione minima)
         assertFalse(condition.checkCondition());
@@ -50,14 +55,74 @@ public class FileSizeConditionTest {
 
     @Test
     public void testCheckConditionWhenFileDoesNotExist() {
-        // Specifica un percorso di file inesistente e una dimensione minima
-        String filePath = "C:\\Users\\39349\\Desktop\\Software\\Progetto\\IFTTT04\\file_inesistente.txt";
+        // Specifica un percorso di file esistente e una dimensione minima
+        String fileName = "file_inesistente.txt";
         long minSize = 1; // in KB
+        // Trovo il percorso del file
+        String projectPath = System.getProperty("user.dir");
+        // Costruisco il percorso completo del file
+        String filePath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + fileName;
 
         // Crea un'istanza di FileSizeCondition
-        FileSizeCondition condition = new FileSizeCondition(filePath, minSize);
+        FileSizeCondition condition = new FileSizeCondition(filePath, minSize,false);
 
         // Verifica che la condizione non sia soddisfatta (il file non esiste)
+        assertFalse(condition.checkCondition());
+    }
+    
+    @Test
+    public void testCheckConditionWhenFileSizeExceedsMinSizeNOT() {
+    try {
+        // Specifica un percorso di file esistente e una dimensione minima
+        String fileName = "file_esistente.txt";
+        long minSize = 5; // in KB
+        // Trovo il percorso del file
+        String projectPath = System.getProperty("user.dir");
+        // Costruisco il percorso completo del file
+        String filePath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + fileName;
+
+        // Crea un'istanza di FileSizeCondition
+        FileSizeCondition condition = new FileSizeCondition(filePath, minSize, true);
+        
+        // Verifica che la condizione non sia soddisfatta (la dimensione del file supera la dimensione minima)
+        assertFalse(condition.checkCondition());
+    } catch (Exception e) {
+        e.printStackTrace();
+        fail("Eccezione durante l'esecuzione del test");
+    }
+}
+
+    @Test
+    public void testCheckConditionWhenFileSizeDoesNotExceedMinSizeNOT() {
+        // Specifica un percorso di file esistente e una dimensione minima
+        String fileName = "file_esistente.txt";
+        long minSize = 100000*1024; // in KB (un valore molto grande)
+        // Trovo il percorso del file
+        String projectPath = System.getProperty("user.dir");
+        // Costruisco il percorso completo del file
+        String filePath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + fileName;
+        
+        // Crea un'istanza di FileSizeCondition
+        FileSizeCondition condition = new FileSizeCondition(filePath, minSize, true);
+
+        // Verifica che la condizione sia soddisfatta (la dimensione del file non supera la dimensione minima)
+        assertTrue(condition.checkCondition());
+    }
+
+    @Test
+    public void testCheckConditionWhenFileDoesNotExistNOT() {
+        // Specifica un percorso di file esistente e una dimensione minima
+        String fileName = "file_inesistente.txt";
+        long minSize = 1; // in KB
+        // Trovo il percorso del file
+        String projectPath = System.getProperty("user.dir");
+        // Costruisco il percorso completo del file
+        String filePath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + fileName;
+
+        // Crea un'istanza di FileSizeCondition
+        FileSizeCondition condition = new FileSizeCondition(filePath, minSize, true);
+
+        // Verifica che la condizione non sia soddisfatta (il file non esiste) anche con la logica invertita
         assertFalse(condition.checkCondition());
     }
 

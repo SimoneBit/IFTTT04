@@ -11,42 +11,40 @@ public class ExitStatusCondition implements Condition, Serializable{
     private String program;
     private int expectedValue;
     private boolean checkedToday;
+    private boolean not;
 
-    public ExitStatusCondition(String program, int expectedValue) {
+    public ExitStatusCondition(String program, int expectedValue, boolean not) {
         this.program = program;
         this.expectedValue = expectedValue;
+        this.not = not;
     }
     
     
     @Override
     public boolean checkCondition() {
         try {
-            //System.out.println("Path Jar: "+program);
-            //System.out.println("Valore atteso: "+expectedValue);
             // Costruisco il comando per eseguire il file specificato nella bash shell
             ProcessBuilder processBuilder = new ProcessBuilder("C:\\\\Cygwin64\\\\bin\\\\bash.exe", "-c", "java -jar \"" + program.replace("\\", "/") + "\"");
-            //System.out.println("Comando bash andato");
-
             // Eseguo il processo esterno
             Process processo = processBuilder.start();
 
             // Ottiengo il valore di uscita del processo
             int exitValue = processo.waitFor();
             //System.out.println("Valore uscita: " + exitValue);
+            boolean cond = exitValue == expectedValue;
 
             // Confronta il valore di uscita con il valore atteso
-            if (exitValue == expectedValue) {
-                //System.out.println("Il valore di uscita è conforme alle aspettative.");
-                return true;
-            } else {
-                //System.out.println("Il valore di uscita non è conforme alle aspettative.");
-                return false;
-            }
-
+            if (cond && !checkedToday) {
+                return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
+            } else if (!cond && not) {
+            checkedToday = true;
+            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
+            } 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return false;
+        checkedToday = !not; // Altrimenti, setta checkedToday a !not
+        return not;  // Restituisci il valore di not
     }
 
     @Override

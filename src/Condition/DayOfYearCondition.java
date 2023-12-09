@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Condition;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 /**
  *
- * @author Simone
+ * @author Simone Pacifico
  */
 public class DayOfYearCondition implements Condition, Serializable {
     private Integer month;
@@ -16,10 +12,12 @@ public class DayOfYearCondition implements Condition, Serializable {
     private int lastMonthChecked;
     private int lastDayChecked;
     private boolean checkedToday;
+    private boolean not;
 
-    public DayOfYearCondition(Integer month, Integer day) {
+    public DayOfYearCondition(Integer month, Integer day, boolean not) {
         this.month = month;
         this.day = day;
+        this.not = not;
     }
 
     
@@ -32,15 +30,15 @@ public class DayOfYearCondition implements Condition, Serializable {
         
         
         boolean cond = month.equals(currentMonth) && day.equals(currentDay);
-        if (cond && !checkedToday){
-            return true;
+        if (cond && !checkedToday) {
+            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
+        } else if (!cond && not) {
+            checkedToday = true;
+            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
         }
-        if(!cond){
-            checkedToday = false;
-        }
-        return false;
-        
-        
+
+        checkedToday = !not; // Altrimenti, setta checkedToday a !not
+        return not;  // Restituisci il valore di not        
         
     }
     
