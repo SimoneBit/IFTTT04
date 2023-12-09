@@ -12,14 +12,14 @@ public class ExitStatusConditionTest {
     
     @Test
     public void testCheckConditionWithMatchingExitCode() {
-        String jarName = "TestExitStatus.jar";
+        String jarName = "test\\TestFiles\\TestExitStatus.jar";
         int expectedValue = 0;
 
         // Trovo il percorso del progetto
         String projectPath = System.getProperty("user.dir");
 
         // Costruisco il percorso completo del programma
-        String jarPath = "\"" + projectPath + File.separator + jarName + "\"";
+        String jarPath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + jarName;
         ExitStatusCondition condition = new ExitStatusCondition(jarPath, expectedValue, false);
 
         // Verifico che la condizione sia soddisfatta
@@ -28,30 +28,30 @@ public class ExitStatusConditionTest {
     
         @Test
     public void testCheckConditionWithNonMatchingExitCode() {
-        String jarName = "TestExitStatus.jar";
+        String jarName = "test\\TestFiles\\TestExitStatus.jar";
         int expectedValue = 1;
 
         // Trovo il percorso del progetto
         String projectPath = System.getProperty("user.dir");
 
         // Costruisco il percorso completo del programma
-        String jarPath = "\"" + projectPath + File.separator + jarName + "\"";
+        String jarPath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + jarName;
         ExitStatusCondition condition = new ExitStatusCondition(jarPath, expectedValue, false);
 
-        // Verifico che la condizione sia soddisfatta
+        // Verifico che la condizione non sia soddisfatta
         assertFalse(condition.checkCondition());
     }
 
     @Test
     public void testCheckConditionWithMatchingExitCodeNOT() {
-        String jarName = "TestExitStatus.jar";
+        String jarName = "test\\TestFiles\\TestExitStatus.jar";
         int expectedValue = 0;
 
         // Trovo il percorso del progetto
         String projectPath = System.getProperty("user.dir");
 
         // Costruisco il percorso completo del programma
-        String jarPath = "\"" + projectPath + File.separator + jarName + "\"";
+        String jarPath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + jarName;
         ExitStatusCondition condition = new ExitStatusCondition(jarPath, expectedValue, true);
 
         // Verifico che la condizione sia soddisfatta
@@ -60,17 +60,17 @@ public class ExitStatusConditionTest {
     
         @Test
     public void testCheckConditionWithNonMatchingExitCodeNOT() {
-        String jarName = "TestExitStatus.jar";
+        String jarName = "test\\TestFiles\\TestExitStatus.jar";
         int expectedValue = 1;
 
         // Trovo il percorso del progetto
         String projectPath = System.getProperty("user.dir");
 
         // Costruisco il percorso completo del programma
-        String jarPath = "\"" + projectPath + File.separator + jarName + "\"";
+        String jarPath = projectPath.replace("\\", "\\\\") + File.separator + "\\" + jarName;
         ExitStatusCondition condition = new ExitStatusCondition(jarPath, expectedValue, true);
 
-        // Verifico che la condizione sia soddisfatta
+        // Verifico che la condizione non sia soddisfatta
         assertTrue(condition.checkCondition());
     }
     

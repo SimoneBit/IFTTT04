@@ -432,7 +432,6 @@ public class FXMLController implements Initializable {
         chooseFileToAppendStringPage.setVisible(false);
         controlChoiceBox.setValue("Seleziona un controllo");
     }
-
     /**
      * Torna alla pagina principale nascondendo le altre pagine e ripristinando i valori predefiniti.
      * 
@@ -900,6 +899,7 @@ public class FXMLController implements Initializable {
      */
     @FXML
     private void activeRule(ActionEvent event) {
+        
         tableView.getSelectionModel().getSelectedItem().setActive(true);
         inactiveRuleId.setDisable(false);
         activeRuleId.setDisable(true);
