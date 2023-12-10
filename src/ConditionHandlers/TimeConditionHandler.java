@@ -18,7 +18,8 @@ public class TimeConditionHandler extends BaseConditionHandler{
      * Altrimenti, passa la richiesta al successivo gestore di condizioni nella catena, se presente.
      *
      * @param request la richiesta di condizione da gestire.
-     * @param param Pparametri aggiuntivi necessari per la gestione della richiesta di condizione.
+     * @param param parametri aggiuntivi necessari per la gestione della richiesta di condizione.
+     * @param logic la logica associata alla condizione (se deve essere negata o meno).
      * @return un'istanza di  TimeOfDayCondition se la richiesta è stata gestita, altrimenti il risultato della gestione da parte 
      *                  del successivo gestore di condizioni nella catena, o null se nessun gestore può gestire la richiesta.
      */

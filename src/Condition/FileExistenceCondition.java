@@ -24,6 +24,7 @@ public class FileExistenceCondition implements Condition, Serializable {
      * Costruisce un'istanza di FileExistenceCondition con il percorso della cartella e il nome del file specificati.
      * @param folderPath il percorso della cartella.
      * @param fileName il nome del file.
+     * @param not flag che indica se la condizione deve essere negata.
      */
     public FileExistenceCondition(String folderPath, String fileName, boolean not) {
         this.folderPath = folderPath;
@@ -56,6 +57,9 @@ public class FileExistenceCondition implements Condition, Serializable {
                 '}';
     }
     
+    /**
+     * Resetta lo stato della condizione, segnando che è stata verificata oggi.
+     */
     @Override
     public void resetState() {
         return;

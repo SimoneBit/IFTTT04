@@ -25,6 +25,7 @@ public class FileSizeCondition implements Condition, Serializable {
      * 
      * @param filePath percorso del file.
      * @param minSize dimensione minima del file.
+     * @param not flag che indica se la condizione deve essere negata.
      */
     public FileSizeCondition(String filePath, long minSize, boolean not) {
         this.filePath = filePath;
@@ -62,6 +63,9 @@ public class FileSizeCondition implements Condition, Serializable {
         return "FileSizeCondition{" + "filePath='" + filePath + '\'' + ", minSize=" + minSize + '}';
     }
     
+    /**
+     * Resetta lo stato della condizione, segnando che è stata verificata oggi.
+     */
     @Override
     public void resetState() {
         return;

@@ -1,11 +1,11 @@
-
 package Action;
 
 import java.io.File;
 import java.io.Serializable;
 
 /**
- *
+ * Questa classe implementa l'interfaccia @see Action e rappresenta un'azione che ha lo scopo di eliminare un file 
+ * specificato. La classe è anche serializzabile.
  * @author Simone Pacifico
  */
 public class DeleteFileAction implements Action, Serializable{
@@ -16,6 +16,11 @@ public class DeleteFileAction implements Action, Serializable{
         this.file = f;
     }
 
+    /**
+     * Esegue l'azione di eliminare il file specificato.
+     * 
+     * @return true se l'azione ha avuto successo e il file è stato eliminato, false altrimenti 
+     */
     @Override
     public boolean executeAction() {
         boolean exit;

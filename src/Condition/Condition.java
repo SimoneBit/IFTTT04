@@ -16,5 +16,9 @@ public interface Condition {
      * @return true se la condizione è soddisfatta, altrimenti false.
      */
     public boolean checkCondition();
+    
+    /**
+     * Resetta lo stato della regola.
+     */
     public void resetState();
 }

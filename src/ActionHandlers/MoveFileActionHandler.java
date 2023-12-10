@@ -31,8 +31,6 @@ public class MoveFileActionHandler extends BaseActionHandler{
             String[] part = param.split(" Path di destinazione: ");
             String paramFile = part[0];
             String paramPath = part[1];
-            System.out.println("Param 0: " +paramFile);
-            System.out.println("Param 1: " +paramPath);
             File fileToMove = new File(paramFile);
             MoveFileAction cf = new MoveFileAction(fileToMove, paramPath);
             return cf;          

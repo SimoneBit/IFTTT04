@@ -3,7 +3,8 @@ package Condition;
 import java.io.Serializable;
 import java.time.LocalDate;
 /**
- *
+ * Questa classe implementa l'interfaccia @see Condition e rappresenta una condizione basata sul giorno dell'anno.
+ * La classe è anche serializzabile.
  * @author Simone Pacifico
  */
 public class DayOfYearCondition implements Condition, Serializable {
@@ -14,6 +15,14 @@ public class DayOfYearCondition implements Condition, Serializable {
     private boolean checkedToday;
     private boolean not;
 
+    /**
+     * Costruttore della classe. 
+     * Inizializza l'istanza con il mese, il giorno e il flag di negazione specificati.
+     * 
+     * @param month il mese su cui la condizione deve essere verificata.
+     * @param day il giorno del mese su cui la condizione deve essere verificata.
+     * @param not flag che indica se la condizione deve essere negata.
+     */
     public DayOfYearCondition(Integer month, Integer day, boolean not) {
         this.month = month;
         this.day = day;
@@ -24,7 +33,11 @@ public class DayOfYearCondition implements Condition, Serializable {
         
     }
 
-    
+    /**
+     * Verifica se la condizione è attualmente soddisfatta in base al giorno dell'anno corrente.
+     * 
+     * @return true se la condizione è soddisfatta, false altrimenti.
+     */
     @Override
     public boolean checkCondition() {
         boolean exit;
@@ -54,6 +67,9 @@ public class DayOfYearCondition implements Condition, Serializable {
         
     }
     
+    /**
+     * Resetta lo stato della condizione, segnando che è stata verificata oggi.
+     */
     @Override
     public void resetState() {
         this.checkedToday = true;

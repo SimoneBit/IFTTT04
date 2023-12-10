@@ -16,17 +16,20 @@ import java.time.temporal.ChronoUnit;
  */
 public class TimeOfDayCondition implements Condition, Serializable {
     
-    /**L'orario specificato per la condizione.*/
     private LocalTime specifiedTime;  
-    /** Flag che indica se la condizione è stata verificata in giornata */    
     private boolean checkedToday;
     private LocalTime lastCheck;
     private boolean not;
     
     
  /**
-  * Costruisce un'istanza di TimeOfDayCondition con l'orario specificato.
-  * @param orarioSpecificato stringa rappresentante l'orario nel formato "HH:mm".
+ * Inizializza un'istanza della classe con l'orario specificato e il flag di negazione specificato.
+ * L'orario specificato deve essere nel formato "HH:mm", e viene convertito in un oggetto LocalTime.
+ * Il flag di negazione indica se la condizione deve essere negata.
+ * L'orario dell'ultima verifica viene inizializzato con l'orario attuale troncato ai minuti.
+ * 
+ * @param orarioSpecificato l'orario specificato nel formato "HH:mm".
+ * @param not flag che indica se la condizione deve essere negata.
   */   
     public TimeOfDayCondition(String orarioSpecificato, boolean not) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -74,6 +77,9 @@ public class TimeOfDayCondition implements Condition, Serializable {
         return "TimeOfDayCondition{" + "specifiedTime=" + specifiedTime + '}';
     }
     
+    /**
+     * Resetta lo stato della condizione, segnando che è stata verificata oggi.
+     */
     @Override
     public void resetState() {
         this.checkedToday = true;

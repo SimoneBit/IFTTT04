@@ -25,18 +25,38 @@ public class Rule implements Serializable{
     private boolean sleeping;
     private boolean executeOnce;
 
+    /**
+     * Restituisce l'orario dell'ultima verifica.
+     * 
+     * @return l'orario dell'ultima verifica.
+     */
     public LocalTime getLastChecked() {
         return lastChecked;
     }
 
+    /**
+     * Imposta l'orario dell'ultima verifica.
+     * 
+     * @param lastChecked l'orario dell'ultima verifica da impostare.
+     */
     public void setLastChecked(LocalTime lastChecked) {
         this.lastChecked = lastChecked;
     }
 
+    /**
+     * Verifica se l'azione associata deve essere eseguita solo una volta.
+     * 
+     * @return true se l'azione deve essere eseguita solo una volta, altrimenti false.
+     */
     public boolean isExecuteOnce() {
         return executeOnce;
     }
 
+    /**
+     * Imposta se l'azione associata deve essere eseguita solo una volta.
+     * 
+     * @param executeOnce flag che indica se l'azione deve essere eseguita solo una volta.
+     */
     public void setExecuteOnce(boolean executeOnce) {
         this.executeOnce = executeOnce;
     }
@@ -45,9 +65,11 @@ public class Rule implements Serializable{
      *Costruisce un'istanza di @see Rule con il nome specificato, il trigger associato e l'azione associata. 
      * La regola è inizialmente attivata.
      *
-     * @param name il nome della regola.
+     * @param nome il nome della regola.
      * @param trigger il trigger associato alla regola.
-     * @param action l'azione associata alla regola.
+     * @param azioni l'insieme di azioni associate alla regola.
+     * @param periodoDiAttesa il periodo di attesa associato alla regola.
+     * @param eseguiSoloUnaVolta flag che indica se la regola deve essere eseguita solo una volta.
      */
     public Rule(String name, Trigger trigger, ArrayList<Action> action, int sleepingPeriod, boolean executeOnce) {
         this.name = name;
@@ -59,7 +81,10 @@ public class Rule implements Serializable{
         this.executeOnce=executeOnce;
     }
 
-    
+    /**
+     * Controlla e aggiorna lo stato dormiente di una regola
+     * @return nuovo valore di sleeping della regola
+     */
     public boolean checkSleepingState(){
         boolean exit = false;
         LocalTime currentDate= LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
@@ -86,15 +111,31 @@ public class Rule implements Serializable{
         return exit;
     }
 
+    /**
+    * Verifica se la regola è in stato di attesa.
+    * 
+    * @return true se la regola è in stato di attesa, altrimenti false.
+    */
     public boolean isSleeping() {
        this.sleeping = checkSleepingState();
        return sleeping;
     }
     
+    /**
+    * Esegue la regola, delegando l'esecuzione al relativo stato attivo.
+    * 
+    * @return true se l'esecuzione è avvenuta con successo, altrimenti false.
+    */
     public boolean executeRule(){
         return Active.executeRule(this);
     }
     
+    /**
+    * Verifica la condizione associata alla regola, delegando la verifica al relativo stato attivo.
+    * 
+    * @param rule la regola da verificare.
+    * @return true se la condizione è soddisfatta, altrimenti false.
+    */
     public boolean checkRule(Rule rule) {
         return Active.checkRule(this);
     }

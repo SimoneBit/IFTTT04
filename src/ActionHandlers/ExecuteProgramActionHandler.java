@@ -4,7 +4,7 @@ import Action.Action;
 import Action.ExecuteProgramAction;
 
 /**
- * La classe ExecuteProgramActionHandler estende la classe BaseActionHandler e gestisce le richieste relative 
+ * La classe ExecuteProgramActionHandler estende la classe @see BaseActionHandler e gestisce le richieste relative 
  * all'azione di esecuzione di un programma. Accetta richieste con il formato "Esegui il programma" e un parametro
  * che include il percorso del programma e i parametri da passare.
  * 
@@ -21,7 +21,7 @@ public class ExecuteProgramActionHandler extends BaseActionHandler {
      *
      * @param request la richiesta da gestire.
      * @param param il parametro associato alla richiesta, che include il percorso del programma e i parametri da passare.
-     * @return un'istanza di ExecuteProgramAction se la richiesta è "Esegui il programma", altrimenti passa la richiesta 
+     * @return un'istanza di @see ExecuteProgramAction se la richiesta è "Esegui il programma", altrimenti passa la richiesta 
      *                 alla classe successiva nella catena e restituisce null.
      */
     @Override
@@ -32,7 +32,6 @@ public class ExecuteProgramActionHandler extends BaseActionHandler {
             if(parts.length >=2){
             String programPath = parts[0];
             String programParameters = parts[1];
-            System.out.println(programParameters);
             ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);
             return executeProgramAction;
             }

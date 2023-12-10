@@ -25,7 +25,7 @@ public class ExecuteProgramActionTest {
     @Test
     public void testExecuteActionWithoutParameters() {
         // Simula l'esecuzione di un programma senza parametri
-        String programPath = "\"C:\\Windows\\System32\\bash.exe\"";
+        String programPath = "\"C:\\Windows\\System32\\bash.exe\""; 
         String programParameters = "";
 
         ExecuteProgramAction executeProgramAction = new ExecuteProgramAction(programPath, programParameters);

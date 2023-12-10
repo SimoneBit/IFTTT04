@@ -8,7 +8,10 @@ import java.util.List;
 
 
 /**
- *
+ * Questa classe estende @see BaseActionHandler e fornisce funzionalità per salvare e caricare
+ * le regole su e da un file specificato. La classe è anche serializzabile, rendendola adatta per l'inclusione in 
+ * flussi di dati e la persistenza.
+ * 
  * @author Nicola Lanzara
  */
 public class RuleFileHandler extends BaseActionHandler implements Serializable{
@@ -18,7 +21,11 @@ public class RuleFileHandler extends BaseActionHandler implements Serializable{
         this.filePath = filePath;
     }
 
-    // Metodo per salvare le regole su file
+    
+    /**
+     * Salva una lista di regole su file.
+     * @param rules la lista di regole da salvare.
+     */
     public void saveRules(List<Rule> rules) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filePath)))) {
             oos.writeObject(rules);
@@ -28,7 +35,10 @@ public class RuleFileHandler extends BaseActionHandler implements Serializable{
         }
     }
     
-    // Metodo per caricare le regole da file
+    /**
+     * Carica le regole da un file.
+     * @return la lista di regole caricate dal file o una lista vuota se non è possibile caricare le regole.
+     */
     public List<Rule> loadRules() {
         try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filePath)))) {
             Object object = ois.readObject();

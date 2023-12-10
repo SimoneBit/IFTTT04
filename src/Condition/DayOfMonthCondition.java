@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- *
+ * Questa classe implementa l'interfaccia @see Condition e rappresenta una condizione basata sul giorno del mese.
+ * La classe è anche serializzabile.
  * @author Simone Pacifico
  */
 public class DayOfMonthCondition implements Condition, Serializable{
@@ -13,12 +14,25 @@ public class DayOfMonthCondition implements Condition, Serializable{
     private boolean not;
     Integer lastCheck;
     
+    /**
+     * Costruttore della classe. 
+     * Inizializza l'istanza con il giorno specificato e il flag di negazione.
+     * 
+     * @param day il giorno del mese su cui la condizione deve essere verificata.
+     * @param not flag che indica se la condizione deve essere negata.
+     */
+    
     public DayOfMonthCondition(Integer day, boolean not) {
         this.day = day;
         this.not = not;
         lastCheck = LocalDate.now().getDayOfMonth();
     }
     
+    /**
+     * Verifica se la condizione è attualmente soddisfatta in base al giorno del mese corrente.
+     * 
+     * @return true se la condizione è soddisfatta, false altrimenti.
+     */
     
     @Override
     public boolean checkCondition() {
@@ -44,6 +58,9 @@ public class DayOfMonthCondition implements Condition, Serializable{
         return exit;
     }
 
+    /**
+     * Resetta lo stato della condizione, segnando che è stata verificata oggi.
+     */
     @Override
     public void resetState() {
         this.checkedToday = true;
