@@ -142,4 +142,16 @@ public class BaseActionHandlerTest {
         Files.write(tempFile.toPath(), "Hello, World!".getBytes());
         return tempFile;
     }
+
+
+ @Test
+    public void testExecuteProgram() throws IOException{
+        String request = "Esegui il programma";
+        Path tempDirectory = Files.createTempDirectory("tempDir");
+        String programPath = "test\\TestFiles\\sum1.exe";
+        String param = programPath + " con parametri: " + "1 2 3 4";
+        ExecuteProgramAction expResult3 = new ExecuteProgramAction(programPath, "1 2 3 4");
+        Action result = base.handle(request, param);
+        assertEquals(expResult3.getClass(), result.getClass());
+    }
 }

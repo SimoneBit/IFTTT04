@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -322,6 +325,7 @@ public class FXMLController implements Initializable {
         dimensionFilePage.setVisible(false);
         exitStatusPage.setVisible(false);
         
+       
         // Carica le regole dal file al momento dell'avvio
         loadRules();
         
@@ -370,6 +374,24 @@ public class FXMLController implements Initializable {
         SabRadioButton.setToggleGroup(toggleGroup);
         DomRadioButton.setToggleGroup(toggleGroup);
         
+        BooleanProperty isConditionTableEmpty = new SimpleBooleanProperty(true);
+        BooleanProperty isActionTableEmpty = new SimpleBooleanProperty(true);
+        BooleanProperty isRuleNameEmpty = new SimpleBooleanProperty(true);
+
+        // Imposta i bindings per le proprietà booleane
+        isConditionTableEmpty.bind(Bindings.isEmpty(conditionTable.getItems()));
+        isActionTableEmpty.bind(Bindings.isEmpty(actionTable.getItems()));
+        isRuleNameEmpty.bind(Bindings.createBooleanBinding(
+                () -> ruleName.getText().trim().isEmpty(),
+                ruleName.textProperty()
+        ));
+
+        // Imposta il binding per abilitare o disabilitare il pulsante di aggiunta
+        addRuleButton.disableProperty().bind(
+                isConditionTableEmpty.or(isActionTableEmpty)
+                        .or(controlChoiceBox.valueProperty().isNull())
+                        .or(isRuleNameEmpty)
+        );
         
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
