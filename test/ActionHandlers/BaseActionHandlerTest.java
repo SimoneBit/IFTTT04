@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
  * @author Simone
  */
 public class BaseActionHandlerTest {
+    // Dichiarazioni delle variabili per gli oggetti di test
     BaseActionHandler base;
     AudioActionHandler audio;
     DialogBoxActionHandler dialog;
@@ -23,6 +24,7 @@ public class BaseActionHandlerTest {
     
     @Before
     public void setUp() {
+    // Inizializzazione degli oggetti di test
         base = new BaseActionHandler();
         audio = new AudioActionHandler();
         dialog = new DialogBoxActionHandler();
@@ -31,6 +33,7 @@ public class BaseActionHandlerTest {
         moveFile = new MoveFileActionHandler();
         writeFile = new WriteOnFileActionHandler();
         
+        // Configurazione della catena di gestione delle azioni
         base.setNext(audio);
         audio.setNext(dialog);
         dialog.setNext(deleteFile);
@@ -44,6 +47,7 @@ public class BaseActionHandlerTest {
      */
     @Test
     public void testSetNext() {
+        // Verifica che la catena di gestione delle azioni sia correttamente configurata
         assertEquals(base.getNext(), audio);
         assertEquals(audio.getNext(), dialog);
         assertEquals(dialog.getNext(), deleteFile);
@@ -53,7 +57,7 @@ public class BaseActionHandlerTest {
     }
 
     /**
-     * Test of handle method, of class BaseActionHandler.
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di input nullo.
      */
     @Test
     public void testHandleNull() {
@@ -66,6 +70,9 @@ public class BaseActionHandlerTest {
         
     }
     
+    /**
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di riproduzione audio.
+     */
     @Test
     public void testHandleAudio() {
     //Test caso audio
@@ -78,7 +85,9 @@ public class BaseActionHandlerTest {
     
     }
     
-    
+    /**
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di visualizzazione di un messaggio.
+     */
     @Test
     public void testHandleMessage() {
     //Test caso messaggio
@@ -89,6 +98,9 @@ public class BaseActionHandlerTest {
         assertEquals(expResult2.getClass(), result.getClass());
     }
     
+    /**
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di eliminazione di un file.
+     */
     @Test
     public void testDeleteFile(){
         String request = "Elimina il file";
@@ -100,6 +112,9 @@ public class BaseActionHandlerTest {
         
     }
     
+    /**
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di copia di un file.
+     */
     @Test
     public void testCopyFile() throws IOException{
         String request = "Copia il file";
@@ -112,6 +127,9 @@ public class BaseActionHandlerTest {
         
     }
     
+     /**
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di spostamento di un file.
+     */
     @Test
     public void testMoveFile() throws IOException{
         String request = "Sposta il file";
@@ -124,6 +142,9 @@ public class BaseActionHandlerTest {
         
     }
     
+    /**
+     * Test del metodo handle, della classe BaseActionHandler, per il caso di scrittura su un file.
+     */
     @Test
     public void testWriteFile() throws IOException{
         String request = "Scrivi sul file";
@@ -136,6 +157,13 @@ public class BaseActionHandlerTest {
         
     }
     
+    
+   /**
+     * Metodo di utilità per creare un file temporaneo con dati di prova.
+     *
+     * @return Il file temporaneo creato.
+     * @throws IOException Se si verifica un errore durante la creazione del file.
+     */
     private File createTempFile() throws IOException {
         // Creo un file temporaneo con alcuni dati di prova
         File tempFile = File.createTempFile("testFile", ".txt");
@@ -143,7 +171,9 @@ public class BaseActionHandlerTest {
         return tempFile;
     }
 
-
+    /**
+     * Test del metodo executeProgram, della classe BaseActionHandler, per l'esecuzione di un programma.
+     */
    @Test
     public void testExecuteProgram() throws IOException {
         String request = "Esegui il programma";

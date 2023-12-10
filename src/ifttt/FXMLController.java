@@ -57,7 +57,7 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
-    private final String[] possibleActions = {"Seleziona un azione","Fai partire un audio","Mostra un messaggio", 
+    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio", 
                                                                        "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file","Esegui un programma"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
@@ -359,7 +359,7 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setOnAction(this::getCondition);
         controlChoiceBox.getItems().addAll(possibleControls);
         controlChoiceBox.setOnAction(this::getControl);   
-        actionChoiceBox.setValue("Seleziona un azione");
+        actionChoiceBox.setValue("Seleziona un'azione");
         conditionChoiceBox.setValue("Seleziona una condizione");
         hourComboBox.getItems().addAll(possibleHours);
         minutesComboBox.getItems().addAll(possibleMinutes);
@@ -799,7 +799,7 @@ public class FXMLController implements Initializable {
             executeProgramPage.setVisible(true);
         }
         
-        actionChoiceBox.setValue("Seleziona un azione");
+        actionChoiceBox.setValue("Seleziona un'azione");
        
     }
     
