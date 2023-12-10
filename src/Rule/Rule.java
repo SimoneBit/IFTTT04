@@ -19,7 +19,7 @@ public class Rule implements Serializable{
     private String name;
     private Trigger trigger;
     private ArrayList<Action>action;
-    private boolean Active;
+    private ActivationState Active;
     private int sleepingPeriod;
     private LocalTime lastChecked;
     private boolean sleeping;
@@ -53,7 +53,7 @@ public class Rule implements Serializable{
         this.name = name;
         this.trigger = trigger;
         this.action = action;
-        this.Active = true;
+        this.Active = new ActiveState();
         this.sleepingPeriod= sleepingPeriod;
         this.sleeping=false;
         this.executeOnce=executeOnce;
@@ -92,25 +92,14 @@ public class Rule implements Serializable{
     }
     
     public boolean executeRule(){
-        //la variabile exit tiene traccia se almeno una delle azioni ha restituito true
-        boolean exit=false;
-        
-            for(Action a : this.action){
-                 if(a.executeAction()==false){
-                    //se almeno una delle azioni dell'ArrayList non è stata eseguita con successo restituisce false
-                 return false;
-                 }
-                else{
-                    exit=true;
-                 }   
-            }
-            //executeOnce è utilizzato per quando l'utende vuole che la regola sia eseguita una sola volta e poi si disattivi automaticamente
-            if(this.executeOnce){
-                this.setActive(false);
-            
-            }
-        return exit;
+        return Active.executeRule(this);
     }
+    
+    public boolean checkRule(Rule rule) {
+        return Active.checkRule(this);
+    }
+    
+    
     /**
      *Restituisce il nome della regola.
      *
@@ -126,7 +115,7 @@ public class Rule implements Serializable{
      * @return true se la regola è attiva, altrimenti false.
      */
     public boolean isActive() {
-        return Active;
+        return Active.isActive();
     }
 
     /**
@@ -135,7 +124,11 @@ public class Rule implements Serializable{
      * @param Active lo stato di attivazione desiderato.
      */
     public void setActive(boolean Active) {
-        this.Active = Active;
+        if(Active){
+            this.Active = new ActiveState();
+        }else{
+            this.Active = new UnactiveState();
+        }
     }
 
     /**

@@ -14,30 +14,38 @@ public class DayOfWeekCondition implements Condition, Serializable {
     private String daySelected;
     private boolean checkedToday;
     private boolean not;
+    DayOfWeek lastCheck;
 
     public DayOfWeekCondition(String daySelected, boolean not) {
         this.daySelected = daySelected;
         this.not = not;
+        lastCheck = LocalDate.now().getDayOfWeek();
     }
 
     @Override
     public boolean checkCondition(){
+        boolean exit;
         String dayUpperCase = daySelected.toUpperCase();
         // Ottenere il giorno della settimana corrente
-        DayOfWeek giornoSettimanaCorrente = LocalDate.now().getDayOfWeek();
+        DayOfWeek now = LocalDate.now().getDayOfWeek();
 
         // Confronto l'input con il giorno della settimana corrente
-        boolean cond = dayUpperCase.equals(giornoSettimanaCorrente.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase());
-        
-        if (cond && !checkedToday) {
-            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-        } else if (!cond && not) {
-            checkedToday = true;
-            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
+        boolean cond = dayUpperCase.equals(now.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase());
+        if(!cond){
+            if (!lastCheck.equals(now)){
+                checkedToday = false;
+                lastCheck = now;
+            }
         }
-
-        checkedToday = !not; // Altrimenti, setta checkedToday a !not
-        return not;  // Restituisci il valore di not
+        if (!checkedToday && (cond ^ not)){
+            exit = true;
+        }else{
+            exit = false;
+            if(!(cond ^ not)){
+                checkedToday = false;
+            }
+        }
+        return exit;
     }
     
     @Override

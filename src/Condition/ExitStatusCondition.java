@@ -22,6 +22,7 @@ public class ExitStatusCondition implements Condition, Serializable{
     
     @Override
     public boolean checkCondition() {
+        boolean cond = false;
         try {
             // Costruisco il comando per eseguire il file specificato nella bash shell
             ProcessBuilder processBuilder = new ProcessBuilder("C:\\\\Cygwin64\\\\bin\\\\bash.exe", "-c", "java -jar \"" + program.replace("\\", "/") + "\"");
@@ -31,20 +32,14 @@ public class ExitStatusCondition implements Condition, Serializable{
             // Ottiengo il valore di uscita del processo
             int exitValue = processo.waitFor();
             //System.out.println("Valore uscita: " + exitValue);
-            boolean cond = exitValue == expectedValue;
+            cond = exitValue == expectedValue;
 
             // Confronta il valore di uscita con il valore atteso
-            if (cond && !checkedToday) {
-                return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-            } else if (!cond && not) {
-            checkedToday = true;
-            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
-            } 
+            
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        checkedToday = !not; // Altrimenti, setta checkedToday a !not
-        return not;  // Restituisci il valore di not
+        return cond ^ not;
     }
 
     @Override

@@ -270,9 +270,8 @@ public class FXMLController implements Initializable {
             protected Void call(){
                 while (true) { 
                     for (Rule rule: rulesSet.getRuleList()){
-                        if(rule.isActive() && !rule.isSleeping()){
-                            if (rule.getTrigger().checkTrigger() ){
-                                
+                        if(!rule.isSleeping()){
+                            if (rule.checkRule(rule) ){                                
                                 Platform.runLater(new Runnable(){
                                     @Override public void run(){
                                     rule.executeRule();
@@ -533,7 +532,7 @@ public class FXMLController implements Initializable {
         for(String conditionString : conditionList){
             String []conditionParam;
             conditionParam = conditionString.split(" : ");
-            String[] condition2Param = conditionParam[1].split(" , Logica: ");
+            String[] condition2Param = conditionParam[1].split(" , Logica not: ");
             boolean logic = Boolean.parseBoolean(condition2Param[1]);
             Condition cond = baseConditionHandler.handle(conditionParam[0], condition2Param[0], logic);
             conditionArrayList.add(cond);
@@ -909,7 +908,7 @@ public class FXMLController implements Initializable {
         }
         if(hour != null && minutes != null){
             String time = hour + ":" + minutes;
-            String condition = "Alle : " + time + " , Logica: "+ timeDayNOT.isSelected();
+            String condition = "Alle : " + time + " , Logica not: "+ timeDayNOT.isSelected();
             conditionList.add(condition);
             conditionChoiceBox.setValue("Seleziona una condizione");
         }
@@ -1071,7 +1070,7 @@ public class FXMLController implements Initializable {
     private void confirmDayAndMonth(ActionEvent event) {
         String day = dayAndMonthText.getText();
         if(!day.isEmpty()){
-            String condition = "Il : " + String.format("%s", day) + " , Logica: " + dayMonthNOT.isSelected();
+            String condition = "Il : " + String.format("%s", day) + " , Logica not: " + dayMonthNOT.isSelected();
             conditionList.add(condition);
         }else{
             showAlert("Devi specificare un giorno e un mese prima di confermare.", Alert.AlertType.ERROR);
@@ -1087,20 +1086,20 @@ public class FXMLController implements Initializable {
     @FXML //mese
     private void confirmDay(ActionEvent event) {
         String day = dayField.getText();
-        if(!day.isEmpty()){
-            String condition = "Il giorno : " + String.format("%s", day) + " , Logica: " + dayNOT.isSelected();
-            System.out.println("Stringa: "+condition);
+        if (day.matches("^(0[1-9]|[1-2][0-9]|3[0-1])$")) {
+            String condition = "Il giorno : " + String.format("%s", day) + " , Logica not: " + dayNOT.isSelected();
+            System.out.println("Stringa: " + condition);
             conditionList.add(condition);
-        }else{
-            showAlert("Devi specificare un giorno prima di confermare.", Alert.AlertType.ERROR);
+        } else {
+            showAlert("Devi specificare un giorno valido (01-31) prima di confermare.", Alert.AlertType.ERROR);
             return;
         }
-        dayPage.setVisible(false);
-        newRulePage.setVisible(true);
-        dayField.setText("");
-        conditionChoiceBox.setValue("Seleziona una condizione");
-        dayNOT.setSelected(false);
-    }
+    dayPage.setVisible(false);
+    newRulePage.setVisible(true);
+    dayField.setText("");
+    conditionChoiceBox.setValue("Seleziona una condizione");
+    dayNOT.setSelected(false);
+}
     
     /**
      * Gestisce l'evento di conferma della scelta del giorno della settimana attraverso i RadioButton.
@@ -1117,7 +1116,7 @@ public class FXMLController implements Initializable {
         RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
         // Verifica se un RadioButton è stato selezionato
         if (selectedRadioButton != null) {
-            String condition = "Il giorno della settimana è : " + selectedRadioButton.getText() + " , Logica: " + weekNOT.isSelected();
+            String condition = "Il giorno della settimana è : " + selectedRadioButton.getText() + " , Logica not: " + weekNOT.isSelected();
             conditionList.add(condition);
             conditionChoiceBox.setValue("Seleziona una condizione");
         } else {
@@ -1202,7 +1201,7 @@ public class FXMLController implements Initializable {
             return;
         }
         if (pathFileLabel.getText() != null && !nameFile.isEmpty()){
-            String condition = "Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText() +  " , Logica: "+ existFileNOT.isSelected();
+            String condition = "Il file : " + nameFile + " esiste nella cartella: " + pathFileLabel.getText() +  " , Logica not: "+ existFileNOT.isSelected();
             conditionList.add(condition);
             
         pathFileLabel.setText("");
@@ -1235,7 +1234,7 @@ public class FXMLController implements Initializable {
         }
         
         if (pathFileLabel1.getText() != null && !minSize.isEmpty()){
-            String condition = "Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize + " , Logica: "+ dimFileNOT.isSelected();
+            String condition = "Il file selezionato : " + pathFileLabel1.getText() + " ha dimensione maggiore di: " + minSize + " , Logica not: "+ dimFileNOT.isSelected();
             conditionList.add(condition);
             
         pathFileLabel1.setText("");
@@ -1399,7 +1398,7 @@ public class FXMLController implements Initializable {
          }
         // Setto l'azione da eseguire
         if (selectedProgram != null && !expectedExitTextField.getText().isEmpty()){         
-            String condition = "Controlla il valore : " + selectedProgram.toString() + " Valore atteso: " + expectedExitTextField.getText() + " , Logica: "+ exitStatusNOT.isSelected();
+            String condition = "Controlla il valore : " + selectedProgram.toString() + " Valore atteso: " + expectedExitTextField.getText() + " , Logica not: "+ exitStatusNOT.isSelected();
             conditionList.add(condition);
         }
         

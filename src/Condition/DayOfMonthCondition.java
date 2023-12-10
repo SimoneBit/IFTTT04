@@ -11,29 +11,37 @@ public class DayOfMonthCondition implements Condition, Serializable{
     private Integer day;
     private boolean checkedToday;
     private boolean not;
-
+    Integer lastCheck;
+    
     public DayOfMonthCondition(Integer day, boolean not) {
         this.day = day;
         this.not = not;
+        lastCheck = LocalDate.now().getDayOfMonth();
     }
     
     
     @Override
     public boolean checkCondition() {
+        boolean exit;
         LocalDate currentDate = LocalDate.now();
         // Get the current day as integers
-        Integer currentDay = currentDate.getDayOfMonth();
-        boolean cond = day.equals(currentDay);
-        
-        if (cond && !checkedToday) {
-            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-        } else if (!cond && not) {
-            checkedToday = true;
-            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
+        Integer now = currentDate.getDayOfMonth();
+        boolean cond = day.equals(now);
+        if(!cond){
+            if (!lastCheck.equals(now)){
+                checkedToday = false;
+                lastCheck = now;
+            }
         }
-
-        checkedToday = !not; // Altrimenti, setta checkedToday a !not
-        return not;  // Restituisci il valore di not
+        if (!checkedToday && (cond ^ not)){
+            exit = true;
+        }else{
+            exit = false;
+            if(!(cond ^ not)){
+                checkedToday = false;
+            }
+        }
+        return exit;
     }
 
     @Override

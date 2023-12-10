@@ -18,7 +18,6 @@ public class FileExistenceCondition implements Condition, Serializable {
 
     /** Il nome del file da cercare. */
     private String fileName;
-    private boolean checkedToday;
     private boolean not;
 
     /**
@@ -42,15 +41,7 @@ public class FileExistenceCondition implements Condition, Serializable {
         File folder = new File(folderPath);
         File file = new File(folder, fileName);
         boolean cond = file.exists();
-        if (cond && !checkedToday) {
-            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-        } else if (!cond && not) {
-            checkedToday = true;
-            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
-        }
-
-        checkedToday = !not; // Altrimenti, setta checkedToday a !not
-        return not;  // Restituisci il valore di not
+        return cond ^ not;
     }
 
     /**

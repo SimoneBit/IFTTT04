@@ -18,7 +18,6 @@ public class FileSizeCondition implements Condition, Serializable {
     private String filePath;
     /** La dimensione minima del file per soddisfare la condizione. */
     private long minSize;
-    private boolean checkedToday;
     private boolean not;
 
     /**
@@ -46,14 +45,7 @@ public class FileSizeCondition implements Condition, Serializable {
         if (file.exists()) {
             long fileSize = file.length();
             boolean cond = fileSize > minSize;
-            if (cond && !checkedToday) {
-                return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-            } else if (!cond && not) {
-                checkedToday = true;
-                return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
-            }
-            checkedToday = !not; // Altrimenti, setta checkedToday a !not
-            return not;  // Restituisci il valore di not
+            return cond ^ not;
         } else {
             return false;  // il file non esite
         }

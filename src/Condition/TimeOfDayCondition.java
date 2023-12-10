@@ -18,8 +18,9 @@ public class TimeOfDayCondition implements Condition, Serializable {
     
     /**L'orario specificato per la condizione.*/
     private LocalTime specifiedTime;  
-/** Flag che indica se la condizione è stata verificata in giornata */    
+    /** Flag che indica se la condizione è stata verificata in giornata */    
     private boolean checkedToday;
+    private LocalTime lastCheck;
     private boolean not;
     
     
@@ -31,6 +32,7 @@ public class TimeOfDayCondition implements Condition, Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.specifiedTime = LocalTime.parse(orarioSpecificato, formatter);
         this.not = not;
+        this.lastCheck = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
     }
 
     
@@ -42,16 +44,24 @@ public class TimeOfDayCondition implements Condition, Serializable {
      */
     @Override
     public boolean checkCondition() {
-        boolean cond = LocalTime.now().truncatedTo(ChronoUnit.MINUTES).equals(specifiedTime);
-        if (cond && !checkedToday) {
-            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-        } else if (!cond && not) {
-            checkedToday = true;
-            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
+        boolean exit;
+        LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+        boolean cond = now.equals(specifiedTime);
+        if(!cond){
+            if (!lastCheck.equals(now)){
+                checkedToday = false;
+                lastCheck = now;
+            }
         }
-
-        checkedToday = !not; // Altrimenti, setta checkedToday a !not
-        return not;  // Restituisci il valore di not
+        if (!checkedToday && (cond ^ not)){
+            exit = true;
+        }else{
+            exit = false;
+            if(!(cond ^ not)){
+                checkedToday = false;
+            }
+        }
+        return exit;
     }
 
     

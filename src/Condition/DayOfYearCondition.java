@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class DayOfYearCondition implements Condition, Serializable {
     private Integer month;
     private Integer day;
-    private int lastMonthChecked;
-    private int lastDayChecked;
+    private Integer lastMonthChecked;
+    private Integer lastDayChecked;
     private boolean checkedToday;
     private boolean not;
 
@@ -18,11 +18,16 @@ public class DayOfYearCondition implements Condition, Serializable {
         this.month = month;
         this.day = day;
         this.not = not;
+        LocalDate currentDate = LocalDate.now();
+        lastMonthChecked = currentDate.getMonthValue();
+        lastDayChecked = currentDate.getDayOfMonth();
+        
     }
 
     
     @Override
     public boolean checkCondition() {
+        boolean exit;
         LocalDate currentDate = LocalDate.now();
         // Get the current day and month as integers
         Integer currentMonth = currentDate.getMonthValue();
@@ -30,15 +35,22 @@ public class DayOfYearCondition implements Condition, Serializable {
         
         
         boolean cond = month.equals(currentMonth) && day.equals(currentDay);
-        if (cond && !checkedToday) {
-            return !not;  // Se cond è vera e checkedToday è falso, restituisci il valore di !not
-        } else if (!cond && not) {
-            checkedToday = true;
-            return true;  // Se cond è falsa e not è true, setta checkedToday a true e restituisci true
+        if(!cond){
+            if (!lastMonthChecked.equals(currentMonth) || !lastDayChecked.equals(currentDay)){
+                checkedToday = false;
+                lastMonthChecked = currentMonth;
+                lastDayChecked = currentDay;
+            }
         }
-
-        checkedToday = !not; // Altrimenti, setta checkedToday a !not
-        return not;  // Restituisci il valore di not        
+        if (!checkedToday && (cond ^ not)){
+            exit = true;
+        }else{
+            exit = false;
+            if(!(cond ^ not)){
+                checkedToday = false;
+            }
+        }
+        return exit;        
         
     }
     
