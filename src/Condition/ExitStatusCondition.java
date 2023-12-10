@@ -25,7 +25,8 @@ public class ExitStatusCondition implements Condition, Serializable{
         boolean cond = false;
         try {
             // Costruisco il comando per eseguire il file specificato nella bash shell
-            ProcessBuilder processBuilder = new ProcessBuilder("C:\\\\Cygwin64\\\\bin\\\\bash.exe", "-c", "java -jar \"" + program.replace("\\", "/") + "\"");
+            //ProcessBuilder processBuilder = new ProcessBuilder("C:\\\\Cygwin64\\\\bin\\\\bash.exe", "-c", "java -jar \"" + program.replace("\\", "/") + "\"");
+            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", "java -jar \"" + program.replace("\\", "/") + "\"");
             // Eseguo il processo esterno
             Process processo = processBuilder.start();
 
