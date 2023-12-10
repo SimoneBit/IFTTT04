@@ -1028,7 +1028,9 @@ public class FXMLController implements Initializable {
         controlLabel.setText("");
         }
 
-   
+   /**
+    * Funzione che permette di caricare le regole da un file
+    */
     public void loadRules() {
     List<Rule> loadedRules = ruleFileHandler.loadRules();
     if (loadedRules != null && !loadedRules.isEmpty()) {
@@ -1049,12 +1051,16 @@ public class FXMLController implements Initializable {
         }
     }
 }
-    
+    /**
+     * Funzione che permette di caricare le regole salvate nel file
+     */
     public void saveRules() {
         ruleFileHandler.saveRules(new ArrayList<>(rulesSet.getRuleList()));
     }
     
-    
+    /**
+     * Funzione che, alla chiusura dell'applicazione, ordina il salvataggio su file
+     */
     public void saveRulesAndExit() {
         ruleFileHandler.saveRules(rulesSet.getRuleList());
         Platform.exit(); }
@@ -1310,7 +1316,10 @@ public class FXMLController implements Initializable {
         weekNOT.setSelected(false);
     }
     
-    
+    /**
+     * Funzione che permette la visualizzazione di un file picker che permetterà di selezionare un programma da eseguire
+     * @param event 
+     */
     @FXML
     private void chooseProgram(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1323,7 +1332,10 @@ public class FXMLController implements Initializable {
         
     }
 
-    
+    /**
+     * Tasto che aggiorna la schermata dopo aver selezionato un programma da eseguire
+     * @param event 
+     */
     @FXML
     private void confirmExecuteProgramButton(ActionEvent event) {
     
@@ -1340,6 +1352,10 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
     }
 
+     /**
+     * Tasto che aggiorna la schermata dopo non aver selezionato un programma da eseguire
+     * @param event 
+     */
     @FXML
     private void showAddPageBackProgram(ActionEvent event) {
         executeProgramPage.setVisible(false);
@@ -1348,6 +1364,13 @@ public class FXMLController implements Initializable {
         pathProgramLabel.setText("");
     }
     
+    
+    /**
+     * Funzione che permette la visualizzazione di un file picker che permetterà di selezionare un programma da eseguire e 
+     * sul quale fare il controllo dell'exit status
+     * @param event 
+     */
+
     @FXML
     private void chooseProgramExitStatus(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1366,6 +1389,11 @@ public class FXMLController implements Initializable {
         }
     }
     
+    
+    /**
+     * Tasto che aggiorna la schermata dopo aver selezionato una condizione di tipo exit status
+     * @param event 
+     */
     @FXML
     private void confirmExitStatus(ActionEvent event) throws InterruptedException {
         if (expectedExitTextField == null && selectedProgram == null) {
@@ -1407,6 +1435,10 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);        
     }
     
+    /**
+     * Tasto che aggiorna la schermata dopo non aver selezionato una condizione di tipo exit status
+     * @param event 
+     */
     @FXML
     private void showAddPageBackProgram2(ActionEvent event) {
         exitStatusPage.setVisible(false);
