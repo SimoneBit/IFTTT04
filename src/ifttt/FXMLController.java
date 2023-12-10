@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -393,6 +394,23 @@ public class FXMLController implements Initializable {
                         .or(isRuleNameEmpty)
         );
         
+        /*
+       
+        
+        // Lega la proprietà 'disable' di 'inactiveRuleId' alla regola selezionata nella tabella
+        activeRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
+        tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().isActive(),
+        tableView.getSelectionModel().selectedItemProperty()));
+
+        // Lega la proprietà 'disable' di 'activeRuleId' alla regola selezionata nella tabella
+        inactiveRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
+        tableView.getSelectionModel().getSelectedItem() == null || !tableView.getSelectionModel().getSelectedItem().isActive(),
+        tableView.getSelectionModel().selectedItemProperty()));
+        */
+        bindRuleButtons();
+      
+    
+
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
         DialogBoxActionHandler dialogBoxHandler = new DialogBoxActionHandler();
@@ -441,6 +459,26 @@ public class FXMLController implements Initializable {
     });
     }    
 
+    private void bindRuleButtons() {
+        // Lega la proprietà 'disable' di 'activeRuleId' alla regola selezionata nella tabella
+        activeRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
+            tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().isActive(),
+            tableView.getSelectionModel().selectedItemProperty()));
+
+        // Lega la proprietà 'disable' di 'inactiveRuleId' alla regola selezionata nella tabella
+        inactiveRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
+            tableView.getSelectionModel().getSelectedItem() == null || !tableView.getSelectionModel().getSelectedItem().isActive(),
+            tableView.getSelectionModel().selectedItemProperty()));
+    }
+    
+     private void unbindRuleButtons() {
+        // Scollega la proprietà 'disable' di 'activeRuleId'
+        activeRuleId.disableProperty().unbind();
+
+        // Scollega la proprietà 'disable' di 'inactiveRuleId'
+        inactiveRuleId.disableProperty().unbind();
+    }
+     
     /**
      *  Mostra la pagina di aggiunta regola nascondendo le altre pagine e reimpostando le scelte predefinite.
      * 
@@ -923,9 +961,10 @@ public class FXMLController implements Initializable {
     private void activeRule(ActionEvent event) {
         
         tableView.getSelectionModel().getSelectedItem().setActive(true);
-        inactiveRuleId.setDisable(false);
-        activeRuleId.setDisable(true);
+        unbindRuleButtons();
+        bindRuleButtons();
         tableView.refresh();
+
     }
 
     /**
@@ -938,8 +977,8 @@ public class FXMLController implements Initializable {
     @FXML
     private void inactiveRule(ActionEvent event) {
         tableView.getSelectionModel().getSelectedItem().setActive(false);
-        inactiveRuleId.setDisable(true);
-        activeRuleId.setDisable(false);
+        unbindRuleButtons();
+        bindRuleButtons();
         tableView.refresh();
 
     }      
