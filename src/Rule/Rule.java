@@ -59,7 +59,10 @@ public class Rule implements Serializable{
         this.executeOnce=executeOnce;
     }
 
-    
+    /**
+     * Controlla e aggiorna lo stato dormiente di una regola
+     * @return nuovo valore di sleeping della regola
+     */
     public boolean checkSleepingState(){
         boolean exit = false;
         LocalTime currentDate= LocalTime.now().truncatedTo(ChronoUnit.SECONDS);

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Rule;
 
 import Action.Action;
@@ -16,6 +13,12 @@ import java.util.ArrayList;
  */
 public class ActiveState implements ActivationState, Serializable{
 
+    
+    /**
+     * Metodo per l'esecuzione delle azioni nella regola
+     * @param rule Regola che contiene le azioni da eseguire
+     * @return 
+     */
     @Override
     public boolean executeRule(Rule rule) {
         ArrayList<Action> action = rule.getAction();
@@ -38,15 +41,20 @@ public class ActiveState implements ActivationState, Serializable{
         return exit;
     }
 
+    /**
+     * Metodo per il controllo delle condizioni nella regola
+     * @param rule Regola che contiene le condizioni da controllare
+     * @return 
+     */
     @Override
     public boolean checkRule(Rule rule) {
         Trigger t = rule.getTrigger();
-        return t.checkTrigger();
+        return t.checkTrigger();    //restituisce il valore del controllo sul trigger
     }
 
     @Override
     public boolean isActive() {
-        return true;
+        return true;    //corrispettivo booleano di attivo
     }
     
     
