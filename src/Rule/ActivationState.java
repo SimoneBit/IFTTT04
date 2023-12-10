@@ -8,7 +8,7 @@ package Rule;
  *
  * @author Simone
  */
-public interface ActivationState {
+public interface ActivationState{
     
     public boolean executeRule(Rule rule);
     public boolean checkRule(Rule rule);

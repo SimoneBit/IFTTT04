@@ -7,13 +7,14 @@ package Rule;
 import Action.Action;
 import Condition.Condition;
 import Condition.Trigger;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Simone
  */
-public class ActiveState implements ActivationState{
+public class ActiveState implements ActivationState, Serializable{
 
     @Override
     public boolean executeRule(Rule rule) {

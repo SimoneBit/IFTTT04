@@ -4,11 +4,13 @@
  */
 package Rule;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Simone
  */
-public class UnactiveState implements ActivationState {
+public class UnactiveState implements ActivationState, Serializable {
 
     @Override
     public boolean executeRule(Rule rule) {
