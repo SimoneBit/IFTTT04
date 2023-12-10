@@ -11,6 +11,7 @@ import org.junit.Before;
  * @author miria
  */
 public class BaseConditionHandlerTest {
+    // Dichiarazioni degli oggetti che gestiscono le condizioni
     BaseConditionHandler base;
     TimeConditionHandler time;
     DayOfMonthConditionHandler dayOfMonth;
@@ -23,6 +24,7 @@ public class BaseConditionHandlerTest {
     
     @Before
     public void setUp() {
+        // Inizializzazione degli oggetti e impostazione della catena di gestione delle condizioni
         base = new BaseConditionHandler();
         time = new TimeConditionHandler();
         dayOfMonth = new DayOfMonthConditionHandler();
@@ -32,6 +34,7 @@ public class BaseConditionHandlerTest {
         fileExistence = new FileExistenceConditionHandler();
         fileSize = new FileSizeConditionHandler();
         
+        // Impostazione della catena di gestione delle condizioni
         base.setNext(time);
         time.setNext(dayOfMonth);
         dayOfMonth.setNext(dayOfYear);
@@ -42,6 +45,7 @@ public class BaseConditionHandlerTest {
     }
     /**
      * Test of setNext method, of class BaseConditionHandler.
+     * verifica se la catena di gestione delle condizioni è stata impostata correttamente.
      */
     @Test
     public void testSetNext() {
@@ -56,6 +60,7 @@ public class BaseConditionHandlerTest {
 
     /**
      * Test of handle method, of class BaseConditionHandler.
+     * Testa il metodo handle con un input nullo, verifica che il risultato sia null.
      */
     @Test
     public void testHandleNull() {
@@ -68,6 +73,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult0, result);
     }
     
+    /**
+     * Testa il metodo handle con un input nullo (negato), verifica che il risultato sia null.
+     */
     @Test
     public void testHandleNullNOT() {
         //Test caso fail
@@ -79,6 +87,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult0, result);
     }
     
+    /**
+     * Testa il metodo handle con la condizione di TimeOfDay, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleTime() {
         //Test ora del giorno
@@ -90,6 +101,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di TimeOfDay (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleTimeNOT() {
         //Test ora del giorno
@@ -101,6 +115,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di DayOfYear, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleDayOfYear(){
         String request = "Il";
@@ -111,6 +128,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());        
     }
     
+     /**
+     * Testa il metodo handle con la condizione di DayOfYear (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleDayOfYearNOT(){
         String request = "Il";
@@ -121,6 +141,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());        
     }
     
+    /**
+     * Testa il metodo handle con la condizione di DayOfMonth, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleDayOfMonth(){
         String request = "Il giorno";
@@ -131,6 +154,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di DayOfMonth (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleDayOfMonthNOT(){
         String request = "Il giorno";
@@ -141,6 +167,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di DayOfWeek, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleDayOfWeek(){
         String request = "Il giorno della settimana è";
@@ -151,6 +180,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di DayOfWeek (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleDayOfWeekNOT(){
         String request = "Il giorno della settimana è";
@@ -161,6 +193,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di ExitStatus, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleExitStatus(){
         String request = "Controlla il valore";
@@ -176,6 +211,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di ExitStatus (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandleExitStatusNOT(){
         String request = "Controlla il valore";
@@ -191,6 +229,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di FileExistence, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandlefileExistence(){
         String request = "Il file";
@@ -204,6 +245,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di FileExistence (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandlefileExistenceNOT(){
         String request = "Il file";
@@ -217,6 +261,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+     /**
+     * Testa il metodo handle con la condizione di FileSize, verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandlefileSize(){
         String request = "Il file selezionato";
@@ -231,6 +278,9 @@ public class BaseConditionHandlerTest {
         assertEquals(expResult1.getClass(), result.getClass());
     }
     
+    /**
+     * Testa il metodo handle con la condizione di FileSize (negato), verifica se il risultato è di tipo corretto.
+     */
     @Test
     public void testHandlefileSizeNOT(){
         String request = "Il file selezionato";

@@ -57,7 +57,7 @@ public class FXMLController implements Initializable {
     private Button addRuleButton;
     @FXML
     private ChoiceBox<String> actionChoiceBox;
-    private final String[] possibleActions = {"Seleziona un azione","Fai partire un audio","Mostra un messaggio", 
+    private final String[] possibleActions = {"Seleziona un'azione","Fai partire un audio","Mostra un messaggio", 
                                                                        "Scrivi su un file", "Copia un file", "Sposta un file", "Elimina un file","Esegui un programma"};
     @FXML
     private ChoiceBox<String> conditionChoiceBox;
@@ -359,7 +359,7 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setOnAction(this::getCondition);
         controlChoiceBox.getItems().addAll(possibleControls);
         controlChoiceBox.setOnAction(this::getControl);   
-        actionChoiceBox.setValue("Seleziona un azione");
+        actionChoiceBox.setValue("Seleziona un'azione");
         conditionChoiceBox.setValue("Seleziona una condizione");
         hourComboBox.getItems().addAll(possibleHours);
         minutesComboBox.getItems().addAll(possibleMinutes);
@@ -392,24 +392,8 @@ public class FXMLController implements Initializable {
                         .or(controlChoiceBox.valueProperty().isEqualTo("Seleziona un controllo"))
                         .or(isRuleNameEmpty)
         );
-        
-        /*
-       
-        
-        // Lega la proprietà 'disable' di 'inactiveRuleId' alla regola selezionata nella tabella
-        activeRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
-        tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().isActive(),
-        tableView.getSelectionModel().selectedItemProperty()));
 
-        // Lega la proprietà 'disable' di 'activeRuleId' alla regola selezionata nella tabella
-        inactiveRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
-        tableView.getSelectionModel().getSelectedItem() == null || !tableView.getSelectionModel().getSelectedItem().isActive(),
-        tableView.getSelectionModel().selectedItemProperty()));
-        */
-        
         bindRuleButtons();
-      
-    
 
         //Creazione della catena delle responsabilità per le azioni
         AudioActionHandler audioHandler = new AudioActionHandler();
@@ -459,22 +443,29 @@ public class FXMLController implements Initializable {
     });
     }    
 
+    /**
+     * Metodo di aggiornamento bind tra i bottoni e i contenuti della schermata per aggiungere una nuova regola
+     * non permette di confermare una nuova rgola finchè non sono presenti tutti i campi
+     */
     private void bindRuleButtons() {
         // Lega la proprietà 'disable' di 'activeRuleId' alla regola selezionata nella tabella
         activeRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
-            tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().isActive(),
-            tableView.getSelectionModel().selectedItemProperty()));
+        tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().isActive(),
+        tableView.getSelectionModel().selectedItemProperty()));
 
         // Lega la proprietà 'disable' di 'inactiveRuleId' alla regola selezionata nella tabella
         inactiveRuleId.disableProperty().bind(Bindings.createBooleanBinding(() ->
-            tableView.getSelectionModel().getSelectedItem() == null || !tableView.getSelectionModel().getSelectedItem().isActive(),
-            tableView.getSelectionModel().selectedItemProperty()));
+        tableView.getSelectionModel().getSelectedItem() == null || !tableView.getSelectionModel().getSelectedItem().isActive(),
+        tableView.getSelectionModel().selectedItemProperty()));
     }
     
-     private void unbindRuleButtons() {
+    /**
+     * Metodo di aggiornamento bind tra i bottoni e i contenuti della schermata per aggiungere una nuova regola
+     * non permette di confermare una nuova rgola finchè non sono presenti tutti i campi
+     */
+    private void unbindRuleButtons() {
         // Scollega la proprietà 'disable' di 'activeRuleId'
         activeRuleId.disableProperty().unbind();
-
         // Scollega la proprietà 'disable' di 'inactiveRuleId'
         inactiveRuleId.disableProperty().unbind();
     }
@@ -567,8 +558,6 @@ public class FXMLController implements Initializable {
        
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
-       //activeRuleId.setDisable(true);
-       //ruleList.setAll(rulesSet.getRuleList())
        //Ripulisci l'interfaccia
        ruleName.clear();
        conditionList.clear();
@@ -653,8 +642,6 @@ public class FXMLController implements Initializable {
          }
         // Setto l'azione da eseguire
         if (selectedFile != null && !stringToWrite.isEmpty()){
-            //System.out.println("File selezionato: " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText());
-           
            String action = "Scrivi sul file : " + selectedFile.toString() + " Testo da scrivere: " + stringToAppendTextField.getText();
            actionList.add(action);
         }
@@ -736,6 +723,12 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);        
     }
 
+    
+    /**
+     * Metodo per mostrare un alert con un messaggio passato come parametro
+     * @param message contenuto dell'alert
+     * @param alertType 
+     */
     private void showAlert(String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle("Messaggio di Avviso");
@@ -799,7 +792,7 @@ public class FXMLController implements Initializable {
             executeProgramPage.setVisible(true);
         }
         
-        actionChoiceBox.setValue("Seleziona un azione");
+        actionChoiceBox.setValue("Seleziona un'azione");
        
     }
     
@@ -981,17 +974,27 @@ public class FXMLController implements Initializable {
         bindRuleButtons();
         tableView.refresh();
 
-    }      
+    }
+    
+    
+    /**
+     * Metodo che permette di impostare uno sleeping period ad una regola
+     * @param event 
+     */
     @FXML
     private void addSleepingPeriod(ActionEvent event) {
+        //Mostra la schermata newRule
         sleepingPeriodPage.setVisible(false);
         newRulePage.setVisible(true);
+        //Prendi i valori indicati
         String gg =daysSleeping.getText(); 
         String h = hoursSleeping.getText();
         String m = minutesSleeping.getText();
         Integer ggi = Integer.parseInt(gg);
         Integer hi = Integer.parseInt(h);
         Integer mi = Integer.parseInt(m);
+        //Controllo che il tempo selezionato non superi un certo limite,
+        //in caso contrario mostra un alert
         if(!(ggi >=0 && ggi<=7)){
             showAlert("Inserire un numero compreso tra 0 e 7",  Alert.AlertType.ERROR);
              sleepingPeriodPage.setVisible(true);
@@ -1007,7 +1010,7 @@ public class FXMLController implements Initializable {
             sleepingPeriodPage.setVisible(true);
             newRulePage.setVisible(false);
         }
-
+        //Imposto la label con i valori selezionati
         controlLabel.setText("Ogni : " + gg +"g "+h +"h "+m+"m " );
         daysSleeping.setText("");
         hoursSleeping.setText("");
@@ -1015,6 +1018,8 @@ public class FXMLController implements Initializable {
         
     }
 
+    
+    
     @FXML
     private void showNewRulePage(ActionEvent event) {
         sleepingPeriodPage.setVisible(false);
@@ -1023,10 +1028,9 @@ public class FXMLController implements Initializable {
         controlLabel.setText("");
         }
 
-   
-/*
-   
-*/
+   /**
+    * Funzione che permette di caricare le regole da un file
+    */
     public void loadRules() {
     List<Rule> loadedRules = ruleFileHandler.loadRules();
     if (loadedRules != null && !loadedRules.isEmpty()) {
@@ -1047,12 +1051,16 @@ public class FXMLController implements Initializable {
         }
     }
 }
-    
+    /**
+     * Funzione che permette di caricare le regole salvate nel file
+     */
     public void saveRules() {
         ruleFileHandler.saveRules(new ArrayList<>(rulesSet.getRuleList()));
     }
     
-    
+    /**
+     * Funzione che, alla chiusura dell'applicazione, ordina il salvataggio su file
+     */
     public void saveRulesAndExit() {
         ruleFileHandler.saveRules(rulesSet.getRuleList());
         Platform.exit(); }
@@ -1066,7 +1074,7 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
-    @FXML //anno
+    @FXML 
     private void confirmDayAndMonth(ActionEvent event) {
         String day = dayAndMonthText.getText();
         if(!day.isEmpty()){
@@ -1088,7 +1096,6 @@ public class FXMLController implements Initializable {
         String day = dayField.getText();
         if (day.matches("^(0[1-9]|[1-2][0-9]|3[0-1])$")) {
             String condition = "Il giorno : " + String.format("%s", day) + " , Logica not: " + dayNOT.isSelected();
-            System.out.println("Stringa: " + condition);
             conditionList.add(condition);
         } else {
             showAlert("Devi specificare un giorno valido (01-31) prima di confermare.", Alert.AlertType.ERROR);
@@ -1309,7 +1316,10 @@ public class FXMLController implements Initializable {
         weekNOT.setSelected(false);
     }
     
-    
+    /**
+     * Funzione che permette la visualizzazione di un file picker che permetterà di selezionare un programma da eseguire
+     * @param event 
+     */
     @FXML
     private void chooseProgram(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1322,7 +1332,10 @@ public class FXMLController implements Initializable {
         
     }
 
-    
+    /**
+     * Tasto che aggiorna la schermata dopo aver selezionato un programma da eseguire
+     * @param event 
+     */
     @FXML
     private void confirmExecuteProgramButton(ActionEvent event) {
     
@@ -1339,6 +1352,10 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);
     }
 
+     /**
+     * Tasto che aggiorna la schermata dopo non aver selezionato un programma da eseguire
+     * @param event 
+     */
     @FXML
     private void showAddPageBackProgram(ActionEvent event) {
         executeProgramPage.setVisible(false);
@@ -1347,6 +1364,13 @@ public class FXMLController implements Initializable {
         pathProgramLabel.setText("");
     }
     
+    
+    /**
+     * Funzione che permette la visualizzazione di un file picker che permetterà di selezionare un programma da eseguire e 
+     * sul quale fare il controllo dell'exit status
+     * @param event 
+     */
+
     @FXML
     private void chooseProgramExitStatus(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1359,14 +1383,17 @@ public class FXMLController implements Initializable {
 
         if (selectedProgram != null) {
             selectedProgramPathLabel.setText(selectedProgram.toString());
-            System.out.println("Eseguibile: "+selectedProgram.toString());
         } else{
-            System.out.println("Eseguibile else: "+selectedProgram.toString());
             showAlert("Devi selezionare un file eseguibile valido", Alert.AlertType.ERROR);
             selectedProgramPathLabel.setText("");
         }
     }
     
+    
+    /**
+     * Tasto che aggiorna la schermata dopo aver selezionato una condizione di tipo exit status
+     * @param event 
+     */
     @FXML
     private void confirmExitStatus(ActionEvent event) throws InterruptedException {
         if (expectedExitTextField == null && selectedProgram == null) {
@@ -1374,14 +1401,12 @@ public class FXMLController implements Initializable {
             return;
         }
         try {
-            System.out.println("Valore: "+expectedExitTextField.toString());
             String valoreAttesoText = expectedExitTextField.getText().trim();
             if (valoreAttesoText.isEmpty() || !valoreAttesoText.matches("\\d+")) {
                 showAlert("Inserisci un numero intero valido", Alert.AlertType.ERROR);
                 return;
             }
             int valoreAtteso = Integer.parseInt(valoreAttesoText);
-            //System.out.println("VALORE: " + valoreAtteso);
          } catch (NumberFormatException e) {
              e.printStackTrace();
              showAlert("Devi inserire un numero intero", Alert.AlertType.ERROR);
@@ -1410,6 +1435,10 @@ public class FXMLController implements Initializable {
         newRulePage.setVisible(true);        
     }
     
+    /**
+     * Tasto che aggiorna la schermata dopo non aver selezionato una condizione di tipo exit status
+     * @param event 
+     */
     @FXML
     private void showAddPageBackProgram2(ActionEvent event) {
         exitStatusPage.setVisible(false);
@@ -1420,12 +1449,18 @@ public class FXMLController implements Initializable {
         conditionChoiceBox.setValue("Seleziona una condizione");
     }
 
+    /**
+     * Tasto per la aggiungere un condizione alla lista delle condizioni per una nuova regola
+     */
     @FXML
     private void addCondition(ActionEvent event) {
         selectConditionPage.setVisible(true);
         newRulePage.setVisible(false);
     }
 
+    /**
+     * Tasto per la rimozione di una condizione dalla lista delle condizioni per una nuova regola
+     */
     @FXML
     private void removeCondition(ActionEvent event) {
         String remove = conditionTable.getSelectionModel().getSelectedItem();
@@ -1433,12 +1468,21 @@ public class FXMLController implements Initializable {
         conditionTable.refresh();
     }
 
+    
+    /**
+     * Tasto per la aggiungere un azione alla lista delle azioni per una nuova regola
+     */
+    
     @FXML
     private void addAction(ActionEvent event) {
         selectActionPage.setVisible(true);
         newRulePage.setVisible(false);
     }
 
+    
+    /**
+     * Tasto per la rimozione di un azione dalla lista delle azioni per una nuova regola
+     */
     @FXML
     private void removeAction(ActionEvent event) {
         String remove = actionTable.getSelectionModel().getSelectedItem();
