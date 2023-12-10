@@ -407,6 +407,7 @@ public class FXMLController implements Initializable {
         tableView.getSelectionModel().getSelectedItem() == null || !tableView.getSelectionModel().getSelectedItem().isActive(),
         tableView.getSelectionModel().selectedItemProperty()));
         */
+        
         bindRuleButtons();
       
     
@@ -567,8 +568,8 @@ public class FXMLController implements Initializable {
        
        
        // si disabilita nel menù la possibilità di rendere attiva la regola selezionata
-       activeRuleId.setDisable(true);
-       //ruleList.setAll(rulesSet.getRuleList());
+       //activeRuleId.setDisable(true);
+       //ruleList.setAll(rulesSet.getRuleList())
        //Ripulisci l'interfaccia
        ruleName.clear();
        conditionList.clear();
