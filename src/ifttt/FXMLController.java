@@ -389,7 +389,7 @@ public class FXMLController implements Initializable {
         // Imposta il binding per abilitare o disabilitare il pulsante di aggiunta
         addRuleButton.disableProperty().bind(
                 isConditionTableEmpty.or(isActionTableEmpty)
-                        .or(controlChoiceBox.valueProperty().isNull())
+                        .or(controlChoiceBox.valueProperty().isEqualTo("Seleziona un controllo"))
                         .or(isRuleNameEmpty)
         );
         
